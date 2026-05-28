@@ -397,7 +397,7 @@
             height: 400px;
             left: 170px;
             top: 10%;
-            background-image: url('{{ asset("images/guide.jpg") }}');
+            background-image: url('{{ asset("images/kpaulin.jpg") }}');
             background-size: cover;
             background-position: center;
             z-index: 2;
@@ -652,7 +652,7 @@
         }
 
         .footer-links li a:hover {
-            color: #ff6b35;
+            color: #ffff;
             padding-left: 5px;
         }
 
@@ -671,7 +671,7 @@
 
         .footer-contact i {
             width: 20px;
-            color: #ff6b35;
+            color: #ffff;
         }
 
         .footer-bottom {
@@ -1004,20 +1004,19 @@
                         <li><a href="/cekBooking">Cek Booking</a></li>
                         <li><a href="#testimoni">Testimoni</a></li>
                         <li><a href="/guide">Tour Guide</a></li>
-                        <li><a href="#">Wa Admin</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3>Kontak</h3>
                     <ul class="footer-contact">
                         <li><i class="fab fa-whatsapp"></i> +62 812 3456 789</li>
-                        <li><i class="far fa-envelope"></i> info@canyokuy.com</li>
+                        <li><i class="fab fa-instagram"></i> @kpa_ulin</li>
                         <li><i class="fas fa-map-marker-alt"></i> Tanah Bumbu, Kalimantan Selatan</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© CanyoKuy - 2025 | Petualangan Alam Bersama KPA Ulin</p>
+                <p>© CanyoKuy - 2026 | Petualangan Alam Bersama KPA Ulin</p>
             </div>
         </div>
     </footer>

@@ -90,7 +90,7 @@
         }
 
         .nav-links a:hover {
-            color: #ff6b35;
+            color: #ffdec2;
         }
 
         .wa-icon {
@@ -281,7 +281,6 @@
             <div class="booking-content">
                 <div class="booking-form-container">
                     <h1 class="booking-title">Cek Kode Booking mu Disini</h1>
-                    
                     <div class="search-row">
                         <input type="text" class="search-input" placeholder="Masukkan kode booking">
                         <select class="search-select">

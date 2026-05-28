@@ -4,181 +4,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Tour Guide</title>
-
+    <title>Tour Guide - CanyoKuy</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            background: #FFFFFF;
-            font-family: Inter, sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e2a3e;
+            line-height: 1.5;
         }
 
         .container {
-            position: relative;
-            width: 1440px;
-            height: 1024px;
-            margin: auto;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
-        /* Navbar */
-
+        /* ========== NAVBAR ========== */
         .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: transparent;
             position: absolute;
-            width: 1440px;
-            height: 104px;
-            left: 0;
             top: 0;
-            background: white;
+            left: 0;
+            right: 0;
+            z-index: 100;
         }
 
-        .logo-circle {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            left: 45px;
-            top: 4px;
+        .container-navbar {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
-            background: #4199CC;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border: 2px solid white;
         }
 
         .logo-text {
-            position: absolute;
-            left: 68px;
-            top: 37px;
-
             font-size: 24px;
             font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        .menu {
-            position: absolute;
-            top: 39px;
-
+        .nav-links {
             display: flex;
-            gap: 70px;
-
-            left: 301px;
-        }
-
-        .menu a {
-            text-decoration: none;
-            color: black;
-
-            font-size: 24px;
+            align-items: center;
+            gap: 28px;
             font-weight: 600;
+            flex-wrap: wrap;
         }
 
-        .menu a.active {
-            font-weight: 800;
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+            font-size: 16px;
+            cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .nav-links a:hover {
+            color: #ffdec2;
+        }
+
+        .wa-icon {
+            width: 40px;
+            height: 40px;
+            transition: 0.2s;
+            border-radius: 40px;
+            border: 2px solid white;
+            object-fit: cover;
+        }
+
+        .wa-icon:hover {
+            transform: scale(1.05);
+        }
+
+        /* ========== HALAMAN TOUR GUIDE - BACKGROUND PROPORSIONAL ========== */
+        .guide-page {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            background-image: url('{{ asset("images/guide.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Overlay gelap agar teks terbaca */
+        .guide-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.45) 100%);
+            z-index: 0;
+        }
+
+        .guide-page .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .guide-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 120px 0 80px 0;
+        }
+
+        /* Judul */
+        .guide-title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 700;
+            color: white;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Grid 4 kolom */
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+            margin-bottom: 30px;
         }
 
         /* Card */
-
-        .card {
-            position: absolute;
-
-            width: 264px;
-            height: 330px;
-
-            background: #4199CC;
+        .guide-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .card1 {
-            left: 100px;
-            top: 297px;
+        .guide-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
         }
 
-        .card2 {
-            left: 428px;
-            top: 297px;
+        /* Foto kotak */
+        .guide-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            object-fit: cover;
         }
 
-        .card3 {
-            left: 756px;
-            top: 297px;
+        .guide-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
         }
 
-        .card4 {
-            left: 1084px;
-            top: 297px;
+        .guide-skill {
+            font-size: 13px;
+            color: #ffdec2;
+            font-weight: 500;
         }
 
-        .title {
-            position: absolute;
-
-            font-size: 32px;
-            font-weight: 800;
+        @media (max-width: 1050px) {
+            .guide-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
         }
 
-        .subtitle {
-            position: absolute;
-
-            font-size: 24px;
-            font-weight: 600;
+        @media (max-width: 768px) {
+            .guide-title {
+                font-size: 32px;
+            }
+            .guide-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links {
+                justify-content: center;
+            }
         }
     </style>
-
 </head>
 
 <body>
 
-    <div class="container">
-
-        <!-- Navbar -->
-
-        <div class="navbar">
-
-            <div class="logo-circle"></div>
-
-            <div class="logo-text">
-                Logo
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="container-navbar"
+            style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div class="logo">
+                <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
+                <span class="logo-text">CanyoKuy</span>
             </div>
-
-            <div class="menu">
-                <a href="#">Beranda</a>
-                <a href="#">Paket Wisata</a>
-                <a href="#">Cek Booking</a>
-                <a href="#">Testimoni</a>
-                <a href="#" class="active">Tour Guide</a>
+            <div class="nav-links">
+                <a href="{{ url('/') }}">Beranda</a>
+                <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
+                <a href="{{ url('/cekBooking') }}">Cek Booking</a>
+                <a href="{{ url('/#testimoni') }}">Testimoni</a>
+                <a href="{{ url('/guide') }}">Tour Guide</a>
+                <a href="https://wa.me/628123456789" target="_blank">
+                    <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
+                </a>
             </div>
-
         </div>
+    </div>
 
-        <!-- Card 1 -->
+    <!-- HALAMAN TOUR GUIDE -->
+    <div class="guide-page">
+        <div class="container">
+            <div class="guide-content">
+                <h1 class="guide-title">Our Tour Guide</h1>
 
-        <div class="card card1"></div>
+                <!-- Baris 1 (4 card) -->
+                <div class="guide-grid">
+                    <div class="guide-card">
+                        <div class="guide-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="guide-name">Ahmad Rizki</div>
+                        <div class="guide-skill">Canyoneering Expert</div>
+                    </div>
+                    <div class="guide-card">
+                        <div class="guide-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="guide-name">Siti Nurhaliza</div>
+                        <div class="guide-skill">Hiking Guide</div>
+                    </div>
+                    <div class="guide-card">
+                        <div class="guide-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="guide-name">Budi Santoso</div>
+                        <div class="guide-skill">Safety & Rescue</div>
+                    </div>
+                    <div class="guide-card">
+                        <div class="guide-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="guide-name">Dewi Lestari</div>
+                        <div class="guide-skill">Nature Guide</div>
+                    </div>
+                </div>
 
-        <div class="title" style="left:96px; top:628px;">
-            Nama Tour Guide
+                <!-- Baris 2 (4 card) -->
+                <div class="guide-grid">
+                    <div class="guide-card">
+                        <div class="guide-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="guide-name">M. Ridwan</div>
+                        <div class="guide-skill">Camping Specialist</div>
+                    </div>
+                    <div class="guide-card">
+                        <div class="guide-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="guide-name">Rina Marlina</div>
+                        <div class="guide-skill">Eco Tourism</div>
+                    </div>
+                    <div class="guide-card">
+                        <div class="guide-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="guide-name">Andi Pratama</div>
+                        <div class="guide-skill">Climbing Guide</div>
+                    </div>
+                    <div class="guide-card">
+                        <div class="guide-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="guide-name">Lia Susanti</div>
+                        <div class="guide-skill">Photography Guide</div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="subtitle" style="left:131px; top:667px;">
-            Bidang Keahlian
-        </div>
-
-        <!-- Card 2 -->
-
-        <div class="card card2"></div>
-
-        <div class="title" style="left:424px; top:627px;">
-            Nama Tour Guide
-        </div>
-
-        <div class="subtitle" style="left:467px; top:667px;">
-            Bidang Keahlian
-        </div>
-
-        <!-- Card 3 -->
-
-        <div class="card card3"></div>
-
-        <!-- Card 4 -->
-
-        <div class="card card4"></div>
-
     </div>
 
 </body>
