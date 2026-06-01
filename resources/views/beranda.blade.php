@@ -832,7 +832,7 @@
                             <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati kegiatan alam dalam satu hari</div>
                             <div class="paket-price">Rp 330.000</div>
                         </div>
-                        <a href="#" class="paket-btn">Lihat Detail</a>
+                        <a href="/detailCamp" class="paket-btn">Lihat Detail</a>
                     </div>
                 </div>
             </div>
