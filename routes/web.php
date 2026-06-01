@@ -19,5 +19,9 @@ Route::get('/cekBooking', function () {
     return view('cekBooking');
 })->name('cekBooking');
 
+Route::get('/detail/camp', function () {
+    return view('detail.camp');
+})->name('detail.camp');
+
 // Halaman detail produk (menggunakan file detail.produk.blade.php)
 Route::get('/tour/{id}', [TourController::class, 'detail'])->name('tour.detail');
