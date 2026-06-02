@@ -31,19 +31,10 @@
 
         /* ========== NAVBAR ========== */
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             padding: 20px 0;
-            flex-wrap: wrap;
-            gap: 16px;
-            background: #ffffff;
-            position: sticky;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            /* UBAH INI: Dari sticky menjadi relative agar tidak ikut di-scroll */
+            position: relative; 
+            background-color: #FAFDFE;
         }
 
         .container-navbar {
@@ -57,6 +48,10 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            background: #2F6B5E;
+            padding: 8px 24px 8px 10px;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .logo-img {
@@ -64,17 +59,14 @@
             height: 50px;
             border-radius: 50%;
             object-fit: cover;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            border: 2px solid #4199CC;
+            border: 2px solid white;
         }
 
         .logo-text {
             font-size: 22px;
             font-weight: 800;
-            background: linear-gradient(135deg, #1f3b4c, #ff6b35);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .nav-links {
@@ -83,29 +75,30 @@
             gap: 28px;
             font-weight: 600;
             flex-wrap: wrap;
+            background: #2F6B5E;
+            padding: 10px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #2c3e4e;
+            color: white;
             transition: 0.2s;
             font-size: 16px;
             cursor: pointer;
         }
 
         .nav-links a:hover {
-            color: #ff6b35;
-        }
-
-        .nav-links a.active {
-            color: #ff6b35;
+            color: #ffdec2;
         }
 
         .wa-icon {
             width: 36px;
             height: 36px;
             transition: 0.2s;
-            border-radius: 50%;
+            border-radius: 40px;
+            border: 2px solid white;
             object-fit: cover;
         }
 
@@ -113,42 +106,75 @@
             transform: scale(1.05);
         }
 
-        /* ========== DETAIL PAKET ========== */
-        .detail-section {
-            padding: 60px 0;
+        /* ========== HERO SECTION (3 GAMBAR BERJEJER) ========== */
+        .hero-section {
+            width: 100%;
+            height: 350px;
+            display: flex; 
+            overflow: hidden;
         }
 
-        .detail-back {
+        .hero-section img {
+            width: 33.333%; 
+            height: 100%;
+            object-fit: cover;
+        }
+
+/* ========== TITLE BANNER ========== */
+        .title-banner {
+            background-color: #2F6B5E; /* Diubah ke warna hijau tema */
+            padding: 24px 0;
             margin-bottom: 30px;
         }
 
-        .detail-back a {
-            text-decoration: none;
-            color: #ff6b35;
-            font-weight: 600;
-            transition: 0.2s;
+        .banner-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .detail-back a:hover {
-            transform: translateX(-5px);
-            display: inline-block;
-        }
-
-        .detail-title {
-            font-size: 36px;
+        .banner-title {
+            font-size: 32px;
             font-weight: 800;
-            color: #1e2a3e;
-            margin-bottom: 24px;
+            color: #ffffff;
+            text-shadow: none; /* Bayangan dihilangkan karena kontras sudah bagus */
+        }
+
+        .banner-price-box {
+            text-align: right;
+        }
+
+        .banner-price-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: #e0f2f1; /* Sedikit lebih redup dari putih */
+            margin-bottom: 4px;
+        }
+
+        .banner-price-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffdec2; /* Warna oranye muda agar harga langsung terlihat jelas */
+        }
+
+        /* ========== DETAIL PAKET ========== */
+        .detail-section {
+            padding: 10px 0 80px 0;
         }
 
         .detail-desc {
             font-size: 16px;
-            color: #6b7a8a;
-            line-height: 1.7;
+            color: #000000;
+            font-weight: 700;
+            line-height: 1.6;
             margin-bottom: 40px;
         }
 
-        /* Grid 2 kolom */
         .detail-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -156,135 +182,131 @@
             margin-bottom: 40px;
         }
 
-        /* Fasilitas */
         .detail-facilities h3,
         .detail-info h3 {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
-            color: #1e2a3e;
-            margin-bottom: 20px;
-            border-left: 4px solid #ff6b35;
-            padding-left: 16px;
+            color: #000000;
+            margin-bottom: 16px;
         }
 
-        .facilities-list {
+        .facilities-list, .info-list {
             list-style: none;
         }
 
-        .facilities-list li {
+        .facilities-list li, .info-list li {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             font-size: 15px;
-            color: #4a5b6e;
-        }
-
-        .facilities-list li i {
-            color: #2F6B5E;
-            font-size: 18px;
-            width: 24px;
-        }
-
-        /* Informasi Tambahan Grid */
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .info-item {
-            background: #f8fafc;
-            padding: 16px;
-            border-radius: 16px;
-        }
-
-        .info-label {
-            font-size: 13px;
-            color: #8a9aae;
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-
-        .info-value {
-            font-size: 16px;
+            color: #000000;
             font-weight: 600;
-            color: #1e2a3e;
         }
 
-        /* Harga & Tombol */
-        .detail-price-section {
-            background: linear-gradient(135deg, #fefaf7 0%, #fff5ed 100%);
-            border-radius: 24px;
-            padding: 30px 40px;
+        .facilities-list li i, .info-list li i {
+            color: #2F6B5E;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* ========== VIDEO THUMBNAILS DI BAWAH ========== */
+        .thumbnail-gallery {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 16px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
-            gap: 20px;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: calc(33.333% - 11px);
+            min-width: 200px;
+            height: 120px;
+            cursor: pointer;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-thumbnail .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            pointer-events: none; 
+            transition: 0.3s;
+        }
+
+        .video-thumbnail:hover .play-icon {
+            color: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-thumbnail.active {
+            border: 3px solid #3498db;
+        }
+
+        /* Tombol Pesan */
+        .action-container {
+            text-align: center;
             margin-top: 20px;
         }
 
-        .price-label {
-            font-size: 14px;
-            color: #8a9aae;
-            font-weight: 500;
-        }
-
-        .price-value {
-            font-size: 36px;
-            font-weight: 800;
-            color: #ff6b35;
-        }
-
-        .price-value small {
-            font-size: 16px;
-            font-weight: 500;
-            color: #8a9aae;
-        }
-
         .btn-book {
-            background: #ff6b35;
+            background: #2F6B5E;
             border: none;
             padding: 14px 40px;
             border-radius: 40px;
-            font-weight: 700;
+            font-weight: 600;
             color: white;
             cursor: pointer;
             font-family: inherit;
             font-size: 16px;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .btn-book:hover {
-            background: #e05a2a;
-            transform: scale(1.02);
+            background: #1e4a40;
         }
 
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 900px) {
             .detail-grid {
                 grid-template-columns: 1fr;
-                gap: 40px;
+                gap: 30px;
             }
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            .detail-price-section {
+            .banner-container {
                 flex-direction: column;
                 text-align: center;
             }
-            .detail-title {
-                font-size: 28px;
+            .banner-price-box {
+                text-align: center;
             }
         }
 
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                text-align: center;
+            .container-navbar {
+                justify-content: center !important;
+                gap: 20px;
             }
             .nav-links {
                 justify-content: center;
+                padding: 15px;
+            }
+            .hero-section {
+                height: 180px; 
+            }
+            .video-thumbnail {
+                width: 100%;
             }
         }
     </style>
@@ -292,82 +314,94 @@
 
 <body>
 
-    <!-- NAVBAR -->
     <div class="navbar">
         <div class="container-navbar"
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
                 <span class="logo-text">CanyoKuy</span>
             </div>
+            
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
                 <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
-                <a href="{{ url('/cek-booking') }}">Cek Booking</a>
+                <a href="{{ url('/cekBSooking') }}">Cek Booking</a>
                 <a href="{{ url('/#testimoni') }}">Testimoni</a>
                 <a href="{{ url('/guide') }}">Tour Guide</a>
                 <a href="https://wa.me/628123456789" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
                 </a>
             </div>
+
         </div>
     </div>
 
-    <!-- DETAIL PAKET -->
+    <div class="hero-section">
+        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 1">
+        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 2">
+        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 3">
+    </div>
+
+    <div class="title-banner">
+        <div class="banner-container">
+            <h1 class="banner-title">Paket Canyoneering Camp</h1>
+            <div class="banner-price-box">
+                <div class="banner-price-label">Mulai Dari</div>
+                <div class="banner-price-value">Rp 330.000</div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="detail-section">
-            <div class="detail-back">
-                <a href="{{ url('/#paketWisata') }}">← Kembali ke Paket Wisata</a>
-            </div>
-
-            <h1 class="detail-title">Paket Canyoneering Camp</h1>
             <p class="detail-desc">
                 Paket Canyoneering Camp merupakan paket petualangan yang memberikan pengalaman lebih lengkap dengan fasilitas menginap di lokasi kegiatan. Paket ini cocok bagi peserta yang ingin menikmati suasana alam lebih lama serta mengikuti kegiatan fun camp bersama peserta lainnya.
             </p>
 
             <div class="detail-grid">
-                <!-- Fasilitas -->
                 <div class="detail-facilities">
                     <h3>Fasilitas yang Didapat:</h3>
                     <ul class="facilities-list">
-                        <li><i class="fas fa-check-circle"></i> Tenda kapasitas 3 orang</li>
-                        <li><i class="fas fa-check-circle"></i> Matras tidur</li>
-                        <li><i class="fas fa-check-circle"></i> Guide perjalanan profesional</li>
-                        <li><i class="fas fa-check-circle"></i> Safety gear lengkap</li>
-                        <li><i class="fas fa-check-circle"></i> Dokumentasi foto atas dan bawah</li>
-                        <li><i class="fas fa-check-circle"></i> Konsumsi POP Mie 1x</li>
-                        <li><i class="fas fa-check-circle"></i> Teh hangat</li>
+                        <li><i class="fas fa-circle"></i> Tenda kapasitas 3 orang</li>
+                        <li><i class="fas fa-circle"></i> Matras tidur</li>
+                        <li><i class="fas fa-circle"></i> Guide perjalanan profesional</li>
+                        <li><i class="fas fa-circle"></i> Safety gear lengkap</li>
+                        <li><i class="fas fa-circle"></i> Dokumentasi foto atas dan bawah</li>
+                        <li><i class="fas fa-circle"></i> Konsumsi POP Mie 1x</li>
+                        <li><i class="fas fa-circle"></i> Teh hangat</li>
                     </ul>
                 </div>
 
-                <!-- Informasi Tambahan -->
                 <div class="detail-info">
                     <h3>Informasi Tambahan:</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-label">Sistem perjalanan</div>
-                            <div class="info-value">Menginap (Camping)</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Cocok untuk</div>
-                            <div class="info-value">Peserta yang ingin pengalaman lebih lama</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Disarankan membawa</div>
-                            <div class="info-value">Perlengkapan pribadi tambahan</div>
-                        </div>
-                    </div>
+                    <ul class="info-list">
+                        <li><i class="fas fa-circle"></i> Sistem perjalanan: Menginap (Camping)</li>
+                        <li><i class="fas fa-circle"></i> Cocok untuk: Peserta yang ingin pengalaman lebih lama</li>
+                        <li><i class="fas fa-circle"></i> Disarankan membawa perlengkapan pribadi tambahan</li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Harga & Tombol Pesan -->
-            <div class="detail-price-section">
-                <div>
-                    <div class="price-label">Mulai Dari</div>
-                    <div class="price-value">Rp 330.000 <small>/orang</small></div>
+            <div class="thumbnail-gallery">
+                <div class="video-thumbnail active">
+                    <img src="{{ asset('images/camp.jpg') }}" alt="Video 1">
+                    <i class="fas fa-play-circle play-icon"></i>
                 </div>
+                <div class="video-thumbnail">
+                    <img src="{{ asset('images/camp.jpg') }}" alt="Video 2">
+                    <i class="fas fa-play-circle play-icon"></i>
+                </div>
+                <div class="video-thumbnail">
+                    <img src="{{ asset('images/camp.jpg') }}" alt="Video 3">
+                    <i class="fas fa-play-circle play-icon"></i>
+                </div>
+            </div>
+
+            <div class="action-container">
                 <button class="btn-book" onclick="alert('✨ Terima kasih! Silakan lanjutkan ke proses pemesanan.')">Pesan Sekarang</button>
             </div>
+            
         </div>
     </div>
 
