@@ -123,7 +123,7 @@
 /* ========== TITLE BANNER ========== */
         .title-banner {
             background-color: #2F6B5E; /* Diubah ke warna hijau tema */
-            padding: 24px 0;
+            padding: 23px 0;
             margin-bottom: 30px;
         }
 
@@ -399,7 +399,7 @@
             </div>
 
             <div class="action-container">
-                <button class="btn-book" onclick="alert('✨ Terima kasih! Silakan lanjutkan ke proses pemesanan.')">Pesan Sekarang</button>
+                <button class="btn-book">Pesan Sekarang</button>
             </div>
             
         </div>

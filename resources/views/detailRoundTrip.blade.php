@@ -122,7 +122,7 @@
         /* ========== TITLE BANNER ========== */
         .title-banner {
             background-color: #2F6B5E; /* Menggunakan warna tema hijau biar menyatu */
-            padding: 24px 0;
+            padding: 23px 0;
             margin-bottom: 30px;
         }
 
@@ -336,14 +336,14 @@
     </div>
 
     <div class="hero-section">
-        <img src="{{ asset('images/roundtrip.jpg') }}" alt="Round Trip View 1">
-        <img src="{{ asset('images/roundtrip.jpg') }}" alt="Round Trip View 2">
-        <img src="{{ asset('images/roundtrip.jpg') }}" alt="Round Trip View 3">
+        <img src="{{ asset('images/round_trip.jpg') }}" alt="Round Trip View 1">
+        <img src="{{ asset('images/round_trip.jpg') }}" alt="Round Trip View 2">
+        <img src="{{ asset('images/round_trip.jpg') }}" alt="Round Trip View 3">
     </div>
 
     <div class="title-banner">
         <div class="banner-container">
-            <h1 class="banner-title">Paket Canyoneering Round Trip</h1>
+            <h1 class="banner-title">Paket Round Trip</h1>
             <div class="banner-price-box">
                 <div class="banner-price-label">Mulai Dari</div>
                 <div class="banner-price-value">Rp 300.000</div>
@@ -381,21 +381,21 @@
 
             <div class="thumbnail-gallery">
                 <div class="video-thumbnail active">
-                    <img src="{{ asset('images/roundtrip.jpg') }}" alt="Video Round Trip 1">
+                    <img src="{{ asset('images/round_trip.jpg') }}" alt="Video Round Trip 1">
                     <i class="fas fa-play-circle play-icon"></i>
                 </div>
                 <div class="video-thumbnail">
-                    <img src="{{ asset('images/roundtrip.jpg') }}" alt="Video Round Trip 2">
+                    <img src="{{ asset('images/round_trip.jpg') }}" alt="Video Round Trip 2">
                     <i class="fas fa-play-circle play-icon"></i>
                 </div>
                 <div class="video-thumbnail">
-                    <img src="{{ asset('images/roundtrip.jpg') }}" alt="Video Round Trip 3">
+                    <img src="{{ asset('images/round_trip.jpg') }}" alt="Video Round Trip 3">
                     <i class="fas fa-play-circle play-icon"></i>
                 </div>
             </div>
 
             <div class="action-container">
-                <button class="btn-book" onclick="alert('✨ Terima kasih! Silakan lanjutkan ke proses pemesanan paket Round Trip.')">Pesan Sekarang</button>
+                <button class="btn-book">Pesan Sekarang</button>
             </div>
             
         </div>
