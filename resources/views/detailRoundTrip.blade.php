@@ -365,7 +365,7 @@
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
                 <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
-                <a href="{{ url('/cekBSooking') }}">Cek Booking</a>
+                <a href="{{ url('/cekBooking') }}">Cek Booking</a>
                 <a href="{{ url('/#testimoni') }}">Testimoni</a>
                 <a href="{{ url('/guide') }}">Tour Guide</a>
                 <a href="https://wa.me/628123456789" target="_blank">
