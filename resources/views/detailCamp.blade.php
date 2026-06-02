@@ -32,7 +32,6 @@
         /* ========== NAVBAR ========== */
         .navbar {
             padding: 20px 0;
-            /* UBAH INI: Dari sticky menjadi relative agar tidak ikut di-scroll */
             position: relative; 
             background-color: #FAFDFE;
         }
@@ -120,9 +119,9 @@
             object-fit: cover;
         }
 
-/* ========== TITLE BANNER ========== */
+        /* ========== TITLE BANNER ========== */
         .title-banner {
-            background-color: #2F6B5E; /* Diubah ke warna hijau tema */
+            background-color: #2F6B5E; 
             padding: 23px 0;
             margin-bottom: 30px;
         }
@@ -138,11 +137,45 @@
             gap: 20px;
         }
 
+        /* Wrapper Judul & Badge */
+        .banner-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .banner-title {
             font-size: 32px;
             font-weight: 800;
             color: #ffffff;
-            text-shadow: none; /* Bayangan dihilangkan karena kontras sudah bagus */
+            line-height: 1.2;
+        }
+
+        /* Styling Real-time Kuota & Nama Guide */
+        .banner-badges {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .badge.highlight {
+            background: #ffdec2; 
+            color: #2F6B5E;
+            border: 1px solid #ffdec2;
+            box-shadow: 0 2px 8px rgba(255, 222, 194, 0.4);
         }
 
         .banner-price-box {
@@ -152,14 +185,14 @@
         .banner-price-label {
             font-size: 16px;
             font-weight: 700;
-            color: #e0f2f1; /* Sedikit lebih redup dari putih */
+            color: #e0f2f1; 
             margin-bottom: 4px;
         }
 
         .banner-price-value {
             font-size: 24px;
             font-weight: 800;
-            color: #ffdec2; /* Warna oranye muda agar harga langsung terlihat jelas */
+            color: #ffdec2; 
         }
 
         /* ========== DETAIL PAKET ========== */
@@ -288,6 +321,12 @@
                 flex-direction: column;
                 text-align: center;
             }
+            .banner-title-group {
+                align-items: center;
+            }
+            .banner-badges {
+                justify-content: center;
+            }
             .banner-price-box {
                 text-align: center;
             }
@@ -345,7 +384,13 @@
 
     <div class="title-banner">
         <div class="banner-container">
-            <h1 class="banner-title">Paket Camp</h1>
+            <div class="banner-title-group">
+                <h1 class="banner-title">Paket Camp</h1>
+                <div class="banner-badges">
+                    <span class="badge highlight"><i class="fas fa-fire"></i> Sisa Kuota: 3 Tenda</span>
+                    <span class="badge"><i class="fas fa-users"></i> Tour Guide: Tim B</span>
+                </div>
+            </div>
             <div class="banner-price-box">
                 <div class="banner-price-label">Mulai Dari</div>
                 <div class="banner-price-value">Rp 330.000</div>

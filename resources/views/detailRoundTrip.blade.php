@@ -121,7 +121,7 @@
 
         /* ========== TITLE BANNER ========== */
         .title-banner {
-            background-color: #2F6B5E; /* Menggunakan warna tema hijau biar menyatu */
+            background-color: #2F6B5E; 
             padding: 23px 0;
             margin-bottom: 30px;
         }
@@ -136,11 +136,46 @@
             flex-wrap: wrap;
             gap: 20px;
         }
+        
+        /* Tambahan Wrapper untuk Judul & Badge */
+        .banner-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
         .banner-title {
             font-size: 32px;
             font-weight: 800;
             color: #ffffff;
+            line-height: 1.2;
+        }
+
+        /* Styling untuk Real-time Kuota & Nama Guide */
+        .banner-badges {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .badge.highlight {
+            background: #ffdec2; 
+            color: #2F6B5E;
+            border: 1px solid #ffdec2;
+            box-shadow: 0 2px 8px rgba(255, 222, 194, 0.4);
         }
 
         .banner-price-box {
@@ -157,7 +192,7 @@
         .banner-price-value {
             font-size: 24px;
             font-weight: 800;
-            color: #ffdec2; /* Warna oranye muda agar harganya pop-up */
+            color: #ffdec2; 
         }
 
         /* ========== DETAIL PAKET ========== */
@@ -286,6 +321,12 @@
                 flex-direction: column;
                 text-align: center;
             }
+            .banner-title-group {
+                align-items: center;
+            }
+            .banner-badges {
+                justify-content: center;
+            }
             .banner-price-box {
                 text-align: center;
             }
@@ -343,7 +384,13 @@
 
     <div class="title-banner">
         <div class="banner-container">
-            <h1 class="banner-title">Paket Round Trip</h1>
+            <div class="banner-title-group">
+                <h1 class="banner-title">Paket Round Trip</h1>
+                <div class="banner-badges">
+                    <span class="badge highlight"><i class="fas fa-fire"></i> Sisa Kuota: 5 Orang</span>
+                    <span class="badge"><i class="fas fa-id-badge"></i> Tour Guide: Tim A</span>
+                </div>
+            </div>
             <div class="banner-price-box">
                 <div class="banner-price-label">Mulai Dari</div>
                 <div class="banner-price-value">Rp 300.000</div>
