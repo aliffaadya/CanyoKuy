@@ -269,21 +269,21 @@
                         <div class="guide-img">
                             <i class="fas fa-user"></i>
                         </div>
-                        <div class="guide-name">Ahmad Rizki</div>
+                        <div class="guide-name">Bekantan Bungas</div>
                         <div class="guide-skill">Canyoneering Expert</div>
                     </div>
                     <div class="guide-card">
                         <div class="guide-img">
                             <i class="fas fa-user"></i>
                         </div>
-                        <div class="guide-name">Siti Nurhaliza</div>
+                        <div class="guide-name">Uwak-Uwak</div>
                         <div class="guide-skill">Hiking Guide</div>
                     </div>
                     <div class="guide-card">
                         <div class="guide-img">
                             <i class="fas fa-user"></i>
                         </div>
-                        <div class="guide-name">Budi Santoso</div>
+                        <div class="guide-name">Dori</div>
                         <div class="guide-skill">Safety & Rescue</div>
                     </div>
                     <div class="guide-card">
