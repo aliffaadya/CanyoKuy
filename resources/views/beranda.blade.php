@@ -888,7 +888,7 @@
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="testimoni-text">
-                            "SUKA DEH ORANG ORANGNYA PADA SOLID KAYAK KELAS A2 :V"
+                            "Pengalaman canyoneering yang luar biasa! Informasi di website sangat lengkap dan proses pemesanannya mudah. Guide yang mendampingi juga profesional dan ramah. Sangat direkomendasikan untuk pemula maupun yang sudah berpengalaman."
                         </div>
                         <div class="testimoni-rating">
                             <i class="fas fa-star"></i>
@@ -897,14 +897,14 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <div class="testimoni-name">- NOHA -</div>
+                        <div class="testimoni-name">- Putri, Marabahan -</div>
                     </div>
                     <div class="testimoni-card">
                         <div class="quote-icon">
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="testimoni-text">
-                            "KALI LINUX?! KOMPAK SEPERTI SCRIPT, SOLID SAMPAI AKHIR!!"
+                            "Pelayanan sangat memuaskan. Tim selalu cepat menjawab pertanyaan melalui kontak yang tersedia di website. Kegiatan berlangsung aman, menyenangkan, dan penuh petualangan."
                         </div>
                         <div class="testimoni-rating">
                             <i class="fas fa-star"></i>
@@ -913,14 +913,14 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <div class="testimoni-name">- KALI LINUX -</div>
+                        <div class="testimoni-name">- Siti, Batu Licin -</div>
                     </div>
                     <div class="testimoni-card">
                         <div class="quote-icon">
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="testimoni-text">
-                            "NOHA KEREN BANGET!!"
+                            "Salah satu pengalaman outdoor terbaik yang pernah saya coba. Booking online praktis, informasi lengkap, dan dokumentasi kegiatan yang diberikan sangat keren."
                         </div>
                         <div class="testimoni-rating">
                             <i class="fas fa-star"></i>
@@ -929,14 +929,14 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <div class="testimoni-name">- NOHA -</div>
+                        <div class="testimoni-name">- Ryan, Banjarbaru -</div>
                     </div>
                     <div class="testimoni-card">
                         <div class="quote-icon">
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="testimoni-text">
-                            "Pengalaman tak terlupakan! Guide nya ramah dan profesional!"
+                            "Recommended untuk pecinta alam dan tantangan!"
                         </div>
                         <div class="testimoni-rating">
                             <i class="fas fa-star"></i>
@@ -945,14 +945,14 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <div class="testimoni-name">- Ahmad -</div>
+                        <div class="testimoni-name">- Rahman, Banjarmasin -</div>
                     </div>
                     <div class="testimoni-card">
                         <div class="quote-icon">
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="testimoni-text">
-                            "Spot air terjunnya keren banget! Next mau kesini lagi!"
+                            "Pelayanan ramah, proses booking cepat, dan pengalaman petualangan yang seru."
                         </div>
                         <div class="testimoni-rating">
                             <i class="fas fa-star"></i>
@@ -961,14 +961,14 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <div class="testimoni-name">- Siti -</div>
+                        <div class="testimoni-name">- Rahmad, Banjarmasin -</div>
                     </div>
                     <div class="testimoni-card">
                         <div class="quote-icon">
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="testimoni-text">
-                            "Safety pertama, puas banget sama pelayanannya!"
+                            "Website mudah digunakan dan paket wisatanya sangat menarik."
                         </div>
                         <div class="testimoni-rating">
                             <i class="fas fa-star"></i>
@@ -977,7 +977,7 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <div class="testimoni-name">- Budi -</div>
+                        <div class="testimoni-name">- Adya, Sampit -</div>
                     </div>
                 </div>
                 <button class="carousel-btn next" id="nextBtn">
