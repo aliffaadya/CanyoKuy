@@ -70,7 +70,7 @@
             font-size: 24px;
             font-weight: 800;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .nav-links {
@@ -87,7 +87,7 @@
             transition: 0.2s;
             font-size: 16px;
             cursor: pointer;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .nav-links a:hover {
@@ -219,14 +219,17 @@
             .guide-title {
                 font-size: 32px;
             }
+
             .guide-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
+
             .navbar {
                 flex-direction: column;
                 text-align: center;
             }
+
             .nav-links {
                 justify-content: center;
             }
@@ -266,26 +269,23 @@
                 <!-- Baris 1 (4 card) -->
                 <div class="guide-grid">
                     <div class="guide-card">
-                        <div class="guide-img">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="guide-name">Bekantan Bungas</div>
+                        <img src="{{ asset('images/via.jpg') }}" alt="Via" class="guide-img">
+                        <div class="guide-name">Via</div>
                         <div class="guide-skill">Canyoneering Expert</div>
                     </div>
+
                     <div class="guide-card">
-                        <div class="guide-img">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="guide-name">Uwak-Uwak</div>
+                        <img src="{{ asset('images/Faren.jpg') }}" alt="Faren" class="guide-img">
+                        <div class="guide-name">Faren</div>
                         <div class="guide-skill">Hiking Guide</div>
                     </div>
+
                     <div class="guide-card">
-                        <div class="guide-img">
-                            <i class="fas fa-user"></i>
-                        </div>
+                        <img src="{{ asset('images/Dori.jpeg') }}" alt="Dori" class="guide-img">
                         <div class="guide-name">Dori</div>
                         <div class="guide-skill">Safety & Rescue</div>
                     </div>
+
                     <div class="guide-card">
                         <div class="guide-img">
                             <i class="fas fa-user"></i>
