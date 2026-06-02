@@ -344,7 +344,6 @@
             0% {
                 transform: rotate(0deg);
             }
-
             100% {
                 transform: rotate(360deg);
             }
@@ -459,8 +458,9 @@
             camp: {
                 name: 'Paket Camp',
                 price: 330000,
-                dp: 150000,
-                sisa: 180000,
+                dp: 148500,
+                sisa: 181500,
+                dp_percent: '45%',
                 price_formatted: 'Rp 330.000',
                 dp_formatted: 'Rp 150.000',
                 sisa_formatted: 'Rp 180.000'
@@ -470,6 +470,7 @@
                 price: 300000,
                 dp: 150000,
                 sisa: 150000,
+                dp_percent: '50%',
                 price_formatted: 'Rp 300.000',
                 dp_formatted: 'Rp 150.000',
                 sisa_formatted: 'Rp 150.000'
@@ -479,7 +480,19 @@
         window.onload = function() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('tanggal').min = today;
-            selectPackage('camp'); // Set default
+            
+            // Cek apakah ada data paket dari sessionStorage (dari halaman detail)
+            const storedPackage = sessionStorage.getItem('selected_package');
+            if (storedPackage) {
+                const package = JSON.parse(storedPackage);
+                if (package.name === 'Paket Camp') {
+                    selectPackage('camp');
+                } else if (package.name === 'Paket Round Trip') {
+                    selectPackage('roundtrip');
+                }
+            } else {
+                selectPackage('camp'); // Set default
+            }
         };
 
         function selectPackage(packageType) {
@@ -512,7 +525,7 @@
                     <span>1 orang</span>
                 </div>
                 <div class="price-item total">
-                    <span>💰 DP (45%) yang harus dibayar sekarang</span>
+                    <span>💰 DP (${data.dp_percent}) yang harus dibayar sekarang</span>
                     <span style="color: #e74c3c;">${data.dp_formatted}</span>
                 </div>
                 <div class="info-payment">
@@ -591,6 +604,7 @@
             const total = data.price;
             const dp = data.dp;
             const sisa = data.sisa;
+            const dpPercent = data.dp_percent;
 
             // Validasi
             if (!nama || !email || !whatsapp || !tanggal) {
@@ -625,8 +639,8 @@
 
             const fileName = selectedFile.name;
 
-            // Buat pesan WhatsApp
-            const message = `Halo%20Admin%20CanyoKuy%2C%0A%0A*PEMESANAN ${data.name.toUpperCase()}*%0A%0ASaya%20ingin%20memesan%20${data.name}%20dengan%20detail%20berikut%3A%0A%0A📦%20Paket%3A%20${data.name}%0A👤%20Nama%3A%20${nama}%0A📧%20Email%3A%20${email}%0A📞%20WhatsApp%3A%20${whatsapp}%0A👥%20Peserta%3A%201%20orang%0A📅%20Tanggal%3A%20${tanggal}%0A🎫%20Kode%20Booking%3A%20${bookingCode}%0A📝%20Catatan%3A%20${catatan || '-'}%0A%0A*PEMBAYARAN DP:*%0A💰%20Total%20Harga%3A%20Rp%20${total.toLocaleString('id-ID')}%0A💵%20DP%20(35%25)%3A%20Rp%20${dp.toLocaleString('id-ID')}%0A📎%20Bukti%20Transfer%20DP%3A%20${fileName}%0A🏦%20Bank%20Tujuan%3A%20Bank%20Mandiri%2012300123456789%0A%0A*INFORMASI PELUNASAN:*%0A✅%20Sisa%20pembayaran%3A%20Rp%20${sisa.toLocaleString('id-ID')}%0A✅%20Pelunasan%20dilakukan%20pada%20hari%20H%20(saat%20kegiatan)%0A✅%20Dapat%20dibayar%20tunai%20atau%20transfer%0A%0A_Mohon%20dikonfirmasi%20setelah%20DP%20diterima.%20Terima%20kasih._`;
+            // Buat pesan WhatsApp dengan persentase yang benar
+            const message = `Halo%20Admin%20CanyoKuy%2C%0A%0A*PEMESANAN ${data.name.toUpperCase()}*%0A%0ASaya%20ingin%20memesan%20${data.name}%20dengan%20detail%20berikut%3A%0A%0A📦%20Paket%3A%20${data.name}%0A👤%20Nama%3A%20${nama}%0A📧%20Email%3A%20${email}%0A📞%20WhatsApp%3A%20${whatsapp}%0A👥%20Peserta%3A%201%20orang%0A📅%20Tanggal%3A%20${tanggal}%0A🎫%20Kode%20Booking%3A%20${bookingCode}%0A📝%20Catatan%3A%20${catatan || '-'}%0A%0A*PEMBAYARAN DP:*%0A💰%20Total%20Harga%3A%20Rp%20${total.toLocaleString('id-ID')}%0A💵%20DP%20(${dpPercent})%3A%20Rp%20${dp.toLocaleString('id-ID')}%0A📎%20Bukti%20Transfer%20DP%3A%20${fileName}%0A🏦%20Bank%20Tujuan%3A%20Bank%20Mandiri%2012300123456789%0A%0A*INFORMASI PELUNASAN:*%0A✅%20Sisa%20pembayaran%3A%20Rp%20${sisa.toLocaleString('id-ID')}%0A✅%20Pelunasan%20dilakukan%20pada%20hari%20H%20(saat%20kegiatan)%0A✅%20Dapat%20dibayar%20tunai%20atau%20transfer%0A%0A_Mohon%20dikonfirmasi%20setelah%20DP%20diterima.%20Terima%20kasih._`;
 
             // Redirect ke WhatsApp
             setTimeout(() => {
