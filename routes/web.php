@@ -23,5 +23,9 @@ Route::get('/detailCamp', function () {
     return view('detailCamp');
 })->name('detailCamp');
 
+Route::get('/detailRoundTrip', function () {
+    return view('detailRoundTrip');
+})->name('detailRoundTrip');
+
 // Halaman detail produk (menggunakan file detail.produk.blade.php)
 Route::get('/tour/{id}', [TourController::class, 'detail'])->name('tour.detail');

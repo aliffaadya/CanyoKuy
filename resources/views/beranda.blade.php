@@ -821,7 +821,7 @@
                             <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati suasana alam lebih lama</div>
                             <div class="paket-price">Rp 300.000</div>
                         </div>
-                        <a href="#" class="paket-btn">Lihat Detail</a>
+                        <a href="detailRoundTrip" class="paket-btn">Lihat Detail</a>
                     </div>
                 </div>
                 <div class="paket-card">

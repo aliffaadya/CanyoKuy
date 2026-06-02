@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Paket Camp - CanyoKuy</title>
+    <title>Detail Paket Round Trip - CanyoKuy</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
         rel="stylesheet">
@@ -32,8 +32,7 @@
         /* ========== NAVBAR ========== */
         .navbar {
             padding: 20px 0;
-            /* UBAH INI: Dari sticky menjadi relative agar tidak ikut di-scroll */
-            position: relative; 
+            position: relative; /* Navbar diam di atas, tidak ikut di-scroll */
             background-color: #FAFDFE;
         }
 
@@ -120,9 +119,9 @@
             object-fit: cover;
         }
 
-/* ========== TITLE BANNER ========== */
+        /* ========== TITLE BANNER ========== */
         .title-banner {
-            background-color: #2F6B5E; /* Diubah ke warna hijau tema */
+            background-color: #2F6B5E; /* Menggunakan warna tema hijau biar menyatu */
             padding: 24px 0;
             margin-bottom: 30px;
         }
@@ -142,7 +141,6 @@
             font-size: 32px;
             font-weight: 800;
             color: #ffffff;
-            text-shadow: none; /* Bayangan dihilangkan karena kontras sudah bagus */
         }
 
         .banner-price-box {
@@ -152,14 +150,14 @@
         .banner-price-label {
             font-size: 16px;
             font-weight: 700;
-            color: #e0f2f1; /* Sedikit lebih redup dari putih */
+            color: #e0f2f1;
             margin-bottom: 4px;
         }
 
         .banner-price-value {
             font-size: 24px;
             font-weight: 800;
-            color: #ffdec2; /* Warna oranye muda agar harga langsung terlihat jelas */
+            color: #ffdec2; /* Warna oranye muda agar harganya pop-up */
         }
 
         /* ========== DETAIL PAKET ========== */
@@ -338,17 +336,17 @@
     </div>
 
     <div class="hero-section">
-        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 1">
-        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 2">
-        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 3">
+        <img src="{{ asset('images/roundtrip.jpg') }}" alt="Round Trip View 1">
+        <img src="{{ asset('images/roundtrip.jpg') }}" alt="Round Trip View 2">
+        <img src="{{ asset('images/roundtrip.jpg') }}" alt="Round Trip View 3">
     </div>
 
     <div class="title-banner">
         <div class="banner-container">
-            <h1 class="banner-title">Paket Camp</h1>
+            <h1 class="banner-title">Paket Canyoneering Round Trip</h1>
             <div class="banner-price-box">
                 <div class="banner-price-label">Mulai Dari</div>
-                <div class="banner-price-value">Rp 330.000</div>
+                <div class="banner-price-value">Rp 300.000</div>
             </div>
         </div>
     </div>
@@ -356,15 +354,13 @@
     <div class="container">
         <div class="detail-section">
             <p class="detail-desc">
-                Paket Canyoneering Camp merupakan paket petualangan yang memberikan pengalaman lebih lengkap dengan fasilitas menginap di lokasi kegiatan. Paket ini cocok bagi peserta yang ingin menikmati suasana alam lebih lama serta mengikuti kegiatan fun camp bersama peserta lainnya.
+                Paket Canyoneering PP merupakan paket perjalanan pulang-pergi yang dirancang bagi peserta yang ingin merasakan pengalaman seru canyoneering di Air Terjun Mandin Damar tanpa menginap. Paket ini cocok bagi pemula maupun peserta yang ingin menikmati kegiatan alam dalam satu hari dengan pendampingan guide berpengalaman.
             </p>
 
             <div class="detail-grid">
                 <div class="detail-facilities">
                     <h3>Fasilitas yang Didapat:</h3>
                     <ul class="facilities-list">
-                        <li><i class="fas fa-circle"></i> Tenda kapasitas 3 orang</li>
-                        <li><i class="fas fa-circle"></i> Matras tidur</li>
                         <li><i class="fas fa-circle"></i> Guide perjalanan profesional</li>
                         <li><i class="fas fa-circle"></i> Safety gear lengkap</li>
                         <li><i class="fas fa-circle"></i> Dokumentasi foto atas dan bawah</li>
@@ -376,30 +372,30 @@
                 <div class="detail-info">
                     <h3>Informasi Tambahan:</h3>
                     <ul class="info-list">
-                        <li><i class="fas fa-circle"></i> Sistem perjalanan: Menginap (Camping)</li>
-                        <li><i class="fas fa-circle"></i> Cocok untuk: Peserta yang ingin pengalaman lebih lama</li>
-                        <li><i class="fas fa-circle"></i> Disarankan membawa perlengkapan pribadi tambahan</li>
+                        <li><i class="fas fa-circle"></i> Lokasi: Air Terjun Mandin Damar</li>
+                        <li><i class="fas fa-circle"></i> Sistem perjalanan: Pulang–Pergi (Tanpa Menginap)</li>
+                        <li><i class="fas fa-circle"></i> Cocok untuk: Pemula dan peserta harian</li>
                     </ul>
                 </div>
             </div>
 
             <div class="thumbnail-gallery">
                 <div class="video-thumbnail active">
-                    <img src="{{ asset('images/camp.jpg') }}" alt="Video 1">
+                    <img src="{{ asset('images/roundtrip.jpg') }}" alt="Video Round Trip 1">
                     <i class="fas fa-play-circle play-icon"></i>
                 </div>
                 <div class="video-thumbnail">
-                    <img src="{{ asset('images/camp.jpg') }}" alt="Video 2">
+                    <img src="{{ asset('images/roundtrip.jpg') }}" alt="Video Round Trip 2">
                     <i class="fas fa-play-circle play-icon"></i>
                 </div>
                 <div class="video-thumbnail">
-                    <img src="{{ asset('images/camp.jpg') }}" alt="Video 3">
+                    <img src="{{ asset('images/roundtrip.jpg') }}" alt="Video Round Trip 3">
                     <i class="fas fa-play-circle play-icon"></i>
                 </div>
             </div>
 
             <div class="action-container">
-                <button class="btn-book" onclick="alert('✨ Terima kasih! Silakan lanjutkan ke proses pemesanan.')">Pesan Sekarang</button>
+                <button class="btn-book" onclick="alert('✨ Terima kasih! Silakan lanjutkan ke proses pemesanan paket Round Trip.')">Pesan Sekarang</button>
             </div>
             
         </div>
