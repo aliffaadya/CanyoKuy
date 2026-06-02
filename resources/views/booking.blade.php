@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* style sama seperti sebelumnya, tidak berubah */
         * {
             margin: 0;
             padding: 0;
@@ -54,7 +55,6 @@
             padding: 30px;
         }
 
-        /* Package Selection */
         .package-selection {
             display: flex;
             gap: 20px;
@@ -367,7 +367,7 @@
                         <i class="fas fa-campground"></i>
                         <h3>Paket Camp</h3>
                         <div class="price">Rp 330.000</div>
-                        <div class="dp">DP 45%: Rp 150.000</div>
+                        <div class="dp">DP 45%: Rp 148.500</div>
                         <div class="check-icon"><i class="fas fa-check-circle"></i></div>
                     </div>
                     <div class="package-card" onclick="selectPackage('roundtrip')" id="packageRoundtrip">
@@ -462,8 +462,8 @@
                 sisa: 181500,
                 dp_percent: '45%',
                 price_formatted: 'Rp 330.000',
-                dp_formatted: 'Rp 150.000',
-                sisa_formatted: 'Rp 180.000'
+                dp_formatted: 'Rp 148.500',
+                sisa_formatted: 'Rp 181.500'
             },
             roundtrip: {
                 name: 'Paket Round Trip',
