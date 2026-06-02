@@ -69,7 +69,7 @@
             font-size: 24px;
             font-weight: 800;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .nav-links {
@@ -86,7 +86,7 @@
             transition: 0.2s;
             font-size: 16px;
             cursor: pointer;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .nav-links a:hover {
@@ -688,6 +688,7 @@
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
+
             .paket-card {
                 max-width: 600px;
                 margin: 0 auto;
@@ -699,14 +700,17 @@
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
+
             .testimoni-card {
                 flex: 0 0 calc(100% - 20px);
             }
+
             .get-to-know-wrapper,
             .tour-guide-wrapper {
                 min-height: auto;
                 margin: 60px 0;
             }
+
             .get-to-know-left-bg,
             .tour-guide-right-bg {
                 position: relative;
@@ -716,6 +720,7 @@
                 left: auto;
                 right: auto;
             }
+
             .get-to-know-content,
             .tour-guide-content {
                 position: relative;
@@ -726,6 +731,7 @@
                 max-width: 100%;
                 text-align: center;
             }
+
             .get-to-know-right-img,
             .tour-guide-left-img {
                 position: relative;
@@ -735,6 +741,7 @@
                 right: auto;
                 margin: -30px auto 0 auto;
             }
+
             .get-to-know-title,
             .tour-guide-title {
                 font-size: 30px;
@@ -746,17 +753,21 @@
                 flex-direction: column;
                 padding: 20px;
             }
+
             .paket-img {
                 width: 100%;
                 height: 250px;
             }
+
             .paket-info {
                 padding: 0;
             }
+
             .paket-btn {
                 align-self: stretch;
                 text-align: center;
             }
+
             .testimoni-carousel {
                 padding: 0 40px;
             }
@@ -764,6 +775,87 @@
 
         html {
             scroll-behavior: smooth;
+        }
+
+        /* ===== Floating Help Button ===== */
+        .help-button {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 45px;
+            height: 45px;
+            background: rgba(229, 224, 224, 0.5);
+            color: white;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .help-button:hover {
+            transform: scale(1.1);
+            background: #ff9333;
+        }
+
+        /* ===== Modal ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 550px;
+            margin: 80px auto;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            animation: popup 0.3s ease;
+        }
+
+        @keyframes popup {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            float: right;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .booking-steps {
+            margin-top: 20px;
+        }
+
+        .booking-steps div {
+            background: #f5f5f5;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            text-align: left;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -818,7 +910,8 @@
                     <div class="paket-info">
                         <div>
                             <div class="paket-name">Paket Round Trip</div>
-                            <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati suasana alam lebih lama</div>
+                            <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati suasana alam lebih
+                                lama</div>
                             <div class="paket-price">Rp 300.000</div>
                         </div>
                         <a href="detailRoundTrip" class="paket-btn">Lihat Detail</a>
@@ -829,7 +922,8 @@
                     <div class="paket-info">
                         <div>
                             <div class="paket-name">Paket Camp</div>
-                            <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati kegiatan alam dalam satu hari</div>
+                            <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati kegiatan alam
+                                dalam satu hari</div>
                             <div class="paket-price">Rp 330.000</div>
                         </div>
                         <a href="/detailCamp" class="paket-btn">Lihat Detail</a>
@@ -863,8 +957,10 @@
                 <span class="tour-guide-label">TOUR GUIDE</span>
                 <h2 class="tour-guide-title">KPA ULIN</h2>
                 <p class="tour-guide-desc">
-                    KPA Ulin adalah Kelompok Pencinta Alam berbasis di Kabupaten Tanah Bumbu, Kalimantan Selatan, berdiri sejak 4 Mei 2016. 
-                    Berfokus pada kegiatan alam bebas (gunung, gua, tebing, hutan, pantai), edukasi lingkungan, pelatihan keselamatan (caving, panjat tebing), 
+                    KPA Ulin adalah Kelompok Pencinta Alam berbasis di Kabupaten Tanah Bumbu, Kalimantan Selatan,
+                    berdiri sejak 4 Mei 2016.
+                    Berfokus pada kegiatan alam bebas (gunung, gua, tebing, hutan, pantai), edukasi lingkungan,
+                    pelatihan keselamatan (caving, panjat tebing),
                     serta aksi sosial. Aktif di kawasan Geopark Meratus, Gua Liang Bangkai, dan Air Terjun Mandin Damar.
                 </p>
                 <a href="https://www.instagram.com/kpa_ulin/" class="tour-guide-btn">Kenalan Yuk</a>
@@ -888,7 +984,9 @@
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="testimoni-text">
-                            "Pengalaman canyoneering yang luar biasa! Informasi di website sangat lengkap dan proses pemesanannya mudah. Guide yang mendampingi juga profesional dan ramah. Sangat direkomendasikan untuk pemula maupun yang sudah berpengalaman."
+                            "Pengalaman canyoneering yang luar biasa! Informasi di website sangat lengkap dan proses
+                            pemesanannya mudah. Guide yang mendampingi juga profesional dan ramah. Sangat
+                            direkomendasikan untuk pemula maupun yang sudah berpengalaman."
                         </div>
                         <div class="testimoni-rating">
                             <i class="fas fa-star"></i>
@@ -904,7 +1002,8 @@
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="testimoni-text">
-                            "Pelayanan sangat memuaskan. Tim selalu cepat menjawab pertanyaan melalui kontak yang tersedia di website. Kegiatan berlangsung aman, menyenangkan, dan penuh petualangan."
+                            "Pelayanan sangat memuaskan. Tim selalu cepat menjawab pertanyaan melalui kontak yang
+                            tersedia di website. Kegiatan berlangsung aman, menyenangkan, dan penuh petualangan."
                         </div>
                         <div class="testimoni-rating">
                             <i class="fas fa-star"></i>
@@ -920,7 +1019,8 @@
                             <i class="fas fa-quote-left"></i>
                         </div>
                         <div class="testimoni-text">
-                            "Salah satu pengalaman outdoor terbaik yang pernah saya coba. Booking online praktis, informasi lengkap, dan dokumentasi kegiatan yang diberikan sangat keren."
+                            "Salah satu pengalaman outdoor terbaik yang pernah saya coba. Booking online praktis,
+                            informasi lengkap, dan dokumentasi kegiatan yang diberikan sangat keren."
                         </div>
                         <div class="testimoni-rating">
                             <i class="fas fa-star"></i>
@@ -994,7 +1094,8 @@
             <div class="footer-container">
                 <div class="footer-col">
                     <div class="footer-logo">CanyoKuy</div>
-                    <p class="footer-desc">Mari jelajahi air terjun sambil canyoneering. Temukan keindahan alam tersembunyi dan sensasi petualangan yang tak terlupakan.</p>
+                    <p class="footer-desc">Mari jelajahi air terjun sambil canyoneering. Temukan keindahan alam
+                        tersembunyi dan sensasi petualangan yang tak terlupakan.</p>
                 </div>
                 <div class="footer-col">
                     <h3>Menu</h3>
@@ -1027,13 +1128,13 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const dotsContainer = document.getElementById('carouselDots');
-        
+
         let currentIndex = 0;
         const cards = document.querySelectorAll('.testimoni-card');
         const cardsPerView = 3;
         const totalCards = cards.length;
         const totalSlides = Math.ceil(totalCards / cardsPerView);
-        
+
         // Create dots
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('div');
@@ -1042,7 +1143,7 @@
             dot.addEventListener('click', () => goToSlide(i));
             dotsContainer.appendChild(dot);
         }
-        
+
         function updateDots() {
             const dots = document.querySelectorAll('.dot');
             dots.forEach((dot, i) => {
@@ -1050,7 +1151,7 @@
                 else dot.classList.remove('active');
             });
         }
-        
+
         function goToSlide(index) {
             if (index < 0) index = 0;
             if (index >= totalSlides) index = totalSlides - 1;
@@ -1059,15 +1160,53 @@
             track.scrollTo({ left: scrollAmount, behavior: 'smooth' });
             updateDots();
         }
-        
+
         prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
         nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-        
+
         // Update on window resize
         window.addEventListener('resize', () => {
             goToSlide(currentIndex);
         });
-    </script>
-</body>
+        // Popup Alur Pemesanan
+        function openBookingModal() {
+            document.getElementById("bookingModal").style.display = "block";
+        }
 
-</html>
+        function closeBookingModal() {
+            document.getElementById("bookingModal").style.display = "none";
+        }
+
+        window.addEventListener('click', function (event) {
+            let modal = document.getElementById("bookingModal");
+
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+    <!-- Tombol Bantuan -->
+    <div class="help-button" onclick="openBookingModal()">
+        <i class="fas fa-question"></i>
+    </div>
+    <!--Popup Alur Pemesanan-->
+            <div id="bookingModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeBookingModal()">&times;</span>
+
+                    <h2>📌 Alur Pemesanan CanyoKuy</h2>
+
+                    <div class="booking-steps">
+                        <div>1️⃣ Pilih paket wisata yang diinginkan</div>
+                        <div>2️⃣ Klik tombol Booking</div>
+                        <div>3️⃣ Isi data pemesanan dengan lengkap</div>
+                        <div>4️⃣ Konfirmasi detail perjalanan</div>
+                        <div>5️⃣ Lakukan pembayaran</div>
+                        <div>6️⃣ Admin melakukan verifikasi</div>
+                        <div>7️⃣ Booking berhasil dan siap berangkat 🎉</div>
+                    </div>
+                </div>
+            </div>
+</body >
+
+</html >
