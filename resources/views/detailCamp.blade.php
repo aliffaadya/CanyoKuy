@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Paket Camp - CanyoKuy</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
         rel="stylesheet">
@@ -105,7 +106,7 @@
             transform: scale(1.05);
         }
 
-        /* ========== HERO SECTION (3 GAMBAR BERJEJER) ========== */
+        /* ========== HERO SECTION ========== */
         .hero-section {
             width: 100%;
             height: 350px;
@@ -121,8 +122,8 @@
 
         /* ========== TITLE BANNER ========== */
         .title-banner {
-            background-color: #2F6B5E; 
-            padding: 23px 0;
+            background-color: #2F6B5E;
+            padding: 24px 0;
             margin-bottom: 30px;
         }
 
@@ -137,7 +138,6 @@
             gap: 20px;
         }
 
-        /* Wrapper Judul & Badge */
         .banner-title-group {
             display: flex;
             flex-direction: column;
@@ -151,7 +151,6 @@
             line-height: 1.2;
         }
 
-        /* Styling Real-time Kuota & Nama Guide */
         .banner-badges {
             display: flex;
             gap: 12px;
@@ -172,7 +171,7 @@
         }
 
         .badge.highlight {
-            background: #ffdec2; 
+            background: #ffdec2;
             color: #2F6B5E;
             border: 1px solid #ffdec2;
             box-shadow: 0 2px 8px rgba(255, 222, 194, 0.4);
@@ -185,14 +184,14 @@
         .banner-price-label {
             font-size: 16px;
             font-weight: 700;
-            color: #e0f2f1; 
+            color: #e0f2f1;
             margin-bottom: 4px;
         }
 
         .banner-price-value {
             font-size: 24px;
             font-weight: 800;
-            color: #ffdec2; 
+            color: #ffdec2;
         }
 
         /* ========== DETAIL PAKET ========== */
@@ -243,7 +242,7 @@
             margin-top: 4px;
         }
 
-        /* ========== VIDEO THUMBNAILS DI BAWAH ========== */
+        /* ========== VIDEO THUMBNAILS ========== */
         .thumbnail-gallery {
             display: flex;
             gap: 16px;
@@ -274,17 +273,13 @@
             color: rgba(255, 255, 255, 0.85);
             font-size: 40px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-            pointer-events: none; 
+            pointer-events: none;
             transition: 0.3s;
         }
 
         .video-thumbnail:hover .play-icon {
             color: white;
             transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        .video-thumbnail.active {
-            border: 3px solid #3498db;
         }
 
         /* Tombol Pesan */
@@ -309,6 +304,177 @@
 
         .btn-book:hover {
             background: #1e4a40;
+            transform: translateY(-2px);
+        }
+
+        /* ========== MODAL POPUP ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 450px;
+            width: 90%;
+            animation: slideIn 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #2F6B5E, #1e4a40);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .modal-header .success-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .modal-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .package-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 10px 0;
+        }
+
+        .package-summary h4 {
+            color: #2F6B5E;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item .label {
+            color: #666;
+        }
+
+        .summary-item .value {
+            font-weight: 600;
+            color: #1e2a3e;
+        }
+
+        .summary-item.total .value {
+            color: #e74c3c;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .countdown-text {
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px;
+            background: #fff3cd;
+            border-radius: 10px;
+            color: #856404;
+        }
+
+        .countdown-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .modal-footer {
+            padding: 20px 25px 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-close, .btn-redirect {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-close {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .btn-close:hover {
+            background: #c0c0c0;
+        }
+
+        .btn-redirect {
+            background: #2F6B5E;
+            color: white;
+        }
+
+        .btn-redirect:hover {
+            background: #1e4a40;
+            transform: translateY(-2px);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* ========== RESPONSIVE ========== */
@@ -342,7 +508,7 @@
                 padding: 15px;
             }
             .hero-section {
-                height: 180px; 
+                height: 180px;
             }
             .video-thumbnail {
                 width: 100%;
@@ -365,7 +531,7 @@
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
                 <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
-                <a href="{{ url('/cekBSooking') }}">Cek Booking</a>
+                <a href="{{ url('/cekBooking') }}">Cek Booking</a>
                 <a href="{{ url('/#testimoni') }}">Testimoni</a>
                 <a href="{{ url('/guide') }}">Tour Guide</a>
                 <a href="https://wa.me/628123456789" target="_blank">
@@ -393,7 +559,7 @@
             </div>
             <div class="banner-price-box">
                 <div class="banner-price-label">Mulai Dari</div>
-                <div class="banner-price-value">Rp 330.000</div>
+                <div class="banner-price-value">Rp 330.000 <small style="font-size: 14px;">/orang</small></div>
             </div>
         </div>
     </div>
@@ -429,7 +595,7 @@
             </div>
 
             <div class="thumbnail-gallery">
-                <div class="video-thumbnail active">
+                <div class="video-thumbnail">
                     <img src="{{ asset('images/camp.jpg') }}" alt="Video 1">
                     <i class="fas fa-play-circle play-icon"></i>
                 </div>
@@ -444,12 +610,157 @@
             </div>
 
             <div class="action-container">
-                <button class="btn-book">Pesan Sekarang</button>
+                <button class="btn-book" onclick="showBookingPopup()">Pesan Sekarang</button>
             </div>
             
         </div>
     </div>
 
+    <!-- MODAL POPUP -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="success-icon">✅</div>
+                <h2>Konfirmasi Pemesanan</h2>
+                <p>Anda akan dialihkan ke halaman pemesanan</p>
+            </div>
+            <div class="modal-body">
+                <div class="package-summary">
+                    <h4>📋 Ringkasan Paket</h4>
+                    <div class="summary-item">
+                        <span class="label">Paket</span>
+                        <span class="value">Paket Camp</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Harga</span>
+                        <span class="value">Rp 330.000 /orang</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Sisa Kuota</span>
+                        <span class="value">3 Tenda</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Tour Guide</span>
+                        <span class="value">Tim B</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span class="label">Total Minimal</span>
+                        <span class="value">Rp 330.000</span>
+                    </div>
+                </div>
+                <div class="countdown-text">
+                    ⏱️ Mengalihkan ke halaman pemesanan dalam 
+                    <span class="countdown-number" id="countdown">3</span> detik
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-close" onclick="closeModal()">Batal</button>
+                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let countdownInterval;
+        let modal = document.getElementById('bookingModal');
+        let isRedirecting = false;
+
+        function showBookingPopup() {
+            // Reset state
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            isRedirecting = false;
+            
+            // Tampilkan modal
+            modal.style.display = 'flex';
+            
+            // Reset countdown ke 3
+            let seconds = 3;
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.textContent = seconds;
+            
+            // Mulai countdown
+            countdownInterval = setInterval(() => {
+                if (!isRedirecting && seconds > 1) {
+                    seconds--;
+                    countdownElement.textContent = seconds;
+                }
+                
+                if (seconds <= 1 && !isRedirecting) {
+                    clearInterval(countdownInterval);
+                    redirectToBooking();
+                }
+            }, 1000);
+        }
+
+        function redirectToBooking() {
+            if (isRedirecting) return;
+            
+            isRedirecting = true;
+            
+            // Hentikan countdown
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            // Ubah tombol jadi loading
+            const btnRedirect = document.querySelector('.btn-redirect');
+            btnRedirect.innerHTML = '<span class="loading-spinner"></span> Mengalihkan...';
+            btnRedirect.disabled = true;
+            
+            // Simpan data paket ke session storage untuk digunakan di halaman pemesanan
+            const packageData = {
+                id: 1,
+                name: 'Paket Camp',
+                price: 330000,
+                price_formatted: 'Rp 330.000',
+                quota: '3 Tenda',
+                guide: 'Tim B',
+                facilities: [
+                    'Tenda kapasitas 3 orang',
+                    'Matras tidur',
+                    'Guide perjalanan profesional',
+                    'Safety gear lengkap',
+                    'Dokumentasi foto atas dan bawah',
+                    'Konsumsi POP Mie 1x',
+                    'Teh hangat'
+                ]
+            };
+            
+            sessionStorage.setItem('selected_package', JSON.stringify(packageData));
+            
+            // Redirect ke halaman pemesanan menggunakan route Laravel
+            setTimeout(() => {
+                window.location.href = "{{ route('booking') }}";
+            }, 500);
+        }
+
+        function closeModal() {
+            // Hentikan countdown
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            // Tutup modal
+            modal.style.display = 'none';
+            isRedirecting = false;
+        }
+
+        // Tutup modal jika klik di luar modal
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Fungsi untuk video thumbnail
+        document.querySelectorAll('.video-thumbnail').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                document.querySelectorAll('.video-thumbnail').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
 
 </html>
