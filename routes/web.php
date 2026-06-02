@@ -27,5 +27,15 @@ Route::get('/detailRoundTrip', function () {
     return view('detailRoundTrip');
 })->name('detailRoundTrip');
 
+// Halaman booking (langsung view, tanpa controller)
+Route::get('/booking', function () {
+    return view('booking');
+})->name('booking');
+
+// Admin page (pakai closure juga, tanpa controller)
+Route::get('/admin/bookings', function () {
+    return view('admin.bookings');
+})->name('admin.bookings');
+
 // Halaman detail produk (menggunakan file detail.produk.blade.php)
 Route::get('/tour/{id}', [TourController::class, 'detail'])->name('tour.detail');
