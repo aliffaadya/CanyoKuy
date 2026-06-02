@@ -287,10 +287,8 @@
                     </div>
 
                     <div class="guide-card">
-                        <div class="guide-img">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="guide-name">Dewi Lestari</div>
+                        <img src="{{ asset('images/lembut.jpeg') }}" alt="Lembut" class="guide-img">
+                        <div class="guide-name">Lembut</div>
                         <div class="guide-skill">Nature Guide</div>
                     </div>
                 </div>
@@ -298,38 +296,29 @@
                 <!-- Baris 2 (4 card) -->
                 <div class="guide-grid">
                     <div class="guide-card">
-                        <div class="guide-img">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="guide-name">M. Ridwan</div>
+                        <img src="{{ asset('images/nurmala.jpeg') }}" alt="Nurmala" class="guide-img">
+                        <div class="guide-name">Nurmala</div>
                         <div class="guide-skill">Camping Specialist</div>
                     </div>
+
                     <div class="guide-card">
-                        <div class="guide-img">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="guide-name">Rina Marlina</div>
+                        <img src="{{ asset('images/yaya.jpeg') }}" alt="Yaya" class="guide-img">
+                        <div class="guide-name">Yaya</div>
                         <div class="guide-skill">Eco Tourism</div>
                     </div>
+
                     <div class="guide-card">
-                        <div class="guide-img">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="guide-name">Andi Pratama</div>
+                        <img src="{{ asset('images/badhog.jpeg') }}" alt="Badog" class="guide-img">
+                        <div class="guide-name">Badog</div>
                         <div class="guide-skill">Climbing Guide</div>
                     </div>
+
                     <div class="guide-card">
-                        <div class="guide-img">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="guide-name">Lia Susanti</div>
+                        <img src="{{ asset('images/kucrit.jpg') }}" alt="Kucrit" class="guide-img">
+                        <div class="guide-name">Kucrit</div>
                         <div class="guide-skill">Photography Guide</div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
 </body>
 
 </html>
