@@ -106,6 +106,30 @@
             transform: scale(1.05);
         }
 
+        /* Tombol Login Admin */
+        .admin-login-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .admin-login-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .admin-login-btn i {
+            font-size: 16px;
+        }
+
         /* ========== HERO SECTION ========== */
         .hero-section {
             background-image: url('{{ asset("images/bg.jpg") }}');
@@ -601,7 +625,7 @@
             border-radius: 10px;
         }
 
-        /* ========== FOOTER - SEPERTI WONDERLAND ========== */
+        /* ========== FOOTER ========== */
         .footer {
             background: #0a2e2b;
             color: rgba(255, 255, 255, 0.8);
@@ -879,6 +903,11 @@
                 <a href="https://wa.me/628123456789" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
                 </a>
+                <!-- TOMBOL LOGIN ADMIN -->
+                <a href="{{ route('admin.login') }}" class="admin-login-btn" title="Login Admin">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin</span>
+                </a>
             </div>
         </div>
     </div>
@@ -1108,105 +1137,4 @@
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h3>Kontak</h3>
-                    <ul class="footer-contact">
-                        <li><i class="fab fa-whatsapp"></i> +62 812 3456 789</li>
-                        <li><i class="fab fa-instagram"></i> @kpa_ulin</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Tanah Bumbu, Kalimantan Selatan</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© CanyoKuy - 2026 | Petualangan Alam Bersama KPA Ulin</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Carousel functionality
-        const track = document.getElementById('testimoniTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const dotsContainer = document.getElementById('carouselDots');
-
-        let currentIndex = 0;
-        const cards = document.querySelectorAll('.testimoni-card');
-        const cardsPerView = 3;
-        const totalCards = cards.length;
-        const totalSlides = Math.ceil(totalCards / cardsPerView);
-
-        // Create dots
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        }
-
-        function updateDots() {
-            const dots = document.querySelectorAll('.dot');
-            dots.forEach((dot, i) => {
-                if (i === currentIndex) dot.classList.add('active');
-                else dot.classList.remove('active');
-            });
-        }
-
-        function goToSlide(index) {
-            if (index < 0) index = 0;
-            if (index >= totalSlides) index = totalSlides - 1;
-            currentIndex = index;
-            const scrollAmount = currentIndex * (cards[0].offsetWidth + 30) * cardsPerView;
-            track.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-            updateDots();
-        }
-
-        prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-        nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-
-        // Update on window resize
-        window.addEventListener('resize', () => {
-            goToSlide(currentIndex);
-        });
-        // Popup Alur Pemesanan
-        function openBookingModal() {
-            document.getElementById("bookingModal").style.display = "block";
-        }
-
-        function closeBookingModal() {
-            document.getElementById("bookingModal").style.display = "none";
-        }
-
-        window.addEventListener('click', function (event) {
-            let modal = document.getElementById("bookingModal");
-
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        });
-    </script>
-    <!-- Tombol Bantuan -->
-    <div class="help-button" onclick="openBookingModal()">
-        <i class="fas fa-question"></i>
-    </div>
-    <!--Popup Alur Pemesanan-->
-            <div id="bookingModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeBookingModal()">&times;</span>
-
-                    <h2>📌 Alur Pemesanan CanyoKuy</h2>
-
-                    <div class="booking-steps">
-                        <div>1️⃣ Pilih paket wisata yang diinginkan</div>
-                        <div>2️⃣ Klik tombol Booking</div>
-                        <div>3️⃣ Isi data pemesanan dengan lengkap</div>
-                        <div>4️⃣ Konfirmasi detail perjalanan</div>
-                        <div>5️⃣ Lakukan pembayaran</div>
-                        <div>6️⃣ Admin melakukan verifikasi</div>
-                        <div>7️⃣ Booking berhasil dan siap berangkat</div>
-                    </div>
-                </div>
-            </div>
-</body >
-
-</html >
+                    <h3
