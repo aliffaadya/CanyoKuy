@@ -1203,7 +1203,7 @@
                         <div>4️⃣ Konfirmasi detail perjalanan</div>
                         <div>5️⃣ Lakukan pembayaran</div>
                         <div>6️⃣ Admin melakukan verifikasi</div>
-                        <div>7️⃣ Booking berhasil dan siap berangkat 🎉</div>
+                        <div>7️⃣ Booking berhasil dan siap berangkat</div>
                     </div>
                 </div>
             </div>

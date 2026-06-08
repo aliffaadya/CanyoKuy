@@ -32,7 +32,8 @@
         /* ========== NAVBAR ========== */
         .navbar {
             padding: 20px 0;
-            position: relative; /* Navbar diam di atas, tidak ikut di-scroll */
+            position: relative;
+            /* Navbar diam di atas, tidak ikut di-scroll */
             background-color: #FAFDFE;
         }
 
@@ -50,7 +51,7 @@
             background: #2F6B5E;
             padding: 8px 24px 8px 10px;
             border-radius: 50px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .logo-img {
@@ -65,7 +66,7 @@
             font-size: 22px;
             font-weight: 800;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .nav-links {
@@ -77,7 +78,7 @@
             background: #2F6B5E;
             padding: 10px 30px;
             border-radius: 50px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .nav-links a {
@@ -109,19 +110,28 @@
         .hero-section {
             width: 100%;
             height: 350px;
-            display: flex; 
+            display: flex;
             overflow: hidden;
         }
 
         .hero-section img {
-            width: 33.333%; 
+            width: 33.333%;
             height: 100%;
             object-fit: cover;
         }
 
+        .img-tengah {
+            object-position: center bottom;
+        }
+
+        .img-kanan {
+            object-position: center 85%;
+        }
+
+
         /* ========== TITLE BANNER ========== */
         .title-banner {
-            background-color: #2F6B5E; 
+            background-color: #2F6B5E;
             padding: 23px 0;
             margin-bottom: 30px;
         }
@@ -136,7 +146,7 @@
             flex-wrap: wrap;
             gap: 20px;
         }
-        
+
         /* Tambahan Wrapper untuk Judul & Badge */
         .banner-title-group {
             display: flex;
@@ -172,7 +182,7 @@
         }
 
         .badge.highlight {
-            background: #ffdec2; 
+            background: #ffdec2;
             color: #2F6B5E;
             border: 1px solid #ffdec2;
             box-shadow: 0 2px 8px rgba(255, 222, 194, 0.4);
@@ -192,7 +202,7 @@
         .banner-price-value {
             font-size: 24px;
             font-weight: 800;
-            color: #ffdec2; 
+            color: #ffdec2;
         }
 
         /* ========== DETAIL PAKET ========== */
@@ -223,11 +233,13 @@
             margin-bottom: 16px;
         }
 
-        .facilities-list, .info-list {
+        .facilities-list,
+        .info-list {
             list-style: none;
         }
 
-        .facilities-list li, .info-list li {
+        .facilities-list li,
+        .info-list li {
             display: flex;
             align-items: flex-start;
             gap: 12px;
@@ -237,7 +249,8 @@
             font-weight: 600;
         }
 
-        .facilities-list li i, .info-list li i {
+        .facilities-list li i,
+        .info-list li i {
             color: #2F6B5E;
             font-size: 12px;
             margin-top: 4px;
@@ -273,8 +286,8 @@
             transform: translate(-50%, -50%);
             color: rgba(255, 255, 255, 0.85);
             font-size: 40px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-            pointer-events: none; 
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
             transition: 0.3s;
         }
 
@@ -304,7 +317,7 @@
             font-family: inherit;
             font-size: 16px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn-book:hover {
@@ -317,16 +330,20 @@
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
+
             .banner-container {
                 flex-direction: column;
                 text-align: center;
             }
+
             .banner-title-group {
                 align-items: center;
             }
+
             .banner-badges {
                 justify-content: center;
             }
+
             .banner-price-box {
                 text-align: center;
             }
@@ -337,13 +354,16 @@
                 justify-content: center !important;
                 gap: 20px;
             }
+
             .nav-links {
                 justify-content: center;
                 padding: 15px;
             }
+
             .hero-section {
-                height: 180px; 
+                height: 180px;
             }
+
             .video-thumbnail {
                 width: 100%;
             }
@@ -356,12 +376,12 @@
     <div class="navbar">
         <div class="container-navbar"
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-            
+
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
                 <span class="logo-text">CanyoKuy</span>
             </div>
-            
+
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
                 <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
@@ -378,8 +398,10 @@
 
     <div class="hero-section">
         <img src="{{ asset('images/round_trip.jpg') }}" alt="Round Trip View 1">
-        <img src="{{ asset('images/round_trip.jpg') }}" alt="Round Trip View 2">
-        <img src="{{ asset('images/round_trip.jpg') }}" alt="Round Trip View 3">
+
+        <img src="{{ asset('images/sinoha.jpg') }}" alt="Round Trip View 2" class="img-tengah">
+
+        <img src="{{ asset('images/pp.jpg') }}" alt="Round Trip View 3" class="img-kanan">
     </div>
 
     <div class="title-banner">
@@ -401,7 +423,10 @@
     <div class="container">
         <div class="detail-section">
             <p class="detail-desc">
-                Paket Canyoneering PP merupakan paket perjalanan pulang-pergi yang dirancang bagi peserta yang ingin merasakan pengalaman seru canyoneering di Air Terjun Mandin Damar tanpa menginap. Paket ini cocok bagi pemula maupun peserta yang ingin menikmati kegiatan alam dalam satu hari dengan pendampingan guide berpengalaman.
+                Paket Canyoneering PP merupakan paket perjalanan pulang-pergi yang dirancang bagi peserta yang ingin
+                merasakan pengalaman seru canyoneering di Air Terjun Mandin Damar tanpa menginap. Paket ini cocok bagi
+                pemula maupun peserta yang ingin menikmati kegiatan alam dalam satu hari dengan pendampingan guide
+                berpengalaman.
             </p>
 
             <div class="detail-grid">
@@ -444,7 +469,7 @@
             <div class="action-container">
                 <button class="btn-book">Pesan Sekarang</button>
             </div>
-            
+
         </div>
     </div>
 
