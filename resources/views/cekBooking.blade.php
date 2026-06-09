@@ -106,6 +106,30 @@
             transform: scale(1.05);
         }
 
+        /* Tombol Login Admin */
+        .admin-login-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .admin-login-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .admin-login-btn i {
+            font-size: 16px;
+        }
+
         /* ========== HALAMAN CEK BOOKING ========== */
         .booking-page {
             position: relative;
@@ -118,7 +142,6 @@
             opacity: 90%;
         }
 
-        /* Efek blur + gradient overlay - LEBIH ATMOSFERIK */
         .booking-page::before {
             content: '';
             position: absolute;
@@ -160,7 +183,6 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
         }
 
-        /* Search row */
         .search-row {
             display: flex;
             align-items: center;
@@ -224,7 +246,6 @@
             background: #2F6B5E;
         }
 
-
         @media (max-width: 768px) {
             .booking-title {
                 font-size: 28px;
@@ -257,7 +278,6 @@
             }
         }
 
-        /* ===== Floating Help Button ===== */
         .help-button {
             position: fixed;
             bottom: 25px;
@@ -283,7 +303,6 @@
             background: #ff9333;
         }
 
-        /* ===== Modal ===== */
         .modal {
             display: none;
             position: fixed;
@@ -342,7 +361,6 @@
 
 <body>
 
-    <!-- NAVBAR dengan link ke halaman utama -->
     <div class="navbar">
         <div class="container-navbar"
             style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
@@ -353,17 +371,20 @@
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
                 <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
-                <a href="{{ url('/cek-booking') }}">Cek Booking</a>
+                <a href="{{ url('/cekBooking') }}">Cek Booking</a>
                 <a href="{{ url('/#testimoni') }}">Testimoni</a>
                 <a href="{{ url('/guide') }}">Tour Guide</a>
                 <a href="https://wa.me/628123456789" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
                 </a>
+                <a href="{{ route('admin.login') }}" class="admin-login-btn" title="Login Admin">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- HALAMAN CEK BOOKING -->
     <div class="booking-page">
         <div class="container">
             <div class="booking-content">
@@ -382,18 +403,15 @@
             </div>
         </div>
     </div>
-    <!-- Tombol Bantuan -->
+
     <div class="help-button" onclick="openBookingModal()">
         <i class="fas fa-question"></i>
     </div>
 
-    <!-- Popup Alur Pemesanan -->
     <div id="bookingModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeBookingModal()">&times;</span>
-
             <h2>📌 Alur Pemesanan CanyoKuy</h2>
-
             <div class="booking-steps">
                 <div>1️⃣ Pilih paket wisata yang diinginkan</div>
                 <div>2️⃣ Klik tombol Booking</div>
@@ -415,9 +433,8 @@
             document.getElementById("bookingModal").style.display = "none";
         }
 
-        window.onclick = function (event) {
+        window.onclick = function(event) {
             let modal = document.getElementById("bookingModal");
-
             if (event.target == modal) {
                 modal.style.display = "none";
             }

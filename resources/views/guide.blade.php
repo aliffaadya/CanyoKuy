@@ -29,7 +29,6 @@
             padding: 0 24px;
         }
 
-        /* ========== NAVBAR ========== */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -107,7 +106,30 @@
             transform: scale(1.05);
         }
 
-        /* ========== HALAMAN TOUR GUIDE - BACKGROUND PROPORSIONAL ========== */
+        /* Tombol Login Admin */
+        .admin-login-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .admin-login-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .admin-login-btn i {
+            font-size: 16px;
+        }
+
         .guide-page {
             position: relative;
             min-height: 100vh;
@@ -119,7 +141,6 @@
             background-attachment: fixed;
         }
 
-        /* Overlay gelap agar teks terbaca */
         .guide-page::before {
             content: '';
             position: absolute;
@@ -144,7 +165,6 @@
             padding: 120px 0 80px 0;
         }
 
-        /* Judul */
         .guide-title {
             text-align: center;
             font-size: 42px;
@@ -155,7 +175,6 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
         }
 
-        /* Grid 4 kolom */
         .guide-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -164,7 +183,6 @@
             margin-bottom: 30px;
         }
 
-        /* Card */
         .guide-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(8px);
@@ -180,7 +198,6 @@
             transform: translateY(-5px);
         }
 
-        /* Foto kotak */
         .guide-img {
             width: 100%;
             aspect-ratio: 1 / 1;
@@ -235,7 +252,6 @@
             }
         }
 
-        /* ===== Floating Help Button ===== */
         .help-button {
             position: fixed;
             bottom: 25px;
@@ -261,7 +277,6 @@
             background: #ff9333;
         }
 
-        /* ===== Modal ===== */
         .modal {
             display: none;
             position: fixed;
@@ -320,7 +335,6 @@
 
 <body>
 
-    <!-- NAVBAR -->
     <div class="navbar">
         <div class="container-navbar"
             style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
@@ -337,17 +351,19 @@
                 <a href="https://wa.me/628123456789" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
                 </a>
+                <a href="{{ route('admin.login') }}" class="admin-login-btn" title="Login Admin">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- HALAMAN TOUR GUIDE -->
     <div class="guide-page">
         <div class="container">
             <div class="guide-content">
                 <h1 class="guide-title">Our Tour Guide</h1>
 
-                <!-- Baris 1 (4 card) -->
                 <div class="guide-grid">
                     <div class="guide-card">
                         <img src="{{ asset('images/via.jpg') }}" alt="Via" class="guide-img">
@@ -374,7 +390,6 @@
                     </div>
                 </div>
 
-                <!-- Baris 2 (4 card) -->
                 <div class="guide-grid">
                     <div class="guide-card">
                         <img src="{{ asset('images/nurmala.jpeg') }}" alt="Nurmala" class="guide-img">
@@ -400,47 +415,46 @@
                         <div class="guide-skill">Photography Guide</div>
                     </div>
                 </div>
-                <!-- Tombol Bantuan -->
-                <div class="help-button" onclick="openBookingModal()">
-                    <i class="fas fa-question"></i>
-                </div>
+            </div>
+        </div>
+    </div>
 
-                <!-- Popup Alur Pemesanan -->
-                <div id="bookingModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeBookingModal()">&times;</span>
+    <div class="help-button" onclick="openBookingModal()">
+        <i class="fas fa-question"></i>
+    </div>
 
-                        <h2>📌 Alur Pemesanan CanyoKuy</h2>
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBookingModal()">&times;</span>
+            <h2>📌 Alur Pemesanan CanyoKuy</h2>
+            <div class="booking-steps">
+                <div>1️⃣ Pilih paket wisata yang diinginkan</div>
+                <div>2️⃣ Klik tombol Booking</div>
+                <div>3️⃣ Isi data pemesanan dengan lengkap</div>
+                <div>4️⃣ Konfirmasi detail perjalanan</div>
+                <div>5️⃣ Lakukan pembayaran</div>
+                <div>6️⃣ Admin melakukan verifikasi</div>
+                <div>7️⃣ Booking berhasil dan siap berangkat 🎉</div>
+            </div>
+        </div>
+    </div>
 
-                        <div class="booking-steps">
-                            <div>1️⃣ Pilih paket wisata yang diinginkan</div>
-                            <div>2️⃣ Klik tombol Booking</div>
-                            <div>3️⃣ Isi data pemesanan dengan lengkap</div>
-                            <div>4️⃣ Konfirmasi detail perjalanan</div>
-                            <div>5️⃣ Lakukan pembayaran</div>
-                            <div>6️⃣ Admin melakukan verifikasi</div>
-                            <div>7️⃣ Booking berhasil dan siap berangkat 🎉</div>
-                        </div>
-                    </div>
-                </div>
+    <script>
+        function openBookingModal() {
+            document.getElementById("bookingModal").style.display = "block";
+        }
 
-                <script>
-                    function openBookingModal() {
-                        document.getElementById("bookingModal").style.display = "block";
-                    }
+        function closeBookingModal() {
+            document.getElementById("bookingModal").style.display = "none";
+        }
 
-                    function closeBookingModal() {
-                        document.getElementById("bookingModal").style.display = "none";
-                    }
-
-                    window.onclick = function (event) {
-                        let modal = document.getElementById("bookingModal");
-
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    }
-                </script>
+        window.onclick = function(event) {
+            let modal = document.getElementById("bookingModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 
 </html>
