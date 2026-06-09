@@ -1117,6 +1117,113 @@
         </div>
     </div>
 
+    <script>
+    // Carousel functionality
+    const track = document.getElementById('testimoniTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('carouselDots');
+
+    let currentIndex = 0;
+    let cardsPerView = 3;
+
+    // Fungsi untuk update cardsPerView berdasarkan lebar layar
+    function updateCardsPerView() {
+        if (window.innerWidth <= 900) {
+            cardsPerView = 1;
+        } else {
+            cardsPerView = 3;
+        }
+        // Re-initialize dots dan slide
+        initCarousel();
+    }
+
+    function initCarousel() {
+        const cards = document.querySelectorAll('.testimoni-card');
+        const totalCards = cards.length;
+        const totalSlides = Math.ceil(totalCards / cardsPerView);
+        
+        // Clear dots
+        dotsContainer.innerHTML = '';
+        
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+        
+        // Reset current index
+        currentIndex = 0;
+        updateDots();
+        scrollToSlide(0);
+    }
+
+    function updateDots() {
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach((dot, i) => {
+            if (i === currentIndex) dot.classList.add('active');
+            else dot.classList.remove('active');
+        });
+    }
+
+    function getCardWidth() {
+        const cards = document.querySelectorAll('.testimoni-card');
+        if (cards.length === 0) return 300;
+        return cards[0].offsetWidth;
+    }
+
+    function scrollToSlide(index) {
+        const cardWidth = getCardWidth();
+        const gap = 30; // gap antara card
+        const scrollAmount = index * (cardWidth + gap) * cardsPerView;
+        track.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+    }
+
+    function goToSlide(index) {
+        const cards = document.querySelectorAll('.testimoni-card');
+        const totalCards = cards.length;
+        const totalSlides = Math.ceil(totalCards / cardsPerView);
+        
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+        currentIndex = index;
+        scrollToSlide(currentIndex);
+        updateDots();
+    }
+
+    // Event listeners
+    prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+    nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+    // Update on window resize
+    window.addEventListener('resize', () => {
+        updateCardsPerView();
+        goToSlide(currentIndex);
+    });
+
+    // Initial call
+    updateCardsPerView();
+    
+    // Popup Alur Pemesanan
+    function openBookingModal() {
+        document.getElementById("bookingModal").style.display = "block";
+    }
+
+    function closeBookingModal() {
+        document.getElementById("bookingModal").style.display = "none";
+    }
+
+    window.addEventListener('click', function(event) {
+        let modal = document.getElementById("bookingModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+</script>
+
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
