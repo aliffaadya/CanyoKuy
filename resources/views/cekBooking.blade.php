@@ -69,7 +69,7 @@
             font-size: 24px;
             font-weight: 800;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .nav-links {
@@ -86,7 +86,7 @@
             transition: 0.2s;
             font-size: 16px;
             cursor: pointer;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .nav-links a:hover {
@@ -229,25 +229,113 @@
             .booking-title {
                 font-size: 28px;
             }
+
             .search-row {
                 flex-direction: column;
                 border-radius: 24px;
             }
-            .search-input, .search-select, .search-btn {
+
+            .search-input,
+            .search-select,
+            .search-btn {
                 width: 100%;
                 border: none;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             }
+
             .search-select {
                 border-left: none;
                 border-right: none;
             }
+
             .search-btn {
                 border-radius: 0;
             }
+
             .booking-content {
                 padding: 120px 0 80px 0;
             }
+        }
+
+        /* ===== Floating Help Button ===== */
+        .help-button {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 45px;
+            height: 45px;
+            background: rgba(229, 224, 224, 0.5);
+            color: white;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .help-button:hover {
+            transform: scale(1.1);
+            background: #ff9333;
+        }
+
+        /* ===== Modal ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 550px;
+            margin: 80px auto;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            animation: popup 0.3s ease;
+        }
+
+        @keyframes popup {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            float: right;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .booking-steps {
+            margin-top: 20px;
+        }
+
+        .booking-steps div {
+            background: #f5f5f5;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            text-align: left;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -294,6 +382,47 @@
             </div>
         </div>
     </div>
+    <!-- Tombol Bantuan -->
+    <div class="help-button" onclick="openBookingModal()">
+        <i class="fas fa-question"></i>
+    </div>
+
+    <!-- Popup Alur Pemesanan -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBookingModal()">&times;</span>
+
+            <h2>📌 Alur Pemesanan CanyoKuy</h2>
+
+            <div class="booking-steps">
+                <div>1️⃣ Pilih paket wisata yang diinginkan</div>
+                <div>2️⃣ Klik tombol Booking</div>
+                <div>3️⃣ Isi data pemesanan dengan lengkap</div>
+                <div>4️⃣ Konfirmasi detail perjalanan</div>
+                <div>5️⃣ Lakukan pembayaran</div>
+                <div>6️⃣ Admin melakukan verifikasi</div>
+                <div>7️⃣ Booking berhasil dan siap berangkat 🎉</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openBookingModal() {
+            document.getElementById("bookingModal").style.display = "block";
+        }
+
+        function closeBookingModal() {
+            document.getElementById("bookingModal").style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            let modal = document.getElementById("bookingModal");
+
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 
