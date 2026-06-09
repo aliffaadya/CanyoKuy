@@ -255,44 +255,16 @@
             margin-top: 4px;
         }
 
-        /* ========== VIDEO THUMBNAILS ========== */
-        .thumbnail-gallery {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .video-thumbnail {
-            position: relative;
-            width: calc(33.333% - 11px);
-            min-width: 200px;
-            height: 120px;
-            cursor: pointer;
-        }
-
-        .video-thumbnail img {
+        .video-section {
             width: 100%;
-            height: 100%;
+            margin: 40px 0;
+        }
+
+        .video-section video {
+            width: 100%;
+            height: 350px;
             object-fit: cover;
-            display: block;
-        }
-
-        .video-thumbnail .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 40px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-            pointer-events: none;
-            transition: 0.3s;
-        }
-
-        .video-thumbnail:hover .play-icon {
-            color: white;
-            transform: translate(-50%, -50%) scale(1.1);
+            border-radius: 12px;
         }
 
         /* Tombol Pesan */
@@ -623,20 +595,11 @@
                     </ul>
                 </div>
             </div>
-
-            <div class="thumbnail-gallery">
-                <div class="video-thumbnail">
-                    <img src="{{ asset('images/round_trip.jpg') }}" alt="Video 1">
-                    <i class="fas fa-play-circle play-icon"></i>
-                </div>
-                <div class="video-thumbnail">
-                    <img src="{{ asset('images/round_trip.jpg') }}" alt="Video 2">
-                    <i class="fas fa-play-circle play-icon"></i>
-                </div>
-                <div class="video-thumbnail">
-                    <img src="{{ asset('images/round_trip.jpg') }}" alt="Video 3">
-                    <i class="fas fa-play-circle play-icon"></i>
-                </div>
+            <div class="video-section">
+                <video controls>
+                    <source src="{{ asset('videos/video_round_trip.mp4') }}" type="video/mp4">
+                    Browser Anda tidak mendukung video.
+                </video>
             </div>
 
             <div class="action-container">
