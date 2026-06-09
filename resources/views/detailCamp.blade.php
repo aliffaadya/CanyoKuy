@@ -732,7 +732,7 @@
             
             // Redirect ke halaman pemesanan menggunakan route Laravel
             setTimeout(() => {
-                window.location.href = "{{ route('booking') }}";
+                window.location.href = "{{ route('booking.camp') }}";
             }, 500);
         }
 

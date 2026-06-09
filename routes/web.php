@@ -27,10 +27,16 @@ Route::get('/detailRoundTrip', function () {
     return view('detailRoundTrip');
 })->name('detailRoundTrip');
 
-// Halaman booking (langsung view, tanpa controller)
-Route::get('/booking', function () {
-    return view('booking');
-})->name('booking');
+// ========== HALAMAN BOOKING (PISAH) ==========
+// Booking untuk Paket Camp
+Route::get('/booking/camp', function () {
+    return view('booking-camp');
+})->name('booking.camp');
+
+// Booking untuk Paket Round Trip
+Route::get('/booking/roundtrip', function () {
+    return view('booking-roundtrip');
+})->name('booking.roundtrip');
 
 // Admin page (pakai closure juga, tanpa controller)
 Route::get('/admin/bookings', function () {
