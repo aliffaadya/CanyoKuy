@@ -33,7 +33,7 @@
         /* ========== NAVBAR ========== */
         .navbar {
             padding: 20px 0;
-            position: relative; 
+            position: relative;
             background-color: #FAFDFE;
         }
 
@@ -51,7 +51,7 @@
             background: #2F6B5E;
             padding: 8px 24px 8px 10px;
             border-radius: 50px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .logo-img {
@@ -66,7 +66,7 @@
             font-size: 22px;
             font-weight: 800;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .nav-links {
@@ -78,7 +78,7 @@
             background: #2F6B5E;
             padding: 10px 30px;
             border-radius: 50px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .nav-links a {
@@ -110,14 +110,26 @@
         .hero-section {
             width: 100%;
             height: 350px;
-            display: flex; 
+            display: flex;
             overflow: hidden;
         }
 
         .hero-section img {
-            width: 33.333%; 
+            width: 33.333%;
             height: 100%;
             object-fit: cover;
+        }
+
+
+
+        .hero-img-2 {
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .hero-img-3 {
+            object-fit: cover;
+            object-position: bottom;
         }
 
         /* ========== TITLE BANNER ========== */
@@ -222,11 +234,13 @@
             margin-bottom: 16px;
         }
 
-        .facilities-list, .info-list {
+        .facilities-list,
+        .info-list {
             list-style: none;
         }
 
-        .facilities-list li, .info-list li {
+        .facilities-list li,
+        .info-list li {
             display: flex;
             align-items: flex-start;
             gap: 12px;
@@ -236,7 +250,8 @@
             font-weight: 600;
         }
 
-        .facilities-list li i, .info-list li i {
+        .facilities-list li i,
+        .info-list li i {
             color: #2F6B5E;
             font-size: 12px;
             margin-top: 4px;
@@ -272,7 +287,7 @@
             transform: translate(-50%, -50%);
             color: rgba(255, 255, 255, 0.85);
             font-size: 40px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
             pointer-events: none;
             transition: 0.3s;
         }
@@ -299,7 +314,7 @@
             font-family: inherit;
             font-size: 16px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn-book:hover {
@@ -315,7 +330,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 9999;
             justify-content: center;
             align-items: center;
@@ -329,7 +344,7 @@
             width: 90%;
             animation: slideIn 0.3s ease;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         @keyframes slideIn {
@@ -337,6 +352,7 @@
                 transform: translateY(-100px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -430,7 +446,8 @@
             gap: 12px;
         }
 
-        .btn-close, .btn-redirect {
+        .btn-close,
+        .btn-redirect {
             flex: 1;
             padding: 12px;
             border: none;
@@ -473,8 +490,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* ========== RESPONSIVE ========== */
@@ -483,16 +505,20 @@
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
+
             .banner-container {
                 flex-direction: column;
                 text-align: center;
             }
+
             .banner-title-group {
                 align-items: center;
             }
+
             .banner-badges {
                 justify-content: center;
             }
+
             .banner-price-box {
                 text-align: center;
             }
@@ -503,13 +529,16 @@
                 justify-content: center !important;
                 gap: 20px;
             }
+
             .nav-links {
                 justify-content: center;
                 padding: 15px;
             }
+
             .hero-section {
                 height: 180px;
             }
+
             .video-thumbnail {
                 width: 100%;
             }
@@ -522,12 +551,12 @@
     <div class="navbar">
         <div class="container-navbar"
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-            
+
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
                 <span class="logo-text">CanyoKuy</span>
             </div>
-            
+
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
                 <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
@@ -543,9 +572,9 @@
     </div>
 
     <div class="hero-section">
-        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 1">
-        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 2">
-        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 3">
+        <img src="{{ asset('images/camp.jpg') }}" alt="Camp View 1" class="hero-img-1">
+        <img src="{{ asset('images/camp_oren.jpg') }}" alt="Camp View 2" class="hero-img-2">
+        <img src="{{ asset('images/pinus_camp.jpg') }}" alt="Camp View 3" class="hero-img-3">
     </div>
 
     <div class="title-banner">
@@ -567,7 +596,9 @@
     <div class="container">
         <div class="detail-section">
             <p class="detail-desc">
-                Paket Canyoneering Camp merupakan paket petualangan yang memberikan pengalaman lebih lengkap dengan fasilitas menginap di lokasi kegiatan. Paket ini cocok bagi peserta yang ingin menikmati suasana alam lebih lama serta mengikuti kegiatan fun camp bersama peserta lainnya.
+                Paket Canyoneering Camp merupakan paket petualangan yang memberikan pengalaman lebih lengkap dengan
+                fasilitas menginap di lokasi kegiatan. Paket ini cocok bagi peserta yang ingin menikmati suasana alam
+                lebih lama serta mengikuti kegiatan fun camp bersama peserta lainnya.
             </p>
 
             <div class="detail-grid">
@@ -612,7 +643,7 @@
             <div class="action-container">
                 <button class="btn-book" onclick="showBookingPopup()">Pesan Sekarang</button>
             </div>
-            
+
         </div>
     </div>
 
@@ -649,7 +680,7 @@
                     </div>
                 </div>
                 <div class="countdown-text">
-                    ⏱️ Mengalihkan ke halaman pemesanan dalam 
+                    ⏱️ Mengalihkan ke halaman pemesanan dalam
                     <span class="countdown-number" id="countdown">3</span> detik
                 </div>
             </div>
@@ -671,22 +702,22 @@
                 clearInterval(countdownInterval);
             }
             isRedirecting = false;
-            
+
             // Tampilkan modal
             modal.style.display = 'flex';
-            
+
             // Reset countdown ke 3
             let seconds = 3;
             const countdownElement = document.getElementById('countdown');
             countdownElement.textContent = seconds;
-            
+
             // Mulai countdown
             countdownInterval = setInterval(() => {
                 if (!isRedirecting && seconds > 1) {
                     seconds--;
                     countdownElement.textContent = seconds;
                 }
-                
+
                 if (seconds <= 1 && !isRedirecting) {
                     clearInterval(countdownInterval);
                     redirectToBooking();
@@ -696,19 +727,19 @@
 
         function redirectToBooking() {
             if (isRedirecting) return;
-            
+
             isRedirecting = true;
-            
+
             // Hentikan countdown
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
-            
+
             // Ubah tombol jadi loading
             const btnRedirect = document.querySelector('.btn-redirect');
             btnRedirect.innerHTML = '<span class="loading-spinner"></span> Mengalihkan...';
             btnRedirect.disabled = true;
-            
+
             // Simpan data paket ke session storage untuk digunakan di halaman pemesanan
             const packageData = {
                 id: 1,
@@ -727,9 +758,9 @@
                     'Teh hangat'
                 ]
             };
-            
+
             sessionStorage.setItem('selected_package', JSON.stringify(packageData));
-            
+
             // Redirect ke halaman pemesanan menggunakan route Laravel
             setTimeout(() => {
                 window.location.href = "{{ route('booking.camp') }}";
@@ -747,7 +778,7 @@
         }
 
         // Tutup modal jika klik di luar modal
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target === modal) {
                 closeModal();
             }
@@ -755,7 +786,7 @@
 
         // Fungsi untuk video thumbnail
         document.querySelectorAll('.video-thumbnail').forEach(thumb => {
-            thumb.addEventListener('click', function() {
+            thumb.addEventListener('click', function () {
                 document.querySelectorAll('.video-thumbnail').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
             });
