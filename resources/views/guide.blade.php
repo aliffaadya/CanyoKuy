@@ -395,8 +395,8 @@
                     </div>
 
                     <div class="guide-card">
-                        <img src="{{ asset('images/kucrit.jpg') }}" alt="Kucrit" class="guide-img">
-                        <div class="guide-name">Kucrit</div>
+                        <img src="{{ asset('images/timun_suri_new.png') }}" alt="Kucrit" class="guide-img">
+                        <div class="guide-name">Timun Suri</div>
                         <div class="guide-skill">Photography Guide</div>
                     </div>
                 </div>
