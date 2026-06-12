@@ -17,7 +17,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a3c34 0%, #2F6B5E 100%);
             min-height: 100vh;
             padding: 40px 20px;
         }
@@ -35,7 +35,7 @@
         }
 
         .booking-header {
-            background: #2F6B5E;
+            background: #1a3c34;
             color: white;
             padding: 30px;
             text-align: center;
@@ -59,18 +59,18 @@
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 30px;
-            border-left: 4px solid #2F6B5E;
+            border-left: 4px solid #1a3c34;
             text-align: center;
         }
 
         .package-preview i {
             font-size: 50px;
-            color: #2F6B5E;
+            color: #1a3c34;
             margin-bottom: 10px;
         }
 
         .package-preview h3 {
-            color: #2F6B5E;
+            color: #1a3c34;
             margin-bottom: 10px;
         }
 
@@ -109,8 +109,8 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #2F6B5E;
-            box-shadow: 0 0 0 3px rgba(47, 107, 94, 0.1);
+            border-color: #1a3c34;
+            box-shadow: 0 0 0 3px rgba(26, 60, 52, 0.1);
         }
 
         .fixed-participant {
@@ -142,10 +142,10 @@
         .price-item.total {
             font-weight: bold;
             font-size: 18px;
-            color: #2F6B5E;
+            color: #1a3c34;
             padding-top: 15px;
             margin-top: 5px;
-            border-top: 2px solid #2F6B5E;
+            border-top: 2px solid #1a3c34;
         }
 
         .info-payment {
@@ -171,7 +171,7 @@
         }
 
         .bank-info h4 {
-            color: #2F6B5E;
+            color: #1a3c34;
             margin-bottom: 10px;
         }
 
@@ -189,7 +189,7 @@
         }
 
         .copy-btn {
-            background: #2F6B5E;
+            background: #1a3c34;
             color: white;
             border: none;
             padding: 8px 16px;
@@ -200,7 +200,7 @@
         }
 
         .copy-btn:hover {
-            background: #1e4a40;
+            background: #2F6B5E;
         }
 
         .upload-area {
@@ -214,7 +214,7 @@
         }
 
         .upload-area:hover {
-            border-color: #2F6B5E;
+            border-color: #1a3c34;
             background: #f8f9fa;
         }
 
@@ -268,7 +268,7 @@
         .btn-back {
             display: inline-block;
             margin-top: 20px;
-            color: #2F6B5E;
+            color: #1a3c34;
             text-decoration: none;
             text-align: center;
             width: 100%;
@@ -361,7 +361,6 @@
                         <textarea id="catatan" rows="3" placeholder="Tulis kebutuhan khusus atau catatan lainnya..."></textarea>
                     </div>
 
-                    <!-- DETAIL PEMBAYARAN DP & PELUNASAN -->
                     <div class="price-detail">
                         <div class="price-item">
                             <span>Paket</span>
@@ -388,7 +387,6 @@
                         </div>
                     </div>
 
-                    <!-- Bank Info -->
                     <div class="bank-info">
                         <h4><i class="fas fa-university"></i> Transfer DP ke Rekening Berikut</h4>
                         <div class="bank-number">
@@ -403,7 +401,6 @@
                         </p>
                     </div>
 
-                    <!-- Upload Bukti Transfer DP -->
                     <div class="upload-area" onclick="document.getElementById('fileInput').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Upload Bukti Transfer DP</p>
@@ -446,7 +443,6 @@
             });
         }
 
-        // File upload handler
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -476,7 +472,6 @@
             }
         });
 
-        // Submit form langsung ke WA
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -486,7 +481,6 @@
             const tanggal = document.getElementById('tanggal').value;
             const catatan = document.getElementById('catatan').value;
 
-            // Validasi
             if (!nama || !email || !whatsapp || !tanggal) {
                 showAlert('⚠️ Mohon lengkapi semua data!', 'error');
                 return;
@@ -509,20 +503,16 @@
                 return;
             }
 
-            // Generate kode booking
             const bookingCode = 'CYK' + Date.now();
 
-            // Loading effect
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.innerHTML = '<span class="loading-spinner"></span> Mengalihkan ke WhatsApp...';
             submitBtn.disabled = true;
 
             const fileName = selectedFile.name;
 
-            // Buat pesan WhatsApp
-            const message = `Halo%20Admin%20CanyoKuy%2C%0A%0A*PEMESANAN PAKET CAMP*%0A%0ASaya%20ingin%20memesan%20Paket%20Camp%20dengan%20detail%20berikut%3A%0A%0A📦%20Paket%3A%20Paket%20Camp%0A👤%20Nama%3A%20${nama}%0A📧%20Email%3A%20${email}%0A📞%20WhatsApp%3A%20${whatsapp}%0A👥%20Peserta%3A%201%20orang%0A📅%20Tanggal%3A%20${tanggal}%0A🎫%20Kode%20Booking%3A%20${bookingCode}%0A📝%20Catatan%3A%20${catatan || '-'}%0A%0A*PEMBAYARAN DP:*%0A💰%20Total%20Harga%3A%20Rp%20330.000%0A💵%20DP%20(45%25)%3A%20Rp%20148.500%0A📎%20Bukti%20Transfer%20DP%3A%20${fileName}%0A🏦%20Bank%20Tujuan%3A%20Bank%20Mandiri%2012300123456789%0A%0A*INFORMASI PELUNASAN:*%0A✅%20Sisa%20pembayaran%3A%20Rp%20181.500%0A✅%20Pelunasan%20dilakukan%20pada%20hari%20H%20(saat%20kegiatan)%0A✅%20Dapat%20dibayar%20tunai%20atau%20transfer%0A%0A_Mohon%20dikonfirmasi%20setelah%20DP%20diterima.%20Terima%20kasih._`;
+            const message = `Halo%20Admin%20CanyoKuy%2C%0A%0A*PEMESANAN PAKET CAMP*%0A%0ASaya%20ingin%20memesan%20Paket%20Camp%20dengan%20detail%20berikut%3A%0A%0A📦%20Paket%3A%20Paket%20Camp%0A👤%20Nama%3A%20${nama}%0A📧%20Email%3A%20${email}%0A📞%20WhatsApp%3A%20${whatsapp}%0A👥%20Peserta%3A%201%20orang%0A📅%20Tanggal%3A%20${tanggal}%0A🎫%20Kode%20Booking%3A%20${bookingCode}%0A📝%20Catatan%3A%20${catatan || '-'}%0A%0A*PEMBAYARAN DP:*%0A💰%20Total%20Harga%3A%20Rp%20330.000%0A💵%20DP%20(50%25)%3A%20Rp%20165.000%0A📎%20Bukti%20Transfer%20DP%3A%20${fileName}%0A🏦%20Bank%20Tujuan%3A%20Bank%20Mandiri%2012300123456789%0A%0A*INFORMASI PELUNASAN:*%0A✅%20Sisa%20pembayaran%3A%20Rp%20165.000%0A✅%20Pelunasan%20dilakukan%20pada%20hari%20H%20(saat%20kegiatan)%0A✅%20Dapat%20dibayar%20tunai%20atau%20transfer%0A%0A_Mohon%20dikonfirmasi%20setelah%20DP%20diterima.%20Terima%20kasih._`;
 
-            // Redirect ke WhatsApp
             setTimeout(() => {
                 window.location.href = `https://wa.me/628123456789?text=${message}`;
             }, 500);
