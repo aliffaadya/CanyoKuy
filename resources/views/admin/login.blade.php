@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login Admin - CanyoKuy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -16,98 +16,188 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1a3c34 0%, #2F6B5E 100%);
+            background: #f4f7fb; /* Warna background abu-abu terang sesuai gambar */
             min-height: 100vh;
+            display: flex;
+            overflow-x: hidden; /* Mencegah scroll menyamping karena efek lengkung */
+        }
+
+        /* ========== SISI KIRI (HIJAU + MELENGKUNG) ========== */
+        .login-left {
+            flex: 0 0 42%;
+            background: #2F6B5E; /* Hijau CanyoKuy */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 80px;
+            color: white;
+            z-index: 1;
+        }
+
+        /* Trik CSS untuk membuat efek melengkung (Curve) di sisi kanan */
+        .login-left::after {
+            content: '';
+            position: absolute;
+            top: -10%;
+            bottom: -10%;
+            right: -120px;
+            width: 240px;
+            background: #2F6B5E; /* Sama dengan warna container kiri */
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .left-subtitle {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .left-brand {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+
+        /* ========== SISI KANAN (FORM LOGIN) ========== */
+        .login-right {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 40px;
+            z-index: 2;
         }
 
         .login-container {
-            max-width: 450px;
+            max-width: 480px;
             width: 100%;
-        }
-
-        .login-card {
-            background: white;
-            border-radius: 32px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             text-align: center;
+            /* Tambahan padding untuk menyeimbangkan visual */
+            padding-left: 40px; 
         }
 
-        .logo {
-            margin-bottom: 30px;
+        /* Logo Gambar yang disesuaikan posisinya */
+        .logo-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+            border: 2px solid white;
         }
 
-        .logo h1 {
-            font-size: 32px;
-            color: #2F6B5E;
+        .welcome-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
         }
 
-        .logo span {
-            color: #e74c3c;
-        }
-
-        .logo p {
-            color: #666;
-            font-size: 14px;
-            margin-top: 8px;
+        .welcome-subtitle {
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 40px;
+            font-weight: 600;
         }
 
         .form-group {
-            margin-bottom: 20px;
-            text-align: left;
+            margin-bottom: 15px;
         }
 
+        /* Menyembunyikan label asli karena desain referensi hanya menggunakan placeholder */
         .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
+            display: none;
         }
 
         .form-group input {
             width: 100%;
             padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 16px;
+            border: 1px solid #2F6B5E; /* Border hijau menyerupai referensi */
+            border-radius: 4px; /* Sudut agak kotak seperti referensi */
             font-size: 16px;
-            transition: all 0.3s;
+            background: transparent;
             font-family: inherit;
+            color: #333;
+            transition: all 0.3s;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #2F6B5E;
-            box-shadow: 0 0 0 3px rgba(47, 107, 94, 0.1);
+            box-shadow: 0 0 0 3px rgba(47, 107, 94, 0.15);
+        }
+
+        /* Opsi Tambahan Bawah Form (Checkbox & Lupa Password) */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            margin-bottom: 40px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .form-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .form-options input[type="checkbox"] {
+            accent-color: #2F6B5E;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .form-options a {
+            color: #4a5568;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .form-options a:hover {
+            color: #2F6B5E;
+            text-decoration: underline;
+        }
+
+        /* Tombol Login disesuaikan seperti referensi (posisi kanan) */
+        .btn-action-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
         }
 
         .btn-login {
-            width: 100%;
-            padding: 14px;
+            padding: 14px 40px;
             background: #2F6B5E;
             color: white;
             border: none;
-            border-radius: 16px;
+            border-radius: 4px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
+            transition: background 0.3s;
         }
 
         .btn-login:hover {
             background: #1e4a40;
-            transform: translateY(-2px);
         }
 
+        /* Notifikasi Alert */
         .alert {
             padding: 12px;
-            border-radius: 12px;
+            border-radius: 4px;
             margin-bottom: 20px;
             font-size: 14px;
+            text-align: left;
         }
 
         .alert-error {
@@ -122,23 +212,54 @@
             border: 1px solid #c3e6cb;
         }
 
+        /* Info Demo tetap dipertahankan seperti aslinya */
         .info-demo {
-            margin-top: 20px;
             padding: 12px;
-            background: #f0f7f5;
-            border-radius: 12px;
-            font-size: 12px;
-            color: #666;
+            background: rgba(47, 107, 94, 0.1);
+            border-radius: 8px;
+            font-size: 13px;
+            color: #2F6B5E;
+            text-align: center;
+            border: 1px dashed #2F6B5E;
+        }
+
+        /* Responsif untuk layar kecil (HP) */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .login-left {
+                flex: none;
+                padding: 40px 20px;
+                align-items: center;
+                text-align: center;
+            }
+            .login-left::after {
+                display: none; /* Hilangkan efek melengkung di layar kecil agar tidak menutupi konten */
+            }
+            .left-brand {
+                font-size: 32px;
+            }
+            .login-container {
+                padding-left: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="logo">
-                <h1>Canyo<span>Kuy</span></h1>
-                <p>Admin Panel</p>
-            </div>
+
+    <div class="login-left">
+        <div class="left-subtitle">DASHBOARD</div>
+        <div class="left-brand">ADMIN LOGIN</div>
+    </div>
+
+    <div class="login-right">
+        <div class="login-container">
+            
+            <img src="{{ asset('images/logo.jpg') }}" alt="Logo CanyoKuy" class="logo-img">
+
+            <h1 class="welcome-title">WELCOME BACK!</h1>
+            <p class="welcome-subtitle">Please login to view your dashboard</p>
 
             @if(session('error'))
             <div class="alert alert-error">
@@ -156,22 +277,34 @@
                 @csrf
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" name="username" placeholder="Masukkan username" required autocomplete="off">
+                    <input type="text" name="username" placeholder="User Name" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" placeholder="Masukkan password" required>
+                    <input type="password" name="password" placeholder="Password" required>
                 </div>
-                <button type="submit" class="btn-login">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
+                
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox" name="remember"> Keep me logged in
+                    </label>
+                    <a href="#">Forgot password? Reset now</a>
+                </div>
+
+                <div class="btn-action-wrapper">
+                    <button type="submit" class="btn-login">
+                        LOGIN
+                    </button>
+                </div>
             </form>
 
             <div class="info-demo">
                 <i class="fas fa-info-circle"></i> Demo Login:<br>
                 Username: <strong>admin</strong> | Password: <strong>admin123</strong>
             </div>
+
         </div>
     </div>
+
 </body>
 </html>
