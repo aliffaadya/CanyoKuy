@@ -352,19 +352,19 @@
                     <div class="guide-card">
                         <img src="{{ asset('images/via.jpg') }}" alt="Via" class="guide-img">
                         <div class="guide-name">Via</div>
-                        <div class="guide-skill">Canyoneering Expert</div>
+                        <div class="guide-skill">Chief Tour Guide</div>
                     </div>
 
                     <div class="guide-card">
                         <img src="{{ asset('images/Faren.jpg') }}" alt="Faren" class="guide-img">
                         <div class="guide-name">Faren</div>
-                        <div class="guide-skill">Hiking Guide</div>
+                        <div class="guide-skill">Lead Hiking Guide</div>
                     </div>
 
                     <div class="guide-card">
                         <img src="{{ asset('images/Dori.jpeg') }}" alt="Dori" class="guide-img">
                         <div class="guide-name">Dori</div>
-                        <div class="guide-skill">Safety & Rescue</div>
+                        <div class="guide-skill">Safety & Rescue Officer</div>
                     </div>
 
                     <div class="guide-card">
@@ -385,7 +385,7 @@
                     <div class="guide-card">
                         <img src="{{ asset('images/yaya.jpeg') }}" alt="Yaya" class="guide-img">
                         <div class="guide-name">Yaya</div>
-                        <div class="guide-skill">Eco Tourism</div>
+                        <div class="guide-skill">Eco Tourism Guide</div>
                     </div>
 
                     <div class="guide-card">
