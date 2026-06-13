@@ -851,17 +851,9 @@
                         <span class="label">Harga</span>
                         <span class="value">Rp 330.000 /orang</span>
                     </div>
-                    <div class="summary-item">
-                        <span class="label">Sisa Kuota</span>
-                        <span class="value" id="modalQuota">--</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="label">Tour Guide</span>
-                        <span class="value">Tim B</span>
-                    </div>
                     <div class="summary-item total">
-                        <span class="label">Total Minimal</span>
-                        <span class="value">Rp 330.000</span>
+                        <span class="label">DP Minimal (50%)</span>
+                        <span class="value">Rp 165.000</span>
                     </div>
                 </div>
                 <div class="countdown-text">
