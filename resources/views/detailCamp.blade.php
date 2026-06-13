@@ -1024,6 +1024,103 @@
     </div>
 
     <script>
+        let countdownInterval;
+        let modal = document.getElementById('bookingModal');
+        let isRedirecting = false;
+
+        function showBookingPopup() {
+            console.log('showBookingPopup dipanggil'); // Debug
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            isRedirecting = false;
+
+            if (modal) {
+                modal.style.display = 'flex';
+            } else {
+                console.error('Modal tidak ditemukan!');
+                // Fallback: langsung redirect
+                redirectToBooking();
+                return;
+            }
+
+            let seconds = 5;
+            const countdownElement = document.getElementById('countdown');
+            if (countdownElement) {
+                countdownElement.textContent = seconds;
+            }
+
+            countdownInterval = setInterval(() => {
+                if (!isRedirecting && seconds > 1) {
+                    seconds--;
+                    if (countdownElement) countdownElement.textContent = seconds;
+                }
+
+                if (seconds <= 1 && !isRedirecting) {
+                    clearInterval(countdownInterval);
+                    redirectToBooking();
+                }
+            }, 1000);
+        }
+
+        function redirectToBooking() {
+            if (isRedirecting) return;
+            isRedirecting = true;
+
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+
+            const packageData = {
+                id: 1,
+                name: 'Paket Camp',
+                price: 330000,
+                price_formatted: 'Rp 330.000',
+                quota: '3 Tenda',
+                guide: 'Tim B'
+            };
+
+            sessionStorage.setItem('selected_package', JSON.stringify(packageData));
+
+            // Redirect ke halaman booking camp
+            window.location.href = "{{ route('booking.camp') }}";
+        }
+
+        function closeModal() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            if (modal) {
+                modal.style.display = 'none';
+            }
+            isRedirecting = false;
+        }
+
+        function openRoadmapModal() {
+            const roadmapModal = document.getElementById('roadmapModal');
+            if (roadmapModal) {
+                roadmapModal.style.display = "flex";
+            }
+        }
+
+        function closeRoadmapModal() {
+            const roadmapModal = document.getElementById('roadmapModal');
+            if (roadmapModal) {
+                roadmapModal.style.display = "none";
+            }
+        }
+
+        // Tutup modal jika klik di luar
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+            const roadmapModal = document.getElementById('roadmapModal');
+            if (event.target === roadmapModal) {
+                closeRoadmapModal();
+            }
+        }
+
         // Fungsi untuk mengambil jadwal dari database
         async function loadSchedule() {
             try {
@@ -1031,25 +1128,25 @@
                 const result = await response.json();
 
                 if (result.success && result.data.length > 0) {
-                    // Ambil jadwal terdekat
-                    const nearestSchedule = result.data[0];
-                    const remainingQuota = nearestSchedule.quota - (nearestSchedule.filled || 0);
+                    const campSchedule = result.data.find(s => s.package_type === 'camp');
 
-                    // Update badge Sisa Kuota
-                    const quotaBadge = document.querySelector('.badge.highlight');
-                    if (quotaBadge) {
-                        quotaBadge.innerHTML = `<i class="fas fa-fire"></i> Sisa Kuota: ${remainingQuota} Peserta`;
-                    }
+                    if (campSchedule) {
+                        const remainingQuota = campSchedule.quota - (campSchedule.filled || 0);
 
-                    // Update badge Jadwal
-                    const scheduleBadge = document.querySelector('.badge:not(.highlight)');
-                    if (scheduleBadge) {
-                        const formattedDate = new Date(nearestSchedule.schedule_date).toLocaleDateString('id-ID', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        });
-                        scheduleBadge.innerHTML = `<i class="fas fa-calendar-alt"></i> Jadwal: ${formattedDate}`;
+                        const quotaBadge = document.querySelector('.badge.highlight');
+                        if (quotaBadge) {
+                            quotaBadge.innerHTML = `<i class="fas fa-fire"></i> Sisa Kuota: ${remainingQuota} Peserta`;
+                        }
+
+                        const scheduleBadge = document.querySelector('.badge:not(.highlight)');
+                        if (scheduleBadge) {
+                            const formattedDate = new Date(campSchedule.schedule_date).toLocaleDateString('id-ID', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+                            scheduleBadge.innerHTML = `<i class="fas fa-calendar-alt"></i> Jadwal: ${formattedDate}`;
+                        }
                     }
                 }
             } catch (error) {
@@ -1057,9 +1154,16 @@
             }
         }
 
-        // Panggil fungsi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', function() {
             loadSchedule();
+
+            // Debug: cek apakah tombol ada
+            const btnBook = document.querySelector('.btn-book');
+            if (btnBook) {
+                console.log('Tombol Pesan Sekarang ditemukan');
+            } else {
+                console.error('Tombol Pesan Sekarang TIDAK ditemukan!');
+            }
         });
     </script>
 </body>

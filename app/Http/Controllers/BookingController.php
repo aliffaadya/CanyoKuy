@@ -4,17 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\Schedule;
 
 class BookingController extends Controller
 {
-    // Menampilkan semua booking untuk halaman admin
     public function index()
     {
         $bookings = Booking::orderBy('created_at', 'desc')->get();
         return view('admin.booking', compact('bookings'));
     }
 
-    // API: Mendapatkan semua booking untuk dashboard
     public function getAllBookings()
     {
         try {
@@ -31,10 +30,11 @@ class BookingController extends Controller
         }
     }
 
-    // Menyimpan booking baru dari form
     public function store(Request $request)
     {
         try {
+            \Log::info('Booking data:', $request->all());
+            
             $request->validate([
                 'nama' => 'required|string|max:100',
                 'email' => 'required|email|max:100',
@@ -58,6 +58,25 @@ class BookingController extends Controller
                 $paymentProof = '/storage/' . $path;
             }
 
+            // Cek dan update kuota schedule
+            $schedule = Schedule::where('schedule_date', $request->tanggal)
+                ->where('package_type', strtolower($request->paket) == 'paket camp' ? 'camp' : 'roundtrip')
+                ->first();
+            
+            if ($schedule) {
+                // Update filled + 1
+                $schedule->increment('filled');
+            } else {
+                // Buat schedule baru jika belum ada
+                $schedule = Schedule::create([
+                    'schedule_date' => $request->tanggal,
+                    'package_type' => strtolower($request->paket) == 'paket camp' ? 'camp' : 'roundtrip',
+                    'quota' => 20,
+                    'filled' => 1,
+                    'is_active' => true
+                ]);
+            }
+
             $booking = Booking::create([
                 'booking_code' => $bookingCode,
                 'package_name' => $request->paket,
@@ -78,10 +97,12 @@ class BookingController extends Controller
                 'success' => true,
                 'message' => 'Booking berhasil!',
                 'booking_code' => $bookingCode,
+                'remaining_quota' => $schedule->quota - $schedule->filled,
                 'data' => $booking
             ]);
 
         } catch (\Exception $e) {
+            \Log::error('Booking error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Error: ' . $e->getMessage()
@@ -89,7 +110,6 @@ class BookingController extends Controller
         }
     }
 
-    // Update status booking
     public function updateStatus(Request $request, $id)
     {
         try {
@@ -109,7 +129,6 @@ class BookingController extends Controller
         }
     }
 
-    // Hapus booking
     public function destroy($id)
     {
         try {

@@ -87,22 +87,22 @@ class ScheduleController extends Controller
     }
 
     public function getActiveSchedules()
-    {
-        try {
-            $schedules = Schedule::where('is_active', true)
-                ->where('schedule_date', '>=', now())
-                ->orderBy('schedule_date', 'asc')
-                ->get();
-            
-            return response()->json([
-                'success' => true,
-                'data' => $schedules
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error: ' . $e->getMessage()
-            ], 500);
-        }
+{
+    try {
+        $schedules = Schedule::where('is_active', true)
+            ->where('schedule_date', '>=', now())
+            ->orderBy('schedule_date', 'asc')
+            ->get();
+        
+        return response()->json([
+            'success' => true,
+            'data' => $schedules
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
     }
+}
 }

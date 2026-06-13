@@ -13,6 +13,7 @@ class Schedule extends Model
     
     protected $fillable = [
         'schedule_date',
+        'package_type',
         'quota',
         'filled',
         'is_active'
@@ -21,9 +22,4 @@ class Schedule extends Model
     protected $casts = [
         'schedule_date' => 'date'
     ];
-
-    public function getRemainingQuotaAttribute()
-    {
-        return $this->quota - $this->filled;
-    }
 }
