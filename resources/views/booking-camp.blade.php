@@ -584,16 +584,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Email <span>*</span></label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="contoh@email.com" required>
-                </div>
-
-                <div class="form-group">
                     <label>Nomor WhatsApp <span>*</span></label>
                     <input type="tel" id="inputWA" class="form-control" placeholder="081234567890" required>
                 </div>
-
-                <input type="hidden" id="inputTanggal" value="2026-06-19">
 
                 <div class="form-group">
                     <label>Catatan Tambahan</label>
@@ -709,7 +702,7 @@
                 </a>
 
                 <a href="{{ url('/') }}" class="btn-home">
-                    <i class="fas fa-home"></i> Kembali ke Beranda
+                    <i class="fas fa-home"></i> Kembali
                 </a>
             </div>
         </div>

@@ -599,22 +599,10 @@
                     <input type="text" id="inputNama" class="form-control" placeholder="Masukkan nama lengkap Anda" required>
                 </div>
 
-                <div class="form-group">
-                    <label>Email <span>*</span></label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="contoh@email.com" required>
-                </div>
 
                 <div class="form-group">
                     <label>Nomor WhatsApp <span>*</span></label>
                     <input type="tel" id="inputWA" class="form-control" placeholder="081234567890" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Tanggal Keberangkatan <span>*</span></label>
-                    <select id="inputTanggal" class="form-control" required>
-                        <option value="">-- Pilih Tanggal --</option>
-                    </select>
-                    <small style="font-size: 11px; color: var(--text-gray);">Pilih tanggal keberangkatan yang tersedia</small>
                 </div>
 
                 <div class="form-group">
@@ -712,10 +700,6 @@
                         <span class="value">Paket Round Trip</span>
                     </div>
                     <div class="invoice-row">
-                        <span class="label">Tanggal</span>
-                        <span class="value" id="resTanggal">-</span>
-                    </div>
-                    <div class="invoice-row">
                         <span class="label">Total DP</span>
                         <span class="value" id="resDP" style="color: var(--primary-green); font-weight:700;">-</span>
                     </div>
@@ -731,7 +715,7 @@
                 </a>
 
                 <a href="{{ url('/') }}" class="btn-home">
-                    <i class="fas fa-home"></i> Kembali ke Beranda
+                    <i class="fas fa-home"></i> Kembali
                 </a>
             </div>
         </div>
