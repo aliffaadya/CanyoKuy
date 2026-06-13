@@ -9,7 +9,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -293,7 +293,7 @@
             transform: translateY(-2px);
         }
 
-        /* ========== FLOATING HELP BUTTON (TAMBAHAN) ========== */
+        /* ========== FLOATING HELP BUTTON ========== */
         .floating-help-btn {
             position: fixed;
             bottom: 25px;
@@ -450,7 +450,7 @@
             line-height: 1.4;
         }
 
-        /* ========== MODAL BOOKING ========== */
+        /* ========== MODAL BOOKING (REVISI UI KONSISTEN) ========== */
         .modal {
             display: none;
             position: fixed;
@@ -458,117 +458,150 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(15, 23, 42, 0.6);
             z-index: 9999;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
             background: white;
             border-radius: 24px;
-            max-width: 450px;
+            max-width: 500px; /* DIUBAH: Diperlebar jadi 500px */
             width: 90%;
-            animation: slideIn 0.3s ease;
+            animation: slideInBooking 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        @keyframes slideInBooking {
+            from { transform: translateY(20px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
         }
 
         .modal-header {
-            background: linear-gradient(135deg, #2F6B5E, #1e4a40);
+            background: linear-gradient(135deg, #2F6B5E 0%, #1e4a40 100%);
             color: white;
-            padding: 25px;
+            padding: 30px 20px 25px;
             text-align: center;
+            position: relative;
         }
 
-        .modal-header .success-icon {
-            font-size: 60px;
-            margin-bottom: 10px;
+        .success-icon-wrap {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            backdrop-filter: blur(4px);
+        }
+
+        .success-icon-wrap i {
+            font-size: 34px;
+            color: #ffffff;
         }
 
         .modal-header h2 {
-            font-size: 24px;
-            margin-bottom: 5px;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
         }
 
         .modal-header p {
-            font-size: 14px;
-            opacity: 0.9;
+            font-size: 13.5px;
+            opacity: 0.85;
+            font-weight: 400;
         }
 
         .modal-body {
-            padding: 25px;
+            padding: 24px;
         }
 
         .package-summary {
-            background: #f8f9fa;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             padding: 20px;
             border-radius: 16px;
-            margin: 10px 0;
+            margin-bottom: 20px;
         }
 
         .package-summary h4 {
+            color: #1e2a3e;
+            margin-bottom: 16px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 12px;
+        }
+
+        .package-summary h4 i {
             color: #2F6B5E;
-            margin-bottom: 15px;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .summary-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 8px 0;
             font-size: 14px;
         }
 
-        .summary-item:last-child {
-            border-bottom: none;
-        }
-
         .summary-item .label {
-            color: #666;
+            color: #64748b;
         }
 
         .summary-item .value {
             font-weight: 600;
-            color: #1e2a3e;
+            color: #0f172a;
+        }
+
+        .summary-item.total {
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px dashed #cbd5e1;
+        }
+
+        .summary-item.total .label {
+            color: #0f172a;
+            font-weight: 700;
         }
 
         .summary-item.total .value {
-            color: #e74c3c;
+            color: #2F6B5E; /* DIUBAH: Mengikuti konsistensi hijau tema CanyoKuy */
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 800;
         }
 
         .countdown-text {
             text-align: center;
-            margin-top: 20px;
-            padding: 12px;
-            background: #fff3cd;
-            border-radius: 10px;
-            color: #856404;
+            padding: 14px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            color: #166534;
+            font-size: 13.5px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .countdown-number {
-            font-size: 24px;
-            font-weight: bold;
-            color: #e74c3c;
+            font-size: 16px;
+            font-weight: 800;
+            color: #15803d;
         }
 
         .modal-footer {
-            padding: 20px 25px 25px;
+            padding: 0 24px 24px;
             display: flex;
             gap: 12px;
         }
@@ -582,26 +615,33 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
         }
 
         .btn-close {
-            background: #e0e0e0;
-            color: #666;
+            background: #f1f5f9;
+            color: #475569;
         }
 
         .btn-close:hover {
-            background: #c0c0c0;
+            background: #e2e8f0;
+            color: #1e2a3e;
         }
 
         .btn-redirect {
             background: #2F6B5E;
             color: white;
+            box-shadow: 0 4px 12px rgba(47, 107, 94, 0.2);
         }
 
         .btn-redirect:hover {
             background: #1e4a40;
             transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(47, 107, 94, 0.3);
         }
 
         .loading-spinner {
@@ -612,8 +652,6 @@
             border-top: 2px solid transparent;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
         }
 
         @keyframes spin {
@@ -755,22 +793,24 @@
         </div>
     </div>
 
-    <!-- TOMBOL HELP MELAYANG (TAMBAHAN) -->
+    <!-- TOMBOL HELP MELAYANG -->
     <div class="floating-help-btn" onclick="openRoadmapModal()" title="Panduan Alur Pemesanan">
         <i class="fas fa-question"></i>
     </div>
 
-    <!-- MODAL POPUP BOOKING -->
+    <!-- MODAL POPUP BOOKING (REVISI UI KONSISTEN) -->
     <div id="bookingModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="success-icon">✅</div>
+                <div class="success-icon-wrap">
+                    <i class="fas fa-check"></i>
+                </div>
                 <h2>Konfirmasi Pemesanan</h2>
-                <p>Anda akan dialihkan ke halaman pemesanan</p>
+                <p>Anda akan segera dialihkan ke halaman pemesanan</p>
             </div>
             <div class="modal-body">
                 <div class="package-summary">
-                    <h4>📋 Ringkasan Paket</h4>
+                    <h4><i class="fas fa-receipt"></i> Ringkasan Paket</h4>
                     <div class="summary-item">
                         <span class="label">Paket</span>
                         <span class="value">Paket Round Trip</span>
@@ -788,23 +828,24 @@
                         <span class="value">Tim A</span>
                     </div>
                     <div class="summary-item total">
-                        <span class="label">DP (50%)</span>
+                        <span class="label">DP Minimal (50%)</span>
                         <span class="value">Rp 150.000</span>
                     </div>
                 </div>
                 <div class="countdown-text">
-                    ⏱️ Mengalihkan ke halaman pemesanan dalam
-                    <span class="countdown-number" id="countdown">3</span> detik
+                    <i class="fas fa-spinner fa-spin"></i> Mengalihkan otomatis dalam
+                    <!-- DIUBAH: Menjadi 5 detik -->
+                    <span class="countdown-number" id="countdown">5</span> detik
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-close" onclick="closeModal()">Batal</button>
-                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan →</button>
+                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan <i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL ROADMAP / ALUR PEMESANAN (TAMBAHAN) -->
+    <!-- MODAL ROADMAP / ALUR PEMESANAN -->
     <div id="roadmapModal" class="modal-roadmap">
         <div class="modal-roadmap-content">
             <span class="close-roadmap" onclick="closeRoadmapModal()">&times;</span>
@@ -912,7 +953,8 @@
 
             modal.style.display = 'flex';
 
-            let seconds = 3;
+            // DIUBAH: Menjadi 5 detik
+            let seconds = 5;
             const countdownElement = document.getElementById('countdown');
             countdownElement.textContent = seconds;
 
