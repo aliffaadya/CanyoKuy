@@ -16,16 +16,16 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f4f7fb; /* Warna background abu-abu terang sesuai gambar */
+            background: #f4f7fb;
             min-height: 100vh;
             display: flex;
-            overflow-x: hidden; /* Mencegah scroll menyamping karena efek lengkung */
+            overflow-x: hidden;
         }
 
         /* ========== SISI KIRI (HIJAU + MELENGKUNG) ========== */
         .login-left {
             flex: 0 0 42%;
-            background: #2F6B5E; /* Hijau CanyoKuy */
+            background: #2F6B5E;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -35,7 +35,6 @@
             z-index: 1;
         }
 
-        /* Trik CSS untuk membuat efek melengkung (Curve) di sisi kanan */
         .login-left::after {
             content: '';
             position: absolute;
@@ -43,7 +42,7 @@
             bottom: -10%;
             right: -120px;
             width: 240px;
-            background: #2F6B5E; /* Sama dengan warna container kiri */
+            background: #2F6B5E;
             border-radius: 50%;
             z-index: -1;
         }
@@ -63,6 +62,34 @@
             line-height: 1.1;
         }
 
+        /* Tombol Kembali ke Beranda */
+        .back-to-home {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .back-to-home:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateX(-3px);
+        }
+
+        .back-to-home i {
+            font-size: 14px;
+        }
+
         /* ========== SISI KANAN (FORM LOGIN) ========== */
         .login-right {
             flex: 1;
@@ -77,11 +104,9 @@
             max-width: 480px;
             width: 100%;
             text-align: center;
-            /* Tambahan padding untuk menyeimbangkan visual */
-            padding-left: 40px; 
+            padding-left: 40px;
         }
 
-        /* Logo Gambar yang disesuaikan posisinya */
         .logo-img {
             width: 80px;
             height: 80px;
@@ -110,7 +135,6 @@
             margin-bottom: 15px;
         }
 
-        /* Menyembunyikan label asli karena desain referensi hanya menggunakan placeholder */
         .form-group label {
             display: none;
         }
@@ -118,8 +142,8 @@
         .form-group input {
             width: 100%;
             padding: 14px 16px;
-            border: 1px solid #2F6B5E; /* Border hijau menyerupai referensi */
-            border-radius: 4px; /* Sudut agak kotak seperti referensi */
+            border: 1px solid #2F6B5E;
+            border-radius: 4px;
             font-size: 16px;
             background: transparent;
             font-family: inherit;
@@ -132,7 +156,6 @@
             box-shadow: 0 0 0 3px rgba(47, 107, 94, 0.15);
         }
 
-        /* Opsi Tambahan Bawah Form (Checkbox & Lupa Password) */
         .form-options {
             display: flex;
             justify-content: space-between;
@@ -168,7 +191,6 @@
             text-decoration: underline;
         }
 
-        /* Tombol Login disesuaikan seperti referensi (posisi kanan) */
         .btn-action-wrapper {
             display: flex;
             justify-content: flex-end;
@@ -191,7 +213,6 @@
             background: #1e4a40;
         }
 
-        /* Notifikasi Alert */
         .alert {
             padding: 12px;
             border-radius: 4px;
@@ -212,7 +233,6 @@
             border: 1px solid #c3e6cb;
         }
 
-        /* Info Demo tetap dipertahankan seperti aslinya */
         .info-demo {
             padding: 12px;
             background: rgba(47, 107, 94, 0.1);
@@ -223,19 +243,18 @@
             border: 1px dashed #2F6B5E;
         }
 
-        /* Responsif untuk layar kecil (HP) */
         @media (max-width: 900px) {
             body {
                 flex-direction: column;
             }
             .login-left {
                 flex: none;
-                padding: 40px 20px;
+                padding: 60px 20px 40px;
                 align-items: center;
                 text-align: center;
             }
             .login-left::after {
-                display: none; /* Hilangkan efek melengkung di layar kecil agar tidak menutupi konten */
+                display: none;
             }
             .left-brand {
                 font-size: 32px;
@@ -243,10 +262,20 @@
             .login-container {
                 padding-left: 0;
             }
+            .back-to-home {
+                top: 15px;
+                left: 15px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- TOMBOL KEMBALI KE BERANDA -->
+    <a href="{{ route('beranda') }}" class="back-to-home">
+        <i class="fas fa-arrow-left"></i>
+        <span>Kembali ke Beranda</span>
+    </a>
 
     <div class="login-left">
         <div class="left-subtitle">DASHBOARD</div>
