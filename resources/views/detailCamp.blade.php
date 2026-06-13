@@ -1034,26 +1034,34 @@
     <script>
         let countdownInterval;
         let modal = document.getElementById('bookingModal');
-        let roadmapModal = document.getElementById('roadmapModal');
         let isRedirecting = false;
 
         function showBookingPopup() {
+            console.log('showBookingPopup dipanggil'); // Debug
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
             isRedirecting = false;
 
-            modal.style.display = 'flex';
+            if (modal) {
+                modal.style.display = 'flex';
+            } else {
+                console.error('Modal tidak ditemukan!');
+                // Fallback: langsung redirect
+                redirectToBooking();
+                return;
+            }
 
-            // DIUBAH: Menjadi 5 detik
             let seconds = 5;
             const countdownElement = document.getElementById('countdown');
-            countdownElement.textContent = seconds;
+            if (countdownElement) {
+                countdownElement.textContent = seconds;
+            }
 
             countdownInterval = setInterval(() => {
                 if (!isRedirecting && seconds > 1) {
                     seconds--;
-                    countdownElement.textContent = seconds;
+                    if (countdownElement) countdownElement.textContent = seconds;
                 }
 
                 if (seconds <= 1 && !isRedirecting) {
@@ -1065,16 +1073,11 @@
 
         function redirectToBooking() {
             if (isRedirecting) return;
-
             isRedirecting = true;
 
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
-
-            const btnRedirect = document.querySelector('.btn-redirect');
-            btnRedirect.innerHTML = '<span class="loading-spinner"></span> Mengalihkan...';
-            btnRedirect.disabled = true;
 
             const packageData = {
                 id: 1,
@@ -1087,41 +1090,88 @@
 
             sessionStorage.setItem('selected_package', JSON.stringify(packageData));
 
-            setTimeout(() => {
-                window.location.href = "{{ route('booking.camp') }}";
-            }, 500);
+            // Redirect ke halaman booking camp
+            window.location.href = "{{ route('booking.camp') }}";
         }
 
         function closeModal() {
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
-            modal.style.display = 'none';
+            if (modal) {
+                modal.style.display = 'none';
+            }
             isRedirecting = false;
         }
 
         function openRoadmapModal() {
-            roadmapModal.style.display = "flex";
+            const roadmapModal = document.getElementById('roadmapModal');
+            if (roadmapModal) {
+                roadmapModal.style.display = "flex";
+            }
         }
 
         function closeRoadmapModal() {
-            roadmapModal.style.display = "none";
+            const roadmapModal = document.getElementById('roadmapModal');
+            if (roadmapModal) {
+                roadmapModal.style.display = "none";
+            }
         }
 
-        window.onclick = function (event) {
+        // Tutup modal jika klik di luar
+        window.onclick = function(event) {
             if (event.target === modal) {
                 closeModal();
             }
+            const roadmapModal = document.getElementById('roadmapModal');
             if (event.target === roadmapModal) {
                 closeRoadmapModal();
             }
         }
 
-        document.querySelectorAll('.video-thumbnail').forEach(thumb => {
-            thumb.addEventListener('click', function () {
-                document.querySelectorAll('.video-thumbnail').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
+        // Fungsi untuk mengambil jadwal dari database
+        async function loadSchedule() {
+            try {
+                const response = await fetch('/api/schedules');
+                const result = await response.json();
+
+                if (result.success && result.data.length > 0) {
+                    const campSchedule = result.data.find(s => s.package_type === 'camp');
+
+                    if (campSchedule) {
+                        const remainingQuota = campSchedule.quota - (campSchedule.filled || 0);
+
+                        const quotaBadge = document.querySelector('.badge.highlight');
+                        if (quotaBadge) {
+                            quotaBadge.innerHTML = `<i class="fas fa-fire"></i> Sisa Kuota: ${remainingQuota} Peserta`;
+                        }
+
+                        const scheduleBadge = document.querySelector('.badge:not(.highlight)');
+                        if (scheduleBadge) {
+                            const formattedDate = new Date(campSchedule.schedule_date).toLocaleDateString('id-ID', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+                            scheduleBadge.innerHTML = `<i class="fas fa-calendar-alt"></i> Jadwal: ${formattedDate}`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading schedule:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSchedule();
+
+            // Debug: cek apakah tombol ada
+            const btnBook = document.querySelector('.btn-book');
+            if (btnBook) {
+                console.log('Tombol Pesan Sekarang ditemukan');
+            } else {
+                console.error('Tombol Pesan Sekarang TIDAK ditemukan!');
+            }
         });
     </script>
 </body>

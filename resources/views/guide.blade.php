@@ -107,7 +107,31 @@
             transform: scale(1.05);
         }
 
-        /* ========== HALAMAN TOUR GUIDE - BACKGROUND PROPORSIONAL ========== */
+        /* Tombol Login Admin */
+        .admin-login-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .admin-login-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .admin-login-btn i {
+            font-size: 16px;
+        }
+
+        /* ========== HALAMAN TOUR GUIDE ========== */
         .guide-page {
             position: relative;
             min-height: 100vh;
@@ -119,7 +143,6 @@
             background-attachment: fixed;
         }
 
-        /* Overlay gelap agar teks terbaca */
         .guide-page::before {
             content: '';
             position: absolute;
@@ -144,7 +167,6 @@
             padding: 120px 0 80px 0;
         }
 
-        /* Judul */
         .guide-title {
             text-align: center;
             font-size: 42px;
@@ -155,7 +177,6 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
         }
 
-        /* Grid 4 kolom */
         .guide-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -164,7 +185,6 @@
             margin-bottom: 30px;
         }
 
-        /* Card */
         .guide-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(8px);
@@ -180,7 +200,6 @@
             transform: translateY(-5px);
         }
 
-        /* Foto kotak */
         .guide-img {
             width: 100%;
             aspect-ratio: 1 / 1;
@@ -219,17 +238,14 @@
             .guide-title {
                 font-size: 32px;
             }
-
             .guide-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
-
             .navbar {
                 flex-direction: column;
                 text-align: center;
             }
-
             .nav-links {
                 justify-content: center;
             }
@@ -244,6 +260,7 @@
             style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
+                <span class="logo-text">CanyoKuy</span>
             </div>
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
@@ -254,6 +271,10 @@
                 <a href="https://wa.me/6283150774897" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
                 </a>
+                <a href="{{ route('admin.login') }}" class="admin-login-btn" title="Login Admin">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin</span>
+                </a>
             </div>
         </div>
     </div>
@@ -263,60 +284,95 @@
             <div class="guide-content">
                 <h1 class="guide-title">Our Tour Guide</h1>
 
-                <div class="guide-grid">
-                    <div class="guide-card">
-                        <img src="{{ asset('images/via.jpg') }}" alt="Via" class="guide-img">
-                        <div class="guide-name">Via</div>
-                        <div class="guide-skill">Chief Tour Guide</div>
-                    </div>
-
-                    <div class="guide-card">
-                        <img src="{{ asset('images/Faren.jpg') }}" alt="Faren" class="guide-img">
-                        <div class="guide-name">Faren</div>
-                        <div class="guide-skill">Lead Hiking Guide</div>
-                    </div>
-
-                    <div class="guide-card">
-                        <img src="{{ asset('images/Dori.jpeg') }}" alt="Dori" class="guide-img">
-                        <div class="guide-name">Dori</div>
-                        <div class="guide-skill">Safety & Rescue Officer</div>
-                    </div>
-
-                    <div class="guide-card">
-                        <img src="{{ asset('images/lembut.jpeg') }}" alt="Lembut" class="guide-img">
-                        <div class="guide-name">Kicut</div>
-                        <div class="guide-skill">Nature Guide</div>
-                    </div>
-                </div>
-
-                <div class="guide-grid">
-                    <div class="guide-card">
-                        <img src="{{ asset('images/nurmala.jpeg') }}" alt="Nurmala" class="guide-img">
-                        <div class="guide-name">u'ang</div>
-                        <div class="guide-skill">Camping Specialist</div>
-                    </div>
-
-                    <div class="guide-card">
-                        <img src="{{ asset('images/yaya.jpeg') }}" alt="Yaya" class="guide-img">
-                        <div class="guide-name">Yaya</div>
-                        <div class="guide-skill">Eco Tourism Guide</div>
-                    </div>
-
-                    <div class="guide-card">
-                        <img src="{{ asset('images/badhog.jpeg') }}" alt="Badog" class="guide-img">
-                        <div class="guide-name">Belut</div>
-                        <div class="guide-skill">Climbing Guide</div>
-                    </div>
-
-                    <div class="guide-card">
-                        <img src="{{ asset('images/timun_suri_new.png') }}" alt="Kucrit" class="guide-img">
-                        <div class="guide-name">Timun Suri</div>
-                        <div class="guide-skill">Photography Guide</div>
-                    </div>
-                </div>
+                <!-- TEMPAT GUIDE AKAN DI-RENDER OLEH JAVASCRIPT -->
+                <div id="guidesContainer"></div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Fungsi untuk mengambil data guide dari API
+        async function loadGuidesFromDB() {
+            try {
+                const response = await fetch('/api/guides');
+                const result = await response.json();
+                
+                if (result.success && result.data.length > 0) {
+                    renderGuides(result.data);
+                } else {
+                    // Tampilkan pesan jika tidak ada data
+                    document.getElementById('guidesContainer').innerHTML = '<p style="text-align: center; color: white;">Belum ada data tour guide.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading guides:', error);
+                document.getElementById('guidesContainer').innerHTML = '<p style="text-align: center; color: white;">Gagal memuat data tour guide.</p>';
+            }
+        }
+
+        // Fungsi untuk merender guide ke dalam grid
+        function renderGuides(guides) {
+            const container = document.getElementById('guidesContainer');
+            
+            // Bagi data menjadi 2 baris (masing-masing 4 card) atau sesuai jumlah
+            const firstRow = guides.slice(0, 4);
+            const secondRow = guides.slice(4, 8);
+            
+            let html = '';
+            
+            // Baris pertama
+            if (firstRow.length > 0) {
+                html += '<div class="guide-grid">';
+                firstRow.forEach(guide => {
+                    html += `
+                        <div class="guide-card">
+                            <img src="${guide.image || '/images/default-avatar.jpg'}" alt="${escapeHtml(guide.name)}" class="guide-img" onerror="this.src='/images/default-avatar.jpg'">
+                            <div class="guide-name">${escapeHtml(guide.name)}</div>
+                            <div class="guide-skill">${escapeHtml(guide.skill)}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            // Baris kedua
+            if (secondRow.length > 0) {
+                html += '<div class="guide-grid">';
+                secondRow.forEach(guide => {
+                    html += `
+                        <div class="guide-card">
+                            <img src="${guide.image || '/images/default-avatar.jpg'}" alt="${escapeHtml(guide.name)}" class="guide-img" onerror="this.src='/images/default-avatar.jpg'">
+                            <div class="guide-name">${escapeHtml(guide.name)}</div>
+                            <div class="guide-skill">${escapeHtml(guide.skill)}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            // Jika total guide kurang dari 4, hanya tampilkan satu baris
+            if (guides.length <= 4 && guides.length > 0) {
+                // sudah ditangani di atas
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Fungsi untuk mengamankan teks dari XSS
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // Load data saat halaman siap
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGuidesFromDB();
+        });
+    </script>
 </body>
 
 </html>
