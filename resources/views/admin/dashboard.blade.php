@@ -343,7 +343,7 @@
             <p>Pantau pembaruan data dan aktivitas booking terbaru di sini.</p>
         </div>
 
-        <div class="section-title">Stats</div>
+        <div class="section-title">Status</div>
 
         <div class="stats-grid">
             <div class="stat-card card-pending">
@@ -367,7 +367,7 @@
                 <div class="section-title">Sisa Kuota</div>
                 <div class="detail-card" style="height: 180px;">
                     <div class="sisa-kuota-number" id="valRemainingQuota">0</div>
-                    <div style="text-align: center; color: var(--text-gray); font-size: 14px; margin-top: 8px;">Total Orang Tersisa</div>
+                    <div style="text-align: center; color: var(--text-gray); font-size: 14px; margin-top: 8px;">Total Tersisa</div>
                 </div>
             </div>
 
