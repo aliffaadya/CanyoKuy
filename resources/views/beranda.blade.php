@@ -29,6 +29,33 @@
             padding: 0 24px;
         }
 
+        /* TARUH INI DI FILE CSS KAMU (PALING ATAS) ATAU DI DALAM TAG <style> */
+        /* Efek scroll mulus dari atas ke bawah */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Style tombol putih di Hero Section */
+        .btn-hero-revisited {
+            background: rgba(255, 255, 255, 0.15);
+            color: #f0f0f0;
+            /* Teks warna hijau tua identitas CanyoKuy */
+            text-decoration: none;
+            padding: 12px 32px;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-hero-revisited:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffdec2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -179,15 +206,6 @@
             letter-spacing: -0.5px;
         }
 
-        .hero-content h1 .small-top {
-            font-size: 18px;
-            font-weight: 500;
-            letter-spacing: 4px;
-            display: block;
-            margin-bottom: 12px;
-            opacity: 0.9;
-        }
-
         .hero-content h1 .big-title {
             font-size: 64px;
             font-weight: 800;
@@ -204,6 +222,10 @@
             margin: 24px auto 0;
             opacity: 0.95;
             line-height: 1.6;
+        }
+
+        .hero-action {
+            margin-top: 25px;
         }
 
         @media (max-width: 768px) {
@@ -227,6 +249,88 @@
             .nav-links {
                 justify-content: center;
             }
+        }
+
+        /* ========== GET TO KNOW SECTION (Air Terjun Mandin Damar) ========== */
+        /* TAMBAHKAN ID "tentang-wisata" pada section pembungkus */
+        .get-to-know-wrapper {
+            position: relative;
+            margin: 80px 0;
+            min-height: 500px;
+            margin-top: 100px;
+        }
+
+        .get-to-know-left-bg {
+            position: absolute;
+            width: 55%;
+            height: 500px;
+            left: 170px;
+            top: 0;
+            background: #2F6B5E;
+        }
+
+        .get-to-know-content {
+            position: absolute;
+            left: 8%;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 45%;
+            color: white;
+        }
+
+        .get-to-know-label {
+            font-size: 14px;
+            letter-spacing: 4px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: inline-block;
+            opacity: 0.8;
+        }
+
+        .get-to-know-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .get-to-know-desc {
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            margin-bottom: 32px;
+            font-size: 15px;
+        }
+
+        .get-to-know-btn {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid white;
+            padding: 10px 28px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .get-to-know-btn:hover {
+            background: white;
+            color: #2F6B5E;
+        }
+
+        .get-to-know-right-img {
+            position: absolute;
+            width: 40%;
+            height: 400px;
+            left: 49%;
+            top: 10%;
+            background-image: url('{{ asset("images/air_terjun.jpg") }}');
+            background-size: cover;
+            background-position: center;
         }
 
         /* ========== PAKET WISATA ========== */
@@ -325,87 +429,6 @@
         .paket-btn:hover {
             background: #1e2a3e;
             color: white;
-        }
-
-        /* ========== GET TO KNOW SECTION ========== */
-        .get-to-know-wrapper {
-            position: relative;
-            margin: 80px 0;
-            min-height: 500px;
-            margin-top: 100px;
-        }
-
-        .get-to-know-left-bg {
-            position: absolute;
-            width: 55%;
-            height: 500px;
-            left: 170px;
-            top: 0;
-            background: #2F6B5E;
-        }
-
-        .get-to-know-content {
-            position: absolute;
-            left: 8%;
-            top: 50%;
-            transform: translateY(-50%);
-            max-width: 45%;
-            color: white;
-        }
-
-        .get-to-know-label {
-            font-size: 14px;
-            letter-spacing: 4px;
-            color: white;
-            font-weight: 600;
-            margin-bottom: 16px;
-            display: inline-block;
-            opacity: 0.8;
-        }
-
-        .get-to-know-title {
-            font-size: 36px;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .get-to-know-desc {
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1.7;
-            margin-bottom: 32px;
-            font-size: 15px;
-        }
-
-        .get-to-know-btn {
-            display: inline-block;
-            background: transparent;
-            border: 2px solid white;
-            padding: 10px 28px;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 14px;
-            transition: 0.2s;
-            text-decoration: none;
-        }
-
-        .get-to-know-btn:hover {
-            background: white;
-            color: #2F6B5E;
-        }
-
-        .get-to-know-right-img {
-            position: absolute;
-            width: 40%;
-            height: 400px;
-            left: 49%;
-            top: 10%;
-            background-image: url('{{ asset("images/air_terjun.jpg") }}');
-            background-size: cover;
-            background-position: center;
         }
 
         /* ========== TOUR GUIDE SECTION ========== */
@@ -796,91 +819,6 @@
                 padding: 0 40px;
             }
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* ===== Floating Help Button ===== */
-        .help-button {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 45px;
-            height: 45px;
-            background: rgba(229, 224, 224, 0.5);
-            color: white;
-            border-radius: 50%;
-            font-size: 20px;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 9999;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            transition: 0.3s;
-        }
-
-        .help-button:hover {
-            transform: scale(1.1);
-            background: #ff9333;
-        }
-
-        /* ===== Modal ===== */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 550px;
-            margin: 80px auto;
-            padding: 25px;
-            border-radius: 20px;
-            text-align: center;
-            animation: popup 0.3s ease;
-        }
-
-        @keyframes popup {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .close {
-            float: right;
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .booking-steps {
-            margin-top: 20px;
-        }
-
-        .booking-steps div {
-            background: #f5f5f5;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            text-align: left;
-            font-weight: 500;
-        }
     </style>
 </head>
 
@@ -892,7 +830,6 @@
             style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
-                <span class="logo-text">CanyoKuy</span>
             </div>
             <div class="nav-links">
                 <a href="#">Beranda</a>
@@ -915,13 +852,31 @@
     <!-- HERO SECTION -->
     <div class="hero-section">
         <div class="container">
-            <div class="hero-content">
-                <h1>
-                    <span class="small-top">WELCOME TO YOUR</span>
-                    <span class="big-title">Canyoneering</span>
+            <!-- AREA HERO SECTION BERANDA -->
+            <div class="hero-content" style="text-align: center; color: white; position: relative; z-index: 10;">
+
+                <!-- Ikon Air Terjun & Matahari -->
+                <div class="hero-icon" style="margin-bottom: 15px;">
+                  <i class="fas fa-leaf" style="font-size: 56px; color: white; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4));"></i>
+                </div>
+
+                <!-- Judul Besar -->
+                <h1
+                    style="font-size: 64px; font-weight: 800; color: white; letter-spacing: 1px; margin-bottom: 15px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+                    CanyoKuy
                 </h1>
-                <p>Mari jelajahi air terjun sambil canyoneering. Temukan keindahan alam tersembunyi dan sensasi
-                    petualangan yang tak terlupakan bersama CanyoKuy.</p>
+
+                <!-- Teks Kecil Bawah -->
+                <p class="small-bottom"
+                    style="font-size: 16px; color: white; max-width: 500px; margin: 0 auto; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">
+                    Jelajahi air terjun tersembunyi dan rasakan petualangan alam yang tak terlupakan.
+                </p>
+
+                <!-- Tombol Putih Arah Bawah -->
+                <div class="hero-action" style="margin-top: 30px;">
+                    <a href="#tentang-wisata" class="btn-hero-revisited">Get To Know</a>
+                </div>
+
             </div>
         </div>
     </div>
@@ -962,8 +917,9 @@
         </div>
     </div>
 
-    <!-- GET TO KNOW SECTION -->
-    <div class="get-to-know-wrapper">
+    <!-- GET TO KNOW SECTION (Air Terjun Mandin Damar) -->
+    <!-- TAMBAHKAN ID "tentang-wisata" pada section pembungkus -->
+    <div class="get-to-know-wrapper" id="tentang-wisata">
         <div class="get-to-know-left-bg">
             <div class="get-to-know-content">
                 <span class="get-to-know-label">GET TO KNOW</span>
@@ -1117,113 +1073,6 @@
         </div>
     </div>
 
-    <script>
-    // Carousel functionality
-    const track = document.getElementById('testimoniTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const dotsContainer = document.getElementById('carouselDots');
-
-    let currentIndex = 0;
-    let cardsPerView = 3;
-
-    // Fungsi untuk update cardsPerView berdasarkan lebar layar
-    function updateCardsPerView() {
-        if (window.innerWidth <= 900) {
-            cardsPerView = 1;
-        } else {
-            cardsPerView = 3;
-        }
-        // Re-initialize dots dan slide
-        initCarousel();
-    }
-
-    function initCarousel() {
-        const cards = document.querySelectorAll('.testimoni-card');
-        const totalCards = cards.length;
-        const totalSlides = Math.ceil(totalCards / cardsPerView);
-        
-        // Clear dots
-        dotsContainer.innerHTML = '';
-        
-        // Create dots
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        }
-        
-        // Reset current index
-        currentIndex = 0;
-        updateDots();
-        scrollToSlide(0);
-    }
-
-    function updateDots() {
-        const dots = document.querySelectorAll('.dot');
-        dots.forEach((dot, i) => {
-            if (i === currentIndex) dot.classList.add('active');
-            else dot.classList.remove('active');
-        });
-    }
-
-    function getCardWidth() {
-        const cards = document.querySelectorAll('.testimoni-card');
-        if (cards.length === 0) return 300;
-        return cards[0].offsetWidth;
-    }
-
-    function scrollToSlide(index) {
-        const cardWidth = getCardWidth();
-        const gap = 30; // gap antara card
-        const scrollAmount = index * (cardWidth + gap) * cardsPerView;
-        track.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-    }
-
-    function goToSlide(index) {
-        const cards = document.querySelectorAll('.testimoni-card');
-        const totalCards = cards.length;
-        const totalSlides = Math.ceil(totalCards / cardsPerView);
-        
-        if (index < 0) index = 0;
-        if (index >= totalSlides) index = totalSlides - 1;
-        currentIndex = index;
-        scrollToSlide(currentIndex);
-        updateDots();
-    }
-
-    // Event listeners
-    prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-    nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-
-    // Update on window resize
-    window.addEventListener('resize', () => {
-        updateCardsPerView();
-        goToSlide(currentIndex);
-    });
-
-    // Initial call
-    updateCardsPerView();
-    
-    // Popup Alur Pemesanan
-    function openBookingModal() {
-        document.getElementById("bookingModal").style.display = "block";
-    }
-
-    function closeBookingModal() {
-        document.getElementById("bookingModal").style.display = "none";
-    }
-
-    window.addEventListener('click', function(event) {
-        let modal = document.getElementById("bookingModal");
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    });
-</script>
-
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
@@ -1244,4 +1093,103 @@
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h3
+                    <h3>Kontak</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fab fa-whatsapp"></i> +62 812 3456 789</li>
+                        <li><i class="fab fa-instagram"></i> @kpa_ulin</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Tanah Bumbu, Kalimantan Selatan</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© CanyoKuy - 2026 | Petualangan Alam Bersama KPA Ulin</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Carousel functionality
+        const track = document.getElementById('testimoniTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('carouselDots');
+
+        let currentIndex = 0;
+        let cardsPerView = 3;
+
+        function updateCardsPerView() {
+            if (window.innerWidth <= 900) {
+                cardsPerView = 1;
+            } else {
+                cardsPerView = 3;
+            }
+            initCarousel();
+        }
+
+        function initCarousel() {
+            const cards = document.querySelectorAll('.testimoni-card');
+            const totalCards = cards.length;
+            const totalSlides = Math.ceil(totalCards / cardsPerView);
+
+            dotsContainer.innerHTML = '';
+
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+
+            currentIndex = 0;
+            updateDots();
+            scrollToSlide(0);
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, i) => {
+                if (i === currentIndex) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        }
+
+        function getCardWidth() {
+            const cards = document.querySelectorAll('.testimoni-card');
+            if (cards.length === 0) return 300;
+            return cards[0].offsetWidth;
+        }
+
+        function scrollToSlide(index) {
+            const cardWidth = getCardWidth();
+            const gap = 30;
+            const scrollAmount = index * (cardWidth + gap) * cardsPerView;
+            track.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+        }
+
+        function goToSlide(index) {
+            const cards = document.querySelectorAll('.testimoni-card');
+            const totalCards = cards.length;
+            const totalSlides = Math.ceil(totalCards / cardsPerView);
+
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+            currentIndex = index;
+            scrollToSlide(currentIndex);
+            updateDots();
+        }
+
+        prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+        window.addEventListener('resize', () => {
+            updateCardsPerView();
+            goToSlide(currentIndex);
+        });
+
+        updateCardsPerView();
+    </script>
+
+</body>
+
+</html>

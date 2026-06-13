@@ -234,99 +234,16 @@
                 justify-content: center;
             }
         }
-
-        /* ===== Floating Help Button ===== */
-        .help-button {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 45px;
-            height: 45px;
-            background: rgba(229, 224, 224, 0.5);
-            color: white;
-            border-radius: 50%;
-            font-size: 20px;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 9999;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            transition: 0.3s;
-        }
-
-        .help-button:hover {
-            transform: scale(1.1);
-            background: #ff9333;
-        }
-
-        /* ===== Modal ===== */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 550px;
-            margin: 80px auto;
-            padding: 25px;
-            border-radius: 20px;
-            text-align: center;
-            animation: popup 0.3s ease;
-        }
-
-        @keyframes popup {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .close {
-            float: right;
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .booking-steps {
-            margin-top: 20px;
-        }
-
-        .booking-steps div {
-            background: #f5f5f5;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            text-align: left;
-            font-weight: 500;
-        }
     </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
     <div class="navbar">
         <div class="container-navbar"
             style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
-                <span class="logo-text">CanyoKuy</span>
             </div>
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
@@ -341,13 +258,11 @@
         </div>
     </div>
 
-    <!-- HALAMAN TOUR GUIDE -->
     <div class="guide-page">
         <div class="container">
             <div class="guide-content">
                 <h1 class="guide-title">Our Tour Guide</h1>
 
-                <!-- Baris 1 (4 card) -->
                 <div class="guide-grid">
                     <div class="guide-card">
                         <img src="{{ asset('images/via.jpg') }}" alt="Via" class="guide-img">
@@ -374,7 +289,6 @@
                     </div>
                 </div>
 
-                <!-- Baris 2 (4 card) -->
                 <div class="guide-grid">
                     <div class="guide-card">
                         <img src="{{ asset('images/nurmala.jpeg') }}" alt="Nurmala" class="guide-img">
@@ -400,47 +314,9 @@
                         <div class="guide-skill">Photography Guide</div>
                     </div>
                 </div>
-                <!-- Tombol Bantuan -->
-                <div class="help-button" onclick="openBookingModal()">
-                    <i class="fas fa-question"></i>
-                </div>
-
-                <!-- Popup Alur Pemesanan -->
-                <div id="bookingModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeBookingModal()">&times;</span>
-
-                        <h2>📌 Alur Pemesanan CanyoKuy</h2>
-
-                        <div class="booking-steps">
-                            <div>1️⃣ Pilih paket wisata yang diinginkan</div>
-                            <div>2️⃣ Klik tombol Booking</div>
-                            <div>3️⃣ Isi data pemesanan dengan lengkap</div>
-                            <div>4️⃣ Konfirmasi detail perjalanan</div>
-                            <div>5️⃣ Lakukan pembayaran</div>
-                            <div>6️⃣ Admin melakukan verifikasi</div>
-                            <div>7️⃣ Booking berhasil dan siap berangkat 🎉</div>
-                        </div>
-                    </div>
-                </div>
-
-                <script>
-                    function openBookingModal() {
-                        document.getElementById("bookingModal").style.display = "block";
-                    }
-
-                    function closeBookingModal() {
-                        document.getElementById("bookingModal").style.display = "none";
-                    }
-
-                    window.onclick = function (event) {
-                        let modal = document.getElementById("bookingModal");
-
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    }
-                </script>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

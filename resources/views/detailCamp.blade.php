@@ -10,6 +10,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -119,8 +120,6 @@
             height: 100%;
             object-fit: cover;
         }
-
-
 
         .hero-img-2 {
             object-fit: cover;
@@ -352,7 +351,6 @@
                 transform: translateY(-100px);
                 opacity: 0;
             }
-
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -490,13 +488,164 @@
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-            100% {
-                transform: rotate(360deg);
-            }
+        /* ========== FLOATING HELP BUTTON & MODAL ROADMAP (KONSISTEN DENGAN ROUND TRIP) ========== */
+        .floating-help-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 48px;
+            height: 48px;
+            background: #2F6B5E;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(47, 107, 94, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+            border: 2px solid #ffffff;
+        }
+
+        .floating-help-btn:hover {
+            background: #1e4a40;
+            transform: scale(1.08) translateY(-2px);
+        }
+
+        .modal-roadmap {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-roadmap-content {
+            background: #ffffff;
+            border-radius: 24px;
+            max-width: 1000px;
+            width: 92%;
+            padding: 35px 30px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-roadmap {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: 600;
+            color: #a0aec0;
+            cursor: pointer;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .close-roadmap:hover {
+            color: #2F6B5E;
+        }
+
+        .modal-roadmap-content h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #2F6B5E;
+            margin-bottom: 35px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .roadmap-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .roadmap-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .roadmap-item {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #eef2f7;
+        }
+
+        .roadmap-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(47, 107, 94, 0.1);
+            border-color: #2F6B5E;
+        }
+
+        .icon-wrapper {
+            width: 65px;
+            height: 65px;
+            background: #e0f2f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+
+        .icon-wrapper i {
+            font-size: 28px;
+            color: #2F6B5E;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ffdec2;
+            color: #2F6B5E;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
+        .step-content h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e2a3e;
+            margin-bottom: 8px;
+        }
+
+        .step-content p {
+            font-size: 12px;
+            color: #6b7a8a;
+            line-height: 1.4;
         }
 
         /* ========== RESPONSIVE ========== */
@@ -505,22 +654,21 @@
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
-
             .banner-container {
                 flex-direction: column;
                 text-align: center;
             }
-
             .banner-title-group {
                 align-items: center;
             }
-
             .banner-badges {
                 justify-content: center;
             }
-
             .banner-price-box {
                 text-align: center;
+            }
+            .roadmap-row {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -529,18 +677,25 @@
                 justify-content: center !important;
                 gap: 20px;
             }
-
             .nav-links {
                 justify-content: center;
                 padding: 15px;
             }
-
             .hero-section {
                 height: 180px;
             }
-
             .video-thumbnail {
                 width: 100%;
+            }
+            .floating-help-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+            .roadmap-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -583,7 +738,7 @@
                 <h1 class="banner-title">Paket Camp</h1>
                 <div class="banner-badges">
                     <span class="badge highlight"><i class="fas fa-fire"></i> Sisa Kuota: 3 Tenda</span>
-                    <span class="badge"><i class="fas fa-users"></i> Tour Guide: Tim B</span>
+                    <span class="badge"><i class="fas fa-calendar-alt"></i> Jadwal: 15 Juni 2026</span>
                 </div>
             </div>
             <div class="banner-price-box">
@@ -647,7 +802,12 @@
         </div>
     </div>
 
-    <!-- MODAL POPUP -->
+    <!-- TOMBOL HELP MELAYANG -->
+    <div class="floating-help-btn" onclick="openRoadmapModal()" title="Panduan Alur Pemesanan">
+        <i class="fas fa-question"></i>
+    </div>
+
+    <!-- MODAL BOOKING -->
     <div id="bookingModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -691,27 +851,118 @@
         </div>
     </div>
 
+    <!-- MODAL ROADMAP / ALUR PEMESANAN -->
+    <div id="roadmapModal" class="modal-roadmap">
+        <div class="modal-roadmap-content">
+            <span class="close-roadmap" onclick="closeRoadmapModal()">&times;</span>
+            <h2><i class="fas fa-route"></i> Alur Pemesanan CanyoKuy</h2>
+            <div class="roadmap-container">
+                <div class="roadmap-row">
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper">
+                            <span class="step-number">1</span>
+                            <i class="fas fa-compass"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Pilih Paket Wisata</h4>
+                            <p>Tentukan pilihan paket wisata CanyoKuy yang paling Anda inginkan.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper">
+                            <span class="step-number">2</span>
+                            <i class="fas fa-hiking"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Pelajari Informasi</h4>
+                            <p>Baca info detail mengenai paket tersebut, lalu klik tombol <b>Pesan Sekarang</b>.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper">
+                            <span class="step-number">3</span>
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Isi Form Booking</h4>
+                            <p>Lengkapi formulir secara teliti dan benar untuk mencegah kendala data ke depan.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper">
+                            <span class="step-number">4</span>
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Upload Bukti Transfer</h4>
+                            <p>Kirimkan dana lalu upload bukti transfer ke rekening resmi sebelum kirim form.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="roadmap-row">
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper">
+                            <span class="step-number">5</span>
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Kode Booking & WA</h4>
+                            <p>Dapatkan kode unik Anda, lalu klik hubungi Admin via WhatsApp otomatis.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper">
+                            <span class="step-number">6</span>
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Verifikasi Admin</h4>
+                            <p>Tim admin akan segera memeriksa validasi form beserta mutasi transfer Anda.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper">
+                            <span class="step-number">7</span>
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Pantau Status</h4>
+                            <p>Cek berkala kode pemesanan untuk melihat status (Pending, Diterima, Ditolak).</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper">
+                            <span class="step-number">8</span>
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Grup Koordinasi</h4>
+                            <p>Jika sukses, gabung ke Group Chat khusus untuk koordinasi perjalanan tim! 🎉</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let countdownInterval;
         let modal = document.getElementById('bookingModal');
+        let roadmapModal = document.getElementById('roadmapModal');
         let isRedirecting = false;
 
         function showBookingPopup() {
-            // Reset state
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
             isRedirecting = false;
 
-            // Tampilkan modal
             modal.style.display = 'flex';
 
-            // Reset countdown ke 3
             let seconds = 3;
             const countdownElement = document.getElementById('countdown');
             countdownElement.textContent = seconds;
 
-            // Mulai countdown
             countdownInterval = setInterval(() => {
                 if (!isRedirecting && seconds > 1) {
                     seconds--;
@@ -730,61 +981,55 @@
 
             isRedirecting = true;
 
-            // Hentikan countdown
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
 
-            // Ubah tombol jadi loading
             const btnRedirect = document.querySelector('.btn-redirect');
             btnRedirect.innerHTML = '<span class="loading-spinner"></span> Mengalihkan...';
             btnRedirect.disabled = true;
 
-            // Simpan data paket ke session storage untuk digunakan di halaman pemesanan
             const packageData = {
                 id: 1,
                 name: 'Paket Camp',
                 price: 330000,
                 price_formatted: 'Rp 330.000',
                 quota: '3 Tenda',
-                guide: 'Tim B',
-                facilities: [
-                    'Tenda kapasitas 3 orang',
-                    'Matras tidur',
-                    'Guide perjalanan profesional',
-                    'Safety gear lengkap',
-                    'Dokumentasi foto atas dan bawah',
-                    'Konsumsi POP Mie 1x',
-                    'Teh hangat'
-                ]
+                guide: 'Tim B'
             };
 
             sessionStorage.setItem('selected_package', JSON.stringify(packageData));
 
-            // Redirect ke halaman pemesanan menggunakan route Laravel
             setTimeout(() => {
                 window.location.href = "{{ route('booking.camp') }}";
             }, 500);
         }
 
         function closeModal() {
-            // Hentikan countdown
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
-            // Tutup modal
             modal.style.display = 'none';
             isRedirecting = false;
         }
 
-        // Tutup modal jika klik di luar modal
+        function openRoadmapModal() {
+            roadmapModal.style.display = "flex";
+        }
+
+        function closeRoadmapModal() {
+            roadmapModal.style.display = "none";
+        }
+
         window.onclick = function (event) {
             if (event.target === modal) {
                 closeModal();
             }
+            if (event.target === roadmapModal) {
+                closeRoadmapModal();
+            }
         }
 
-        // Fungsi untuk video thumbnail
         document.querySelectorAll('.video-thumbnail').forEach(thumb => {
             thumb.addEventListener('click', function () {
                 document.querySelectorAll('.video-thumbnail').forEach(t => t.classList.remove('active'));
