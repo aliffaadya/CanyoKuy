@@ -756,7 +756,7 @@
                 <a href="{{ url('/cekBooking') }}">Cek Booking</a>
                 <a href="{{ url('/#testimoni') }}">Testimoni</a>
                 <a href="{{ url('/guide') }}">Tour Guide</a>
-                <a href="https://wa.me/628123456789" target="_blank">
+                <a href="https://wa.me/6283150774897" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
                 </a>
             </div>

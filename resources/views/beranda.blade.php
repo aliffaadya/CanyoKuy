@@ -837,7 +837,7 @@
                 <a href="/cekBooking">Cek Booking</a>
                 <a href="#testimoni">Testimoni</a>
                 <a href="/guide">Tour Guide</a>
-                <a href="https://wa.me/628123456789" target="_blank">
+                <a href="https://wa.me/6283150774897" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
                 </a>
                 <!-- TOMBOL LOGIN ADMIN -->
@@ -1095,7 +1095,7 @@
                 <div class="footer-col">
                     <h3>Kontak</h3>
                     <ul class="footer-contact">
-                        <li><i class="fab fa-whatsapp"></i> +62 812 3456 789</li>
+                        <li><i class="fab fa-whatsapp"></i> +62 831 5077 4897</li>
                         <li><i class="fab fa-instagram"></i> @kpa_ulin</li>
                         <li><i class="fas fa-map-marker-alt"></i> Tanah Bumbu, Kalimantan Selatan</li>
                     </ul>

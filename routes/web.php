@@ -62,7 +62,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/logout', function () {
         session()->forget('admin_logged_in');
         session()->forget('admin_username');
-        return redirect()->route('admin.login')->with('success', '✅ Berhasil logout!');
+        return redirect()->route('admin.login')->with('success', 'Berhasil logout!');
     })->name('admin.logout');
     
     Route::get('/dashboard', function () {
