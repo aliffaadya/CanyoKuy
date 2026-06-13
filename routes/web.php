@@ -38,18 +38,18 @@ Route::get('/tour/{id}', [TourController::class, 'detail'])->name('tour.detail')
 
 // ========== HALAMAN ADMIN ==========
 Route::prefix('admin')->group(function () {
-    
+
     Route::get('/login', function () {
         if (session()->has('admin_logged_in')) {
             return redirect()->route('admin.dashboard');
         }
         return view('admin.login');
     })->name('admin.login');
-    
+
     Route::post('/login', function (Request $request) {
         $username = $request->username;
         $password = $request->password;
-        
+
         if ($username === 'admin' && $password === 'admin123') {
             session(['admin_logged_in' => true]);
             session(['admin_username' => $username]);
@@ -58,45 +58,49 @@ Route::prefix('admin')->group(function () {
             return back()->with('error', '❌ Username atau password salah!');
         }
     })->name('admin.login.post');
-    
+
     Route::get('/logout', function () {
         session()->forget('admin_logged_in');
         session()->forget('admin_username');
         return redirect()->route('admin.login')->with('success', 'Berhasil logout!');
     })->name('admin.logout');
-    
+
     Route::get('/dashboard', function () {
         if (!session()->has('admin_logged_in')) {
             return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
         }
         return view('admin.dashboard');
     })->name('admin.dashboard');
-    
+
     Route::get('/booking', function () {
         if (!session()->has('admin_logged_in')) {
             return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
         }
         return view('admin.booking');
     })->name('admin.booking');
-    
+
     Route::get('/jadwal', function () {
         if (!session()->has('admin_logged_in')) {
             return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
         }
         return view('admin.jadwal');
     })->name('admin.jadwal');
-    
+
     Route::get('/guide', function () {
         if (!session()->has('admin_logged_in')) {
             return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
         }
         return view('admin.guide');
     })->name('admin.guide');
-    
+
     Route::get('/testimoni', function () {
         if (!session()->has('admin_logged_in')) {
             return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
         }
         return view('admin.testimoni');
     })->name('admin.testimoni');
+
+    Route::get('/', function () {
+        return view('beranda');
+    })->name('beranda');
 });
