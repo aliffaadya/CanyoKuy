@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\GuideController;  // TAMBAHKAN INI
 use Illuminate\Http\Request;
 
 // ========== HALAMAN DEPAN ==========
@@ -37,12 +38,19 @@ Route::get('/booking/roundtrip', function () {
 
 Route::get('/tour/{id}', [TourController::class, 'detail'])->name('tour.detail');
 
-// ========== API TESTIMONI ==========
+// ========== API ROUTES (TESTIMONI & GUIDE) ==========
 Route::prefix('api')->group(function () {
+    // API Testimoni
     Route::get('/testimonials', [TestimonialController::class, 'getActiveTestimonials']);
     Route::post('/testimonials', [TestimonialController::class, 'store']);
     Route::put('/testimonials/{id}', [TestimonialController::class, 'update']);
     Route::delete('/testimonials/{id}', [TestimonialController::class, 'destroy']);
+    
+    // API Guide
+    Route::get('/guides', [GuideController::class, 'getActiveGuides']);
+    Route::post('/guides', [GuideController::class, 'store']);
+    Route::put('/guides/{id}', [GuideController::class, 'update']);
+    Route::delete('/guides/{id}', [GuideController::class, 'destroy']);
 });
 
 // ========== HALAMAN ADMIN ==========
@@ -95,12 +103,8 @@ Route::prefix('admin')->group(function () {
         return view('admin.jadwal');
     })->name('admin.jadwal');
 
-    Route::get('/guide', function () {
-        if (!session()->has('admin_logged_in')) {
-            return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
-        }
-        return view('admin.guide');
-    })->name('admin.guide');
+    // HALAMAN ADMIN GUIDE (mengambil data dari database)
+    Route::get('/guide', [GuideController::class, 'index'])->name('admin.guide');
 
     // HALAMAN ADMIN TESTIMONI
     Route::get('/testimoni', [TestimonialController::class, 'index'])->name('admin.testimoni');

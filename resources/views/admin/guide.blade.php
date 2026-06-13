@@ -4,12 +4,12 @@
 
 @section('content')
 <style>
-    /* ========== KELOLA GUIDE UI STYLES - KONSISTEN EMERALD ========== */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800&display=swap');
+    /* ========== KELOLA GUIDE UI STYLES ========== */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
     :root {
-        --primary-green: #10b981; /* Hijau Emerald Segar */
-        --banner-green: #059669;  /* Hijau Dark Emerald */
+        --primary-green: #10b981;
+        --banner-green: #059669;
         --bg-color: #f8fafc;
         --text-dark: #0f172a;
         --text-gray: #64748b;
@@ -22,7 +22,6 @@
         font-family: 'Inter', sans-serif;
     }
 
-    /* ========== GREEN BANNER HEADER ========== */
     .green-banner-header {
         background: linear-gradient(135deg, var(--primary-green) 0%, var(--banner-green) 100%);
         border-radius: 16px;
@@ -89,7 +88,6 @@
         font-weight: 400;
     }
 
-    /* Tombol Aksi */
     .btn-action {
         padding: 12px 20px;
         border-radius: 12px;
@@ -117,7 +115,6 @@
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     }
 
-    /* ========== DESIGN CARD GUIDE MODERN ========== */
     .guides-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -152,7 +149,6 @@
         margin-bottom: 16px;
         border: 3px solid #f1f5f9;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        transition: border-color 0.3s ease;
     }
 
     .guide-card:hover img {
@@ -219,7 +215,6 @@
         color: white;
     }
 
-    /* ========== MODAL FORM STYLING ========== */
     .modal-overlay {
         display: none;
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -262,7 +257,6 @@
         outline: none; transition: all 0.3s ease; box-sizing: border-box;
     }
 
-    /* Style khusus input file biar rapi */
     input[type="file"].form-control {
         padding: 8px 12px;
         cursor: pointer;
@@ -295,20 +289,22 @@
             <p class="page-subtitle">Manajemen tour guide profesional CanyoKuy.</p>
         </div>
     </div>
-    <button class="btn-action btn-white" onclick="showAddModal()">
+    <button class="btn-action btn-white" id="tambahGuideBtn">
         <i class="fas fa-plus"></i> Tambah Guide
     </button>
 </div>
 
 <div class="content-container">
-    <div id="guidesGrid" class="guides-grid"></div>
+    <div id="guidesGrid" class="guides-grid">
+        <div style="grid-column: 1/-1; text-align: center; color: var(--text-gray); padding: 40px 0;">Loading...</div>
+    </div>
 </div>
 
 <div id="guideModal" class="modal-overlay">
     <div class="modal-box">
         <h3 id="modalTitle" class="modal-title">Tambah Guide</h3>
-        <form id="guideForm">
-            <input type="hidden" id="editIndex">
+        <form id="guideForm" onsubmit="return false;">
+            <input type="hidden" id="editId">
             
             <div class="form-group">
                 <label>Nama Lengkap Guide</label>
@@ -330,81 +326,136 @@
 
             <div class="modal-actions">
                 <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
-                <button type="submit" class="btn-action" style="background-color: var(--primary-green); color: white; padding: 10px 20px; border-radius: 10px;">Simpan Data</button>
+                <button type="submit" class="btn-action" id="saveGuideBtn" style="background-color: var(--primary-green); color: white; padding: 10px 20px; border-radius: 10px;">Simpan Data</button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
+    let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';
     let guides = [];
+    let currentEditId = null;
     
-    function loadGuides() {
-        const stored = localStorage.getItem('guides');
-        if (stored) guides = JSON.parse(stored);
-        else {
+    // Fungsi untuk membuka modal tambah guide
+    function showAddModal() {
+        console.log('showAddModal dipanggil'); // Debug
+        currentEditId = null;
+        document.getElementById('modalTitle').innerText = 'Tambah Guide';
+        document.getElementById('editId').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('skill').value = '';
+        document.getElementById('imageFile').value = '';
+        document.getElementById('guideModal').style.display = 'flex';
+    }
+    
+    // Fungsi untuk menutup modal
+    function closeModal() {
+        document.getElementById('guideModal').style.display = 'none';
+        currentEditId = null;
+    }
+    
+    // Load guide dari database
+    async function loadGuides() {
+        try {
+            const response = await fetch('/api/guides');
+            const result = await response.json();
+            
+            if (result.success && result.data.length > 0) {
+                guides = result.data;
+                displayGuides();
+            } else {
+                // Data default jika database kosong
+                guides = [
+                    { id: 1, name: 'Via', skill: 'Canyoneering Expert', image: '/images/via.jpg' },
+                    { id: 2, name: 'Faren', skill: 'Hiking Guide', image: '/images/Faren.jpg' },
+                    { id: 3, name: 'Dori', skill: 'Safety & Rescue', image: '/images/Dori.jpeg' },
+                    { id: 4, name: 'Lembut', skill: 'Nature Guide', image: '/images/lembut.jpeg' },
+                    { id: 5, name: 'Nurmala', skill: 'Camping Specialist', image: '/images/nurmala.jpeg' },
+                    { id: 6, name: 'Yaya', skill: 'Eco Tourism', image: '/images/yaya.jpeg' },
+                    { id: 7, name: 'Badog', skill: 'Climbing Guide', image: '/images/badhog.jpeg' },
+                    { id: 8, name: 'Kucrit', skill: 'Photography Guide', image: '/images/kucrit.jpg' }
+                ];
+                displayGuides();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Data default jika error
             guides = [
-                { name: 'Via', skill: 'Canyoneering Expert', image: '/images/via.jpg' },
-                { name: 'Faren', skill: 'Hiking Guide', image: '/images/Faren.jpg' },
-                { name: 'Dori', skill: 'Safety & Rescue', image: '/images/Dori.jpeg' },
-                { name: 'Lembut', skill: 'Nature Guide', image: '/images/lembut.jpeg' },
-                { name: 'Nurmala', skill: 'Camping Specialist', image: '/images/nurmala.jpeg' },
-                { name: 'Yaya', skill: 'Eco Tourism', image: '/images/yaya.jpeg' },
-                { name: 'Badog', skill: 'Climbing Guide', image: '/images/badhog.jpeg' },
-                { name: 'Kucrit', skill: 'Photography Guide', image: '/images/kucrit.jpg' }
+                { id: 1, name: 'Via', skill: 'Canyoneering Expert', image: '/images/via.jpg' },
+                { id: 2, name: 'Faren', skill: 'Hiking Guide', image: '/images/Faren.jpg' }
             ];
-            localStorage.setItem('guides', JSON.stringify(guides));
+            displayGuides();
         }
-        displayGuides();
     }
     
     function displayGuides() {
         const grid = document.getElementById('guidesGrid');
-        grid.innerHTML = guides.map((g, i) => `
-            <div class="guide-card">
-                <img src="${g.image}" onerror="this.src='/images/default-avatar.jpg'">
-                <h4>${g.name}</h4>
-                <span class="guide-skill-badge"><i class="fas fa-award" style="margin-right: 4px;"></i>${g.skill}</span>
+        if (!guides || guides.length === 0) {
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-gray); padding: 40px 0;">Belum ada data tour guide.</div>';
+            return;
+        }
+        
+        grid.innerHTML = guides.map(guide => `
+            <div class="guide-card" data-id="${guide.id}">
+                <img src="${guide.image || '/images/default-avatar.jpg'}" onerror="this.src='/images/default-avatar.jpg'">
+                <h4>${escapeHtml(guide.name)}</h4>
+                <span class="guide-skill-badge"><i class="fas fa-award" style="margin-right: 4px;"></i>${escapeHtml(guide.skill)}</span>
                 <div class="card-actions">
-                    <button class="btn-card btn-card-edit" onclick="editGuide(${i})"><i class="fas fa-pen"></i> Edit</button>
-                    <button class="btn-card btn-card-delete" onclick="deleteGuide(${i})"><i class="fas fa-trash"></i> Hapus</button>
+                    <button class="btn-card btn-card-edit" onclick="editGuide(${guide.id})"><i class="fas fa-pen"></i> Edit</button>
+                    <button class="btn-card btn-card-delete" onclick="deleteGuide(${guide.id})"><i class="fas fa-trash"></i> Hapus</button>
                 </div>
             </div>
         `).join('');
     }
     
-    function showAddModal() {
-        document.getElementById('modalTitle').innerText = 'Tambah Guide';
-        document.getElementById('editIndex').value = '';
-        document.getElementById('guideForm').reset();
-        document.getElementById('imageFile').value = ''; // Reset pilihan file
-        document.getElementById('guideModal').style.display = 'flex';
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
     }
     
-    function closeModal() {
-        document.getElementById('guideModal').style.display = 'none';
-    }
-    
-    function editGuide(index) {
-        const g = guides[index];
-        document.getElementById('modalTitle').innerText = 'Edit Guide';
-        document.getElementById('editIndex').value = index;
-        document.getElementById('name').value = g.name;
-        document.getElementById('skill').value = g.skill;
-        document.getElementById('imageFile').value = ''; // Reset pilihan file lama saat edit terbuka
-        document.getElementById('guideModal').style.display = 'flex';
-    }
-    
-    function deleteGuide(index) {
-        if (confirm('Yakin ingin menghapus guide ini?')) {
-            guides.splice(index, 1);
-            localStorage.setItem('guides', JSON.stringify(guides));
-            loadGuides();
-            alert('✅ Guide berhasil dihapus!');
+    function editGuide(id) {
+        const guide = guides.find(g => g.id == id);
+        if (guide) {
+            currentEditId = id;
+            document.getElementById('modalTitle').innerText = 'Edit Guide';
+            document.getElementById('editId').value = id;
+            document.getElementById('name').value = guide.name;
+            document.getElementById('skill').value = guide.skill;
+            document.getElementById('imageFile').value = '';
+            document.getElementById('guideModal').style.display = 'flex';
         }
     }
     
-    // Fungsi pembantu untuk mengubah objek file mentah dari input menjadi string Base64
+    async function deleteGuide(id) {
+        if (confirm('Yakin ingin menghapus guide ini?')) {
+            try {
+                const response = await fetch(`/api/guides/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert('✅ Guide berhasil dihapus!');
+                    loadGuides();
+                } else {
+                    alert('❌ Gagal menghapus: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Gagal menghapus guide');
+            }
+        }
+    }
+    
     function convertFileToBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -414,45 +465,67 @@
         });
     }
     
-    // PENYESUAIAN LOGIKA: Handler submit diubah menjadi Async agar bisa menunggu konversi file gambar
+    // Handle form submit
     document.getElementById('guideForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        const editIndex = document.getElementById('editIndex').value;
+        
+        const id = document.getElementById('editId').value;
+        const name = document.getElementById('name').value;
+        const skill = document.getElementById('skill').value;
         const fileInput = document.getElementById('imageFile');
         
-        // Atur gambar default awal
-        let finalImageUrl = '/images/default-avatar.jpg';
-        
-        // Jika sedang mengedit data lama, ambil data gambar lamanya terlebih dahulu
-        if (editIndex !== '') {
-            finalImageUrl = guides[editIndex].image;
+        if (!name || !skill) {
+            alert('Nama dan keahlian harus diisi!');
+            return;
         }
         
-        // Jika admin meng-upload file gambar baru, konversi ke Base64
-        if (fileInput.files && fileInput.files[0]) {
-            try {
-                finalImageUrl = await convertFileToBase64(fileInput.files[0]);
-            } catch (error) {
-                alert('❌ Gagal memproses file gambar. Silakan coba lagi.');
-                return;
+        const saveBtn = document.getElementById('saveGuideBtn');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+        saveBtn.disabled = true;
+        
+        try {
+            let imageData = null;
+            if (fileInput.files && fileInput.files[0]) {
+                imageData = await convertFileToBase64(fileInput.files[0]);
             }
+            
+            const data = { name: name, skill: skill, image: imageData };
+            const url = id ? `/api/guides/${id}` : '/api/guides';
+            const method = id ? 'PUT' : 'POST';
+            
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                alert(id ? '✅ Guide berhasil diupdate!' : '✅ Guide berhasil ditambahkan!');
+                closeModal();
+                loadGuides();
+            } else {
+                alert('❌ Gagal menyimpan: ' + (result.message || 'Terjadi kesalahan'));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('❌ Gagal menyimpan guide. Periksa koneksi internet Anda.');
+        } finally {
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
         }
-        
-        const newGuide = {
-            name: document.getElementById('name').value,
-            skill: document.getElementById('skill').value,
-            image: finalImageUrl
-        };
-        
-        if (editIndex !== '') guides[editIndex] = newGuide;
-        else guides.push(newGuide);
-        
-        localStorage.setItem('guides', JSON.stringify(guides));
-        closeModal();
-        loadGuides();
-        alert('✅ Guide berhasil disimpan!');
     });
     
+    // Event listener untuk tombol tambah guide
+    document.getElementById('tambahGuideBtn').addEventListener('click', function() {
+        showAddModal();
+    });
+    
+    // Load data saat halaman dibuka
     loadGuides();
 </script>
 @endsection
