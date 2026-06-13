@@ -259,17 +259,17 @@
         /* ========== VIDEO THUMBNAILS ========== */
         .thumbnail-gallery {
             display: flex;
-            gap: 16px;
-            margin-bottom: 40px;
+            justify-content: center;
+            /* posisi horizontal tengah */
+            align-items: center;
+            gap: 30px;
+            /* jarak antar video */
             flex-wrap: wrap;
         }
 
         .video-thumbnail {
-            position: relative;
-            width: calc(33.333% - 11px);
-            min-width: 200px;
-            height: 120px;
-            cursor: pointer;
+            display: flex;
+            justify-content: center;
         }
 
         .video-thumbnail img {
@@ -329,7 +329,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.6); /* Backdrop lebih gelap/elegan */
+            background: rgba(15, 23, 42, 0.6);
+            /* Backdrop lebih gelap/elegan */
             z-index: 9999;
             justify-content: center;
             align-items: center;
@@ -339,7 +340,8 @@
         .modal-content {
             background: #ffffff;
             border-radius: 24px;
-            max-width: 500px; /* DIUBAH: Diperlebar jadi 500px */
+            max-width: 500px;
+            /* DIUBAH: Diperlebar jadi 500px */
             width: 90%;
             animation: slideInBooking 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
@@ -347,8 +349,15 @@
         }
 
         @keyframes slideInBooking {
-            from { transform: translateY(20px) scale(0.95); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
+            from {
+                transform: translateY(20px) scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
         }
 
         .modal-header {
@@ -445,7 +454,8 @@
         }
 
         .summary-item.total .value {
-            color: #2F6B5E; /* Ganti merah error jadi hijau CanyoKuy */
+            color: #2F6B5E;
+            /* Ganti merah error jadi hijau CanyoKuy */
             font-size: 18px;
             font-weight: 800;
         }
@@ -453,7 +463,8 @@
         .countdown-text {
             text-align: center;
             padding: 14px;
-            background: #f0fdf4; /* Warna hijau success soft */
+            background: #f0fdf4;
+            /* Warna hijau success soft */
             border: 1px solid #bbf7d0;
             border-radius: 12px;
             color: #166534;
@@ -526,8 +537,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* ========== FLOATING HELP BUTTON & MODAL ROADMAP ========== */
@@ -692,19 +708,24 @@
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
+
             .banner-container {
                 flex-direction: column;
                 text-align: center;
             }
+
             .banner-title-group {
                 align-items: center;
             }
+
             .banner-badges {
                 justify-content: center;
             }
+
             .banner-price-box {
                 text-align: center;
             }
+
             .roadmap-row {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -715,16 +736,20 @@
                 justify-content: center !important;
                 gap: 20px;
             }
+
             .nav-links {
                 justify-content: center;
                 padding: 15px;
             }
+
             .hero-section {
                 height: 180px;
             }
+
             .video-thumbnail {
                 width: 100%;
             }
+
             .floating-help-btn {
                 bottom: 20px;
                 right: 20px;
@@ -732,6 +757,7 @@
                 height: 42px;
                 font-size: 18px;
             }
+
             .roadmap-row {
                 grid-template-columns: 1fr;
             }
@@ -820,16 +846,24 @@
 
             <div class="thumbnail-gallery">
                 <div class="video-thumbnail">
-                    <img src="{{ asset('images/camp.jpg') }}" alt="Video 1">
-                    <i class="fas fa-play-circle play-icon"></i>
+                    <video controls width="250">
+                        <source src="{{ asset('videos/video1.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
                 </div>
+
                 <div class="video-thumbnail">
-                    <img src="{{ asset('images/camp.jpg') }}" alt="Video 2">
-                    <i class="fas fa-play-circle play-icon"></i>
+                    <video controls width="250">
+                        <source src="{{ asset('videos/video2.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
                 </div>
+
                 <div class="video-thumbnail">
-                    <img src="{{ asset('images/camp.jpg') }}" alt="Video 3">
-                    <i class="fas fa-play-circle play-icon"></i>
+                    <video controls width="250">
+                        <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
                 </div>
             </div>
 
@@ -884,7 +918,8 @@
             </div>
             <div class="modal-footer">
                 <button class="btn-close" onclick="closeModal()">Batal</button>
-                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan <i class="fas fa-arrow-right"></i></button>
+                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan <i
+                        class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
