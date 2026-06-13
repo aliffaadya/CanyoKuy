@@ -845,31 +845,39 @@
             </div>
 
             <div class="thumbnail-gallery">
-                <div class="video-thumbnail">
-                    <video controls width="250">
-                        <source src="{{ asset('videos/video1.mp4') }}" type="video/mp4">
-                        Browser Anda tidak mendukung video.
-                    </video>
+                <div class="thumbnail-gallery">
+                    <div class="video-thumbnail">
+                        <video autoplay muted loop playsinline width="250">
+                            <source src="{{ asset('videos/video1.mp4') }}" type="video/mp4">
+                            Browser Anda tidak mendukung video.
+                        </video>
+                    </div>
                 </div>
 
-                <div class="video-thumbnail">
-                    <video controls width="250">
-                        <source src="{{ asset('videos/video6.mp4') }}" type="video/mp4">
-                        Browser Anda tidak mendukung video.
-                    </video>
+                <div class="thumbnail-gallery">
+                    <div class="video-thumbnail">
+                        <video autoplay muted loop playsinline width="250">
+                            <source src="{{ asset('videos/video6.mp4') }}" type="video/mp4">
+                            Browser Anda tidak mendukung video.
+                        </video>
+                    </div>
                 </div>
 
-                <div class="video-thumbnail">
-                    <video controls width="250">
-                        <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
-                        Browser Anda tidak mendukung video.
-                    </video>
+                <div class="thumbnail-gallery">
+                    <div class="video-thumbnail">
+                        <video autoplay muted loop playsinline width="250">
+                            <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
+                            Browser Anda tidak mendukung video.
+                        </video>
+                    </div>
                 </div>
-                <div class="video-thumbnail">
-                    <video controls width="250">
-                        <source src="{{ asset('videos/video4.mp4') }}" type="video/mp4">
-                        Browser Anda tidak mendukung video.
-                    </video>
+                <div class="thumbnail-gallery">
+                    <div class="video-thumbnail">
+                        <video autoplay muted loop playsinline width="250">
+                            <source src="{{ asset('videos/video4.mp4') }}" type="video/mp4">
+                            Browser Anda tidak mendukung video.
+                        </video>
+                    </div>
                 </div>
             </div>
 
