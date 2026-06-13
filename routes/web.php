@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TourController;
+use App\Http\Controllers\TestimonialController;
 use Illuminate\Http\Request;
 
 // ========== HALAMAN DEPAN ==========
@@ -35,6 +36,14 @@ Route::get('/booking/roundtrip', function () {
 })->name('booking.roundtrip');
 
 Route::get('/tour/{id}', [TourController::class, 'detail'])->name('tour.detail');
+
+// ========== API TESTIMONI ==========
+Route::prefix('api')->group(function () {
+    Route::get('/testimonials', [TestimonialController::class, 'getActiveTestimonials']);
+    Route::post('/testimonials', [TestimonialController::class, 'store']);
+    Route::put('/testimonials/{id}', [TestimonialController::class, 'update']);
+    Route::delete('/testimonials/{id}', [TestimonialController::class, 'destroy']);
+});
 
 // ========== HALAMAN ADMIN ==========
 Route::prefix('admin')->group(function () {
@@ -93,14 +102,6 @@ Route::prefix('admin')->group(function () {
         return view('admin.guide');
     })->name('admin.guide');
 
-    Route::get('/testimoni', function () {
-        if (!session()->has('admin_logged_in')) {
-            return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
-        }
-        return view('admin.testimoni');
-    })->name('admin.testimoni');
-
-    Route::get('/', function () {
-        return view('beranda');
-    })->name('beranda');
+    // HALAMAN ADMIN TESTIMONI
+    Route::get('/testimoni', [TestimonialController::class, 'index'])->name('admin.testimoni');
 });

@@ -4,12 +4,12 @@
 
 @section('content')
 <style>
-    /* ========== KELOLA TESTIMONI UI STYLES - EMERALD CONSISTENT ========== */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800&display=swap');
+    /* ========== KELOLA TESTIMONI UI STYLES ========== */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
     :root {
-        --primary-green: #10b981; /* Hijau Emerald Segar */
-        --banner-green: #059669;  /* Hijau Dark Emerald */
+        --primary-green: #10b981;
+        --banner-green: #059669;
         --bg-color: #f8fafc;
         --text-dark: #0f172a;
         --text-gray: #64748b;
@@ -22,7 +22,6 @@
         font-family: 'Inter', sans-serif;
     }
 
-    /* ========== GREEN BANNER HEADER ========== */
     .green-banner-header {
         background: linear-gradient(135deg, var(--primary-green) 0%, var(--banner-green) 100%);
         border-radius: 16px;
@@ -89,7 +88,6 @@
         font-weight: 400;
     }
 
-    /* Tombol Utama Banner */
     .btn-action {
         padding: 12px 20px;
         border-radius: 12px;
@@ -117,7 +115,6 @@
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     }
 
-    /* ========== DESIGN GRID & CARD TESTIMONI ========== */
     .testimonials-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -144,7 +141,6 @@
         border-color: rgba(16, 185, 129, 0.2);
     }
 
-    /* Dekorasi Tanda Kutip Estetik */
     .testimonial-card::before {
         content: '"';
         position: absolute;
@@ -237,7 +233,6 @@
         color: white;
     }
 
-    /* ========== MODAL FORM STYLING ========== */
     .modal-overlay {
         display: none;
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -325,7 +320,7 @@
     <div class="modal-box">
         <h3 id="modalTitle" class="modal-title">Tambah Testimoni</h3>
         <form id="testimonialForm">
-            <input type="hidden" id="editIndex">
+            <input type="hidden" id="editId">
             
             <div class="form-group">
                 <label>Nama Pelanggan</label>
@@ -362,53 +357,60 @@
 </div>
 
 <script>
-    // LOGIKA ASLI TEMAN KAMU DIJAMIN TETAP UTUH & BEKERJA NORMAL
-    let testimonials = [];
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     
-    function loadTestimonials() {
-        const stored = localStorage.getItem('testimonials');
-        if (stored) testimonials = JSON.parse(stored);
-        else {
-            testimonials = [
-                { name: 'Putri', city: 'Marabahan', message: 'Pengalaman canyoneering yang luar biasa! Guide profesional dan ramah.', rating: 5 },
-                { name: 'Siti', city: 'Batu Licin', message: 'Pelayanan sangat memuaskan. Tim cepat merespon.', rating: 5 },
-                { name: 'Ryan', city: 'Banjarbaru', message: 'Salah satu pengalaman outdoor terbaik yang pernah saya coba.', rating: 5 },
-                { name: 'Rahman', city: 'Banjarmasin', message: 'Recommended untuk pecinta alam dan tantangan!', rating: 5 }
-            ];
-            localStorage.setItem('testimonials', JSON.stringify(testimonials));
+    // Load testimoni dari database
+    async function loadTestimonials() {
+        try {
+            const response = await fetch('/api/testimonials');
+            const result = await response.json();
+            
+            if (result.success) {
+                displayTestimonials(result.data);
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
-        displayTestimonials();
     }
     
-    // MODIFIKASI: Hanya meremajakan struktur HTML agar menghasilkan review card modern
-    function displayTestimonials() {
+    function displayTestimonials(testimonials) {
         const grid = document.getElementById('testimonialsGrid');
-        if (testimonials.length === 0) {
+        if (!testimonials || testimonials.length === 0) {
             grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-gray); padding: 40px 0;">Belum ada data testimoni pelanggan.</div>';
             return;
         }
         
         grid.innerHTML = testimonials.map((t, i) => `
-            <div class="testimonial-card">
+            <div class="testimonial-card" data-id="${t.id}">
                 <div>
                     <div class="card-top">
-                        <h4 class="user-name">${t.name}</h4>
+                        <h4 class="user-name">${escapeHtml(t.name)}</h4>
                         <div class="rating-stars">${'★'.repeat(t.rating)}${'☆'.repeat(5 - t.rating)}</div>
                     </div>
-                    <p class="user-city"><i class="fas fa-map-marker-alt" style="color: #ef4444; font-size: 12px;"></i> ${t.city}</p>
-                    <p class="testimonial-text">"${t.message}"</p>
+                    <p class="user-city"><i class="fas fa-map-marker-alt" style="color: #ef4444; font-size: 12px;"></i> ${escapeHtml(t.city)}</p>
+                    <p class="testimonial-text">"${escapeHtml(t.message)}"</p>
                 </div>
                 <div class="card-actions">
-                    <button class="btn-card btn-card-edit" onclick="editTestimonial(${i})"><i class="fas fa-pen"></i> Edit</button>
-                    <button class="btn-card btn-card-delete" onclick="deleteTestimonial(${i})"><i class="fas fa-trash"></i> Hapus</button>
+                    <button class="btn-card btn-card-edit" onclick="editTestimonial(${t.id})"><i class="fas fa-pen"></i> Edit</button>
+                    <button class="btn-card btn-card-delete" onclick="deleteTestimonial(${t.id})"><i class="fas fa-trash"></i> Hapus</button>
                 </div>
             </div>
         `).join('');
     }
     
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
     function showAddModal() {
         document.getElementById('modalTitle').innerText = 'Tambah Testimoni';
-        document.getElementById('editIndex').value = '';
+        document.getElementById('editId').value = '';
         document.getElementById('testimonialForm').reset();
         document.getElementById('testimonialModal').style.display = 'flex';
     }
@@ -417,45 +419,87 @@
         document.getElementById('testimonialModal').style.display = 'none';
     }
     
-    function editTestimonial(index) {
-        const t = testimonials[index];
-        document.getElementById('modalTitle').innerText = 'Edit Testimoni';
-        document.getElementById('editIndex').value = index;
-        document.getElementById('name').value = t.name;
-        document.getElementById('city').value = t.city;
-        document.getElementById('message').value = t.message;
-        document.getElementById('rating').value = t.rating;
-        document.getElementById('testimonialModal').style.display = 'flex';
-    }
-    
-    function deleteTestimonial(index) {
-        if (confirm('Yakin ingin menghapus testimoni ini?')) {
-            testimonials.splice(index, 1);
-            localStorage.setItem('testimonials', JSON.stringify(testimonials));
-            loadTestimonials();
-            alert('✅ Testimoni berhasil dihapus!');
+    async function editTestimonial(id) {
+        try {
+            const response = await fetch('/api/testimonials');
+            const result = await response.json();
+            const testimonial = result.data.find(t => t.id === id);
+            
+            if (testimonial) {
+                document.getElementById('modalTitle').innerText = 'Edit Testimoni';
+                document.getElementById('editId').value = testimonial.id;
+                document.getElementById('name').value = testimonial.name;
+                document.getElementById('city').value = testimonial.city;
+                document.getElementById('message').value = testimonial.message;
+                document.getElementById('rating').value = testimonial.rating;
+                document.getElementById('testimonialModal').style.display = 'flex';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Gagal mengambil data testimoni');
         }
     }
     
-    document.getElementById('testimonialForm').addEventListener('submit', function(e) {
+    async function deleteTestimonial(id) {
+        if (confirm('Yakin ingin menghapus testimoni ini?')) {
+            try {
+                const response = await fetch(`/api/testimonials/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert('✅ Testimoni berhasil dihapus!');
+                    loadTestimonials();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal menghapus testimoni');
+            }
+        }
+    }
+    
+    document.getElementById('testimonialForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        const editIndex = document.getElementById('editIndex').value;
-        const newTestimonial = {
+        
+        const editId = document.getElementById('editId').value;
+        const data = {
             name: document.getElementById('name').value,
             city: document.getElementById('city').value,
             message: document.getElementById('message').value,
             rating: parseInt(document.getElementById('rating').value)
         };
         
-        if (editIndex !== '') testimonials[editIndex] = newTestimonial;
-        else testimonials.push(newTestimonial);
+        const url = editId ? `/api/testimonials/${editId}` : '/api/testimonials';
+        const method = editId ? 'PUT' : 'POST';
         
-        localStorage.setItem('testimonials', JSON.stringify(testimonials));
-        closeModal();
-        loadTestimonials();
-        alert('✅ Testimoni berhasil disimpan!');
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                alert(editId ? '✅ Testimoni berhasil diupdate!' : '✅ Testimoni berhasil ditambahkan!');
+                closeModal();
+                loadTestimonials();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Gagal menyimpan testimoni');
+        }
     });
     
+    // Load data saat halaman dibuka
     loadTestimonials();
 </script>
 @endsection
