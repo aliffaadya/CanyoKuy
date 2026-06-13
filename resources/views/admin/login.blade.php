@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -247,21 +248,26 @@
             body {
                 flex-direction: column;
             }
+
             .login-left {
                 flex: none;
                 padding: 60px 20px 40px;
                 align-items: center;
                 text-align: center;
             }
+
             .login-left::after {
                 display: none;
             }
+
             .left-brand {
                 font-size: 32px;
             }
+
             .login-container {
                 padding-left: 0;
             }
+
             .back-to-home {
                 top: 15px;
                 left: 15px;
@@ -269,6 +275,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- TOMBOL KEMBALI KE BERANDA -->
@@ -284,7 +291,7 @@
 
     <div class="login-right">
         <div class="login-container">
-            
+
             <img src="{{ asset('images/logo.jpg') }}" alt="Logo CanyoKuy" class="logo-img">
 
             <h1 class="welcome-title">WELCOME BACK!</h1>
@@ -312,13 +319,6 @@
                     <label>Password</label>
                     <input type="password" name="password" placeholder="Password" required>
                 </div>
-                
-                <div class="form-options">
-                    <label>
-                        <input type="checkbox" name="remember"> Keep me logged in
-                    </label>
-                    <a href="#">Forgot password? Reset now</a>
-                </div>
 
                 <div class="btn-action-wrapper">
                     <button type="submit" class="btn-login">
@@ -327,13 +327,9 @@
                 </div>
             </form>
 
-            <div class="info-demo">
-                <i class="fas fa-info-circle"></i> Demo Login:<br>
-                Username: <strong>admin</strong> | Password: <strong>admin123</strong>
-            </div>
-
         </div>
     </div>
 
 </body>
+
 </html>

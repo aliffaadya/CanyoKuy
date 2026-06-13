@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Schedule;
-use Illuminate\Support\Facades\Storage; // TAMBAHKAN INI
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB; // TAMBAHKAN INI!
 
 class BookingController extends Controller
 {
@@ -31,6 +32,7 @@ class BookingController extends Controller
         }
     }
 
+    // HAPUS method store yang lama, cukup satu method store saja
     public function store(Request $request)
     {
         try {
@@ -63,19 +65,35 @@ class BookingController extends Controller
                 $paymentProof = '/storage/' . $path;
             }
 
-            // Cari schedule berdasarkan tanggal (tanpa package_type)
-            $schedule = Schedule::where('schedule_date', $request->tanggal)->first();
+            // START TRANSACTION UNTUK RACE CONDITION
+            DB::beginTransaction();
 
-            if ($schedule) {
-                $schedule->increment('filled');
-            } else {
+            // Cari schedule dengan LOCK
+            $schedule = Schedule::where('schedule_date', $request->tanggal)
+                ->lockForUpdate()
+                ->first();
+
+            if (!$schedule) {
                 $schedule = Schedule::create([
                     'schedule_date' => $request->tanggal,
                     'quota' => 20,
-                    'filled' => 1,
+                    'filled' => 0,
                     'is_active' => true
                 ]);
             }
+
+            // CEK KUOTA
+            $remainingQuota = $schedule->quota - $schedule->filled;
+            if ($remainingQuota <= 0) {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Maaf, kuota sudah penuh!'
+                ], 400);
+            }
+
+            // Update kuota
+            $schedule->increment('filled');
 
             // Simpan booking
             $booking = Booking::create([
@@ -94,6 +112,8 @@ class BookingController extends Controller
                 'payment_status' => 'waiting_confirmation'
             ]);
 
+            DB::commit();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Booking berhasil!',
@@ -101,7 +121,9 @@ class BookingController extends Controller
                 'remaining_quota' => $schedule->quota - $schedule->filled,
                 'data' => $booking
             ]);
+
         } catch (\Exception $e) {
+            DB::rollBack();
             \Log::error('Booking error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,

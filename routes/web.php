@@ -6,6 +6,7 @@ use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 
 // ========== HALAMAN DEPAN ==========
@@ -47,74 +48,69 @@ Route::prefix('api')->group(function () {
     Route::post('/testimonials', [TestimonialController::class, 'store']);
     Route::put('/testimonials/{id}', [TestimonialController::class, 'update']);
     Route::delete('/testimonials/{id}', [TestimonialController::class, 'destroy']);
-    
+
     // API Guide
     Route::get('/guides', [GuideController::class, 'getActiveGuides']);
     Route::post('/guides', [GuideController::class, 'store']);
     Route::put('/guides/{id}', [GuideController::class, 'update']);
     Route::delete('/guides/{id}', [GuideController::class, 'destroy']);
-    
+
     // API Schedule
     Route::get('/schedules', [ScheduleController::class, 'getActiveSchedules']);
     Route::post('/schedules', [ScheduleController::class, 'store']);
     Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
     Route::delete('/schedules/{id}', [ScheduleController::class, 'destroy']);
-    
+
     // API Booking
     Route::get('/bookings', [BookingController::class, 'getAllBookings']);
     Route::post('/bookings', [BookingController::class, 'store']);
     Route::put('/bookings/{id}/status', [BookingController::class, 'updateStatus']);
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy']);
-    
-    // API CEK BOOKING (TAMBAHKAN INI)
+
+    // API CEK BOOKING
     Route::get('/bookings/check/{code}', [BookingController::class, 'checkBooking']);
 });
 
 // ========== HALAMAN ADMIN ==========
 Route::prefix('admin')->group(function () {
+    // Login & Logout
+    Route::get('/login', [AdminController::class, 'loginForm'])->name('admin.login');
+    Route::post('/login', [AdminController::class, 'login'])->name('admin.login.post');
+    Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
-    Route::get('/login', function () {
-        if (session()->has('admin_logged_in')) {
-            return redirect()->route('admin.dashboard');
-        }
-        return view('admin.login');
-    })->name('admin.login');
+    // Lupa Password
+    Route::get('/forgot-password', [AdminController::class, 'forgotPasswordForm'])->name('admin.forgot-password');
+    Route::post('/forgot-password', [AdminController::class, 'sendResetLink'])->name('admin.forgot-password.post');
+    Route::get('/reset-password/{token}', [AdminController::class, 'resetPasswordForm'])->name('admin.reset-password.form');
+    Route::post('/reset-password', [AdminController::class, 'resetPassword'])->name('admin.reset-password.post');
 
-    Route::post('/login', function (Request $request) {
-        $username = $request->username;
-        $password = $request->password;
+    // Profile & Ganti Password
+    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::post('/change-password', [AdminController::class, 'changePassword'])->name('admin.change-password');
 
-        if ($username === 'admin' && $password === 'admin123') {
-            session(['admin_logged_in' => true]);
-            session(['admin_username' => $username]);
-            return redirect()->route('admin.dashboard');
-        } else {
-            return back()->with('error', '❌ Username atau password salah!');
-        }
-    })->name('admin.login.post');
+    // Dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    Route::get('/logout', function () {
-        session()->forget('admin_logged_in');
-        session()->forget('admin_username');
-        return redirect()->route('admin.login')->with('success', 'Berhasil logout!');
-    })->name('admin.logout');
-
-    Route::get('/dashboard', function () {
-        if (!session()->has('admin_logged_in')) {
-            return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
-        }
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
-    // HALAMAN ADMIN BOOKING
+    // Data Booking
     Route::get('/booking', [BookingController::class, 'index'])->name('admin.booking');
 
-    // HALAMAN ADMIN JADWAL
+    // Kelola Jadwal
     Route::get('/jadwal', [ScheduleController::class, 'index'])->name('admin.jadwal');
 
-    // HALAMAN ADMIN GUIDE
+    // Kelola Tour Guide
     Route::get('/guide', [GuideController::class, 'index'])->name('admin.guide');
 
-    // HALAMAN ADMIN TESTIMONI
+    // Kelola Testimoni
     Route::get('/testimoni', [TestimonialController::class, 'index'])->name('admin.testimoni');
+
+    // Profile & Ganti Password
+    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::put('/profile', [AdminController::class, 'updateProfile'])->name('admin.update-profile');
+    Route::post('/change-password', [AdminController::class, 'changePassword'])->name('admin.change-password');
+
+    // Lupa Password
+    Route::get('/forgot-password', [AdminController::class, 'forgotPasswordForm'])->name('admin.forgot-password');
+    Route::post('/forgot-password', [AdminController::class, 'sendResetLink'])->name('admin.forgot-password.post');
+    Route::get('/reset-password/{token}', [AdminController::class, 'resetPasswordForm'])->name('admin.reset-password.form');
+    Route::post('/reset-password', [AdminController::class, 'resetPassword'])->name('admin.reset-password.post');
 });

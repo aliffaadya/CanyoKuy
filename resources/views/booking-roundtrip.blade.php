@@ -156,15 +156,6 @@
             box-shadow: 0 0 0 3px rgba(41, 96, 76, 0.1);
         }
 
-        select.form-control {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2329604c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-        }
-
         .payment-box {
             background: var(--bg-color);
             border: 1px solid #e2e8f0;
@@ -357,6 +348,11 @@
             background: #1e4537;
         }
 
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .btn-back {
             display: block;
             text-align: center;
@@ -405,13 +401,8 @@
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         #successView {
@@ -421,15 +412,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .success-icon {
@@ -582,7 +566,6 @@
         </div>
 
         <div class="card-body">
-            <!-- FORM INPUT -->
             <form id="bookingForm" onsubmit="handleFormSubmit(event)">
                 <div class="package-badge">
                     <div class="package-icon">
@@ -609,13 +592,7 @@
                     <input type="tel" id="inputWA" class="form-control" placeholder="081234567890" required>
                 </div>
 
-                <div class="form-group">
-                    <label>Tanggal Keberangkatan <span>*</span></label>
-                    <select id="inputTanggal" class="form-control" required>
-                        <option value="">-- Pilih Tanggal --</option>
-                    </select>
-                    <small style="font-size: 11px; color: var(--text-gray);">Pilih tanggal keberangkatan yang tersedia</small>
-                </div>
+                <input type="hidden" id="inputTanggal" value="2026-06-19">
 
                 <div class="form-group">
                     <label>Catatan Tambahan</label>
@@ -694,7 +671,6 @@
                 <a href="{{ url('/detailRoundTrip') }}" class="btn-back">Kembali</a>
             </form>
 
-            <!-- HALAMAN SUKSES -->
             <div id="successView">
                 <div class="success-icon">
                     <i class="fas fa-check-circle"></i>
@@ -738,43 +714,7 @@
     </div>
 
     <script>
-        // Load daftar tanggal dari database
-        // Load daftar tanggal dari database (SEMUA JADWAL)
-        async function loadAvailableDates() {
-            try {
-                const response = await fetch('/api/schedules');
-                const result = await response.json();
-
-                if (result.success && result.data.length > 0) {
-                    const dateSelect = document.getElementById('inputTanggal');
-                    // Ambil SEMUA jadwal (tanpa filter)
-                    const allSchedules = result.data;
-
-                    if (allSchedules.length > 0) {
-                        dateSelect.innerHTML = '<option value="">-- Pilih Tanggal --</option>';
-
-                        allSchedules.forEach(schedule => {
-                            const remainingQuota = schedule.quota - (schedule.filled || 0);
-                            const formattedDate = new Date(schedule.schedule_date).toLocaleDateString('id-ID', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            });
-                            const option = document.createElement('option');
-                            option.value = schedule.schedule_date;
-                            option.textContent = `${formattedDate} (Sisa Kuota: ${remainingQuota} orang)`;
-                            if (remainingQuota <= 0) {
-                                option.disabled = true;
-                                option.textContent = `${formattedDate} (PENUH)`;
-                            }
-                            dateSelect.appendChild(option);
-                        });
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading schedules:', error);
-            }
-        }
+        let isSubmitting = false;
 
         function copyReconciliation() {
             navigator.clipboard.writeText("12300123456789").then(() => {
@@ -818,9 +758,7 @@
                     ctx.drawImage(img, 0, 0, width, height);
 
                     canvas.toBlob(function(blob) {
-                        const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.jpg'), {
-                            type: 'image/jpeg'
-                        });
+                        const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.jpg'), { type: 'image/jpeg' });
                         callback(compressedFile);
                     }, 'image/jpeg', 0.7);
                 };
@@ -830,30 +768,56 @@
         function formatTanggal(tanggal) {
             const date = new Date(tanggal);
             return date.toLocaleDateString('id-ID', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+                year: 'numeric', month: 'long', day: 'numeric'
             });
         }
 
-        function handleFormSubmit(event) {
+        async function handleFormSubmit(event) {
             event.preventDefault();
+
+            if (isSubmitting) return;
+            isSubmitting = true;
 
             const fileInput = document.getElementById('fileUpload');
             if (!fileInput.files.length) {
                 alert('Silakan upload bukti transfer terlebih dahulu!');
+                isSubmitting = false;
                 return;
             }
 
             const tanggal = document.getElementById('inputTanggal').value;
             if (!tanggal) {
-                alert('Silakan pilih tanggal keberangkatan!');
+                alert('Tanggal tidak tersedia. Silakan hubungi admin.');
+                isSubmitting = false;
+                return;
+            }
+
+            // CEK KUOTA SEBELUM SUBMIT
+            try {
+                const scheduleResponse = await fetch('/api/schedules');
+                const scheduleResult = await scheduleResponse.json();
+
+                if (scheduleResult.success && scheduleResult.data.length > 0) {
+                    const schedule = scheduleResult.data[0];
+                    const remainingQuota = schedule.quota - (schedule.filled || 0);
+
+                    if (remainingQuota <= 0) {
+                        alert('❌ Maaf, kuota sudah penuh! Tidak dapat melakukan pemesanan.');
+                        isSubmitting = false;
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking quota:', error);
+                alert('Gagal mengecek kuota. Silakan coba lagi.');
+                isSubmitting = false;
                 return;
             }
 
             const originalFile = fileInput.files[0];
             if (originalFile.size > 2 * 1024 * 1024) {
                 alert('Ukuran file maksimal 2MB!');
+                isSubmitting = false;
                 return;
             }
 
@@ -878,41 +842,38 @@
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                 fetch('/api/bookings', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': csrfToken
-                        },
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(result => {
-                        document.getElementById('loadingOverlay').style.display = 'none';
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrfToken },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    document.getElementById('loadingOverlay').style.display = 'none';
 
-                        if (result.success) {
-                            document.getElementById('resNama').textContent = document.getElementById('inputNama').value;
-                            document.getElementById('resTanggal').textContent = formatTanggal(tanggal);
-                            document.getElementById('resDP').textContent = 'Rp 150.000';
-                            document.getElementById('resKode').textContent = result.booking_code;
+                    if (result.success) {
+                        document.getElementById('resNama').textContent = document.getElementById('inputNama').value;
+                        document.getElementById('resTanggal').textContent = formatTanggal(tanggal);
+                        document.getElementById('resDP').textContent = 'Rp 150.000';
+                        document.getElementById('resKode').textContent = result.booking_code;
 
-                            const waMessage = `Halo Admin CanyoKuy!%0A%0A*KONFIRMASI PEMBAYARAN DP*%0A%0ANama: ${document.getElementById('inputNama').value}%0AEmail: ${document.getElementById('inputEmail').value}%0AKode Booking: ${result.booking_code}%0ATanggal: ${tanggal}%0ATotal DP: Rp 150.000%0A%0AMohon segera diverifikasi. Terima kasih.`;
-                            document.getElementById('waLink').href = `https://wa.me/6283150774897?text=${waMessage}`;
+                        const waMessage = `Halo Admin CanyoKuy!%0A%0A*KONFIRMASI PEMBAYARAN DP*%0A%0ANama: ${document.getElementById('inputNama').value}%0AEmail: ${document.getElementById('inputEmail').value}%0AKode Booking: ${result.booking_code}%0ATotal DP: Rp 150.000%0A%0AMohon segera diverifikasi. Terima kasih.`;
+                        document.getElementById('waLink').href = `https://wa.me/6283150774897?text=${waMessage}`;
 
-                            // REFRESH DAFTAR TANGGAL (UPDATE KUOTA)
-                            loadAvailableDates();
-
-                            document.getElementById('bookingForm').style.display = 'none';
-                            document.getElementById('successView').style.display = 'block';
-                        } else {
-                            alert('Gagal: ' + (result.message || 'Terjadi kesalahan'));
-                            resetButton();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        document.getElementById('loadingOverlay').style.display = 'none';
-                        alert('Terjadi kesalahan. Periksa koneksi internet Anda.');
+                        document.getElementById('bookingForm').style.display = 'none';
+                        document.getElementById('successView').style.display = 'block';
+                    } else {
+                        alert('Gagal: ' + (result.message || 'Terjadi kesalahan'));
                         resetButton();
-                    });
+                    }
+                    isSubmitting = false;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    alert('Terjadi kesalahan. Periksa koneksi internet Anda.');
+                    resetButton();
+                    isSubmitting = false;
+                });
             });
 
             function resetButton() {
@@ -926,12 +887,6 @@
             const waLink = document.getElementById('waLink').href;
             window.open(waLink, '_blank');
         }
-
-        // Load tanggal saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            loadAvailableDates();
-        });
     </script>
 </body>
-
 </html>
