@@ -267,6 +267,47 @@
             border-radius: 12px;
         }
 
+        /* ========== VIDEO THUMBNAILS ========== */
+        .thumbnail-gallery {
+            display: flex;
+            justify-content: center;
+            /* posisi horizontal tengah */
+            align-items: center;
+            gap: 30px;
+            /* jarak antar video */
+            flex-wrap: wrap;
+        }
+
+        .video-thumbnail {
+            display: flex;
+            justify-content: center;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-thumbnail .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 40px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .video-thumbnail:hover .play-icon {
+            color: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+
         /* ========== TOMBOL AKSI ========== */
         .action-container {
             text-align: center;
@@ -468,7 +509,8 @@
         .modal-content {
             background: white;
             border-radius: 24px;
-            max-width: 500px; /* DIUBAH: Diperlebar jadi 500px */
+            max-width: 500px;
+            /* DIUBAH: Diperlebar jadi 500px */
             width: 90%;
             animation: slideInBooking 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
@@ -476,8 +518,15 @@
         }
 
         @keyframes slideInBooking {
-            from { transform: translateY(20px) scale(0.95); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
+            from {
+                transform: translateY(20px) scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
         }
 
         .modal-header {
@@ -574,7 +623,8 @@
         }
 
         .summary-item.total .value {
-            color: #2F6B5E; /* DIUBAH: Mengikuti konsistensi hijau tema CanyoKuy */
+            color: #2F6B5E;
+            /* DIUBAH: Mengikuti konsistensi hijau tema CanyoKuy */
             font-size: 18px;
             font-weight: 800;
         }
@@ -655,8 +705,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* ========== RESPONSIVE ========== */
@@ -665,19 +720,24 @@
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
+
             .banner-container {
                 flex-direction: column;
                 text-align: center;
             }
+
             .banner-title-group {
                 align-items: center;
             }
+
             .banner-badges {
                 justify-content: center;
             }
+
             .banner-price-box {
                 text-align: center;
             }
+
             .roadmap-row {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -688,13 +748,16 @@
                 justify-content: center !important;
                 gap: 20px;
             }
+
             .nav-links {
                 justify-content: center;
                 padding: 15px;
             }
+
             .hero-section {
                 height: 180px;
             }
+
             .roadmap-row {
                 grid-template-columns: 1fr;
             }
@@ -779,11 +842,33 @@
                     </ul>
                 </div>
             </div>
-            <div class="video-section">
-                <video controls>
-                    <source src="{{ asset('videos/video_round_trip.mp4') }}" type="video/mp4">
-                    Browser Anda tidak mendukung video.
-                </video>
+            <div class="thumbnail-gallery">
+                <div class="video-thumbnail">
+                    <video controls width="250">
+                        <source src="{{ asset('videos/video1.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
+                </div>
+
+                <div class="video-thumbnail">
+                    <video controls width="250">
+                        <source src="{{ asset('videos/video6.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
+                </div>
+
+                <div class="video-thumbnail">
+                    <video controls width="250">
+                        <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
+                </div>
+                <div class="video-thumbnail">
+                    <video controls width="250">
+                        <source src="{{ asset('videos/video4.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
+                </div>
             </div>
 
             <div class="action-container">
@@ -840,7 +925,8 @@
             </div>
             <div class="modal-footer">
                 <button class="btn-close" onclick="closeModal()">Batal</button>
-                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan <i class="fas fa-arrow-right"></i></button>
+                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan <i
+                        class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
