@@ -1024,96 +1024,42 @@
     </div>
 
     <script>
-        let countdownInterval;
-        let modal = document.getElementById('bookingModal');
-        let roadmapModal = document.getElementById('roadmapModal');
-        let isRedirecting = false;
+        // Fungsi untuk mengambil jadwal dari database
+        async function loadSchedule() {
+            try {
+                const response = await fetch('/api/schedules');
+                const result = await response.json();
 
-        function showBookingPopup() {
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-            }
-            isRedirecting = false;
+                if (result.success && result.data.length > 0) {
+                    // Ambil jadwal terdekat
+                    const nearestSchedule = result.data[0];
+                    const remainingQuota = nearestSchedule.quota - (nearestSchedule.filled || 0);
 
-            modal.style.display = 'flex';
+                    // Update badge Sisa Kuota
+                    const quotaBadge = document.querySelector('.badge.highlight');
+                    if (quotaBadge) {
+                        quotaBadge.innerHTML = `<i class="fas fa-fire"></i> Sisa Kuota: ${remainingQuota} Peserta`;
+                    }
 
-            // DIUBAH: Menjadi 5 detik
-            let seconds = 5;
-            const countdownElement = document.getElementById('countdown');
-            countdownElement.textContent = seconds;
-
-            countdownInterval = setInterval(() => {
-                if (!isRedirecting && seconds > 1) {
-                    seconds--;
-                    countdownElement.textContent = seconds;
+                    // Update badge Jadwal
+                    const scheduleBadge = document.querySelector('.badge:not(.highlight)');
+                    if (scheduleBadge) {
+                        const formattedDate = new Date(nearestSchedule.schedule_date).toLocaleDateString('id-ID', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        scheduleBadge.innerHTML = `<i class="fas fa-calendar-alt"></i> Jadwal: ${formattedDate}`;
+                    }
                 }
-
-                if (seconds <= 1 && !isRedirecting) {
-                    clearInterval(countdownInterval);
-                    redirectToBooking();
-                }
-            }, 1000);
-        }
-
-        function redirectToBooking() {
-            if (isRedirecting) return;
-
-            isRedirecting = true;
-
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-            }
-
-            const btnRedirect = document.querySelector('.btn-redirect');
-            btnRedirect.innerHTML = '<span class="loading-spinner"></span> Mengalihkan...';
-            btnRedirect.disabled = true;
-
-            const packageData = {
-                id: 1,
-                name: 'Paket Camp',
-                price: 330000,
-                price_formatted: 'Rp 330.000',
-                quota: '3 Tenda',
-                guide: 'Tim B'
-            };
-
-            sessionStorage.setItem('selected_package', JSON.stringify(packageData));
-
-            setTimeout(() => {
-                window.location.href = "{{ route('booking.camp') }}";
-            }, 500);
-        }
-
-        function closeModal() {
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-            }
-            modal.style.display = 'none';
-            isRedirecting = false;
-        }
-
-        function openRoadmapModal() {
-            roadmapModal.style.display = "flex";
-        }
-
-        function closeRoadmapModal() {
-            roadmapModal.style.display = "none";
-        }
-
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-            if (event.target === roadmapModal) {
-                closeRoadmapModal();
+            } catch (error) {
+                console.error('Error loading schedule:', error);
             }
         }
 
-        document.querySelectorAll('.video-thumbnail').forEach(thumb => {
-            thumb.addEventListener('click', function () {
-                document.querySelectorAll('.video-thumbnail').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
+        // Panggil fungsi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSchedule();
         });
     </script>
 </body>

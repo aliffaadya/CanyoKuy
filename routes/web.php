@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\TestimonialController;
-use App\Http\Controllers\GuideController;  // TAMBAHKAN INI
+use App\Http\Controllers\GuideController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Http\Request;
 
 // ========== HALAMAN DEPAN ==========
@@ -38,7 +39,7 @@ Route::get('/booking/roundtrip', function () {
 
 Route::get('/tour/{id}', [TourController::class, 'detail'])->name('tour.detail');
 
-// ========== API ROUTES (TESTIMONI & GUIDE) ==========
+// ========== API ROUTES ==========
 Route::prefix('api')->group(function () {
     // API Testimoni
     Route::get('/testimonials', [TestimonialController::class, 'getActiveTestimonials']);
@@ -51,6 +52,12 @@ Route::prefix('api')->group(function () {
     Route::post('/guides', [GuideController::class, 'store']);
     Route::put('/guides/{id}', [GuideController::class, 'update']);
     Route::delete('/guides/{id}', [GuideController::class, 'destroy']);
+    
+    // API Schedule
+    Route::get('/schedules', [ScheduleController::class, 'getActiveSchedules']);
+    Route::post('/schedules', [ScheduleController::class, 'store']);
+    Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
+    Route::delete('/schedules/{id}', [ScheduleController::class, 'destroy']);
 });
 
 // ========== HALAMAN ADMIN ==========
@@ -96,14 +103,10 @@ Route::prefix('admin')->group(function () {
         return view('admin.booking');
     })->name('admin.booking');
 
-    Route::get('/jadwal', function () {
-        if (!session()->has('admin_logged_in')) {
-            return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
-        }
-        return view('admin.jadwal');
-    })->name('admin.jadwal');
+    // HALAMAN ADMIN JADWAL (mengambil data dari database)
+    Route::get('/jadwal', [ScheduleController::class, 'index'])->name('admin.jadwal');
 
-    // HALAMAN ADMIN GUIDE (mengambil data dari database)
+    // HALAMAN ADMIN GUIDE
     Route::get('/guide', [GuideController::class, 'index'])->name('admin.guide');
 
     // HALAMAN ADMIN TESTIMONI
