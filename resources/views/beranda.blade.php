@@ -133,30 +133,6 @@
             transform: scale(1.05);
         }
 
-        /* Tombol Login Admin */
-        .admin-login-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 8px 16px;
-            border-radius: 40px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .admin-login-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-
-        .admin-login-btn i {
-            font-size: 16px;
-        }
-
         /* ========== HERO SECTION ========== */
         .hero-section {
             background-image: url('{{ asset("images/bg.jpg") }}');
@@ -730,6 +706,17 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
+        /* Link Admin di Footer - Tersembunyi tapi Tetap Bisa Diklik */
+        .admin-link-footer {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .admin-link-footer:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
         @media (max-width: 1050px) {
             .paket-grid {
                 grid-template-columns: 1fr;
@@ -840,10 +827,6 @@
                 <a href="{{ url('/guide') }}">Tour Guide</a>
                 <a href="https://wa.me/6283150774897" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
-                </a>
-                <a href="{{ route('admin.login') }}" class="admin-login-btn" title="Login Admin">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Admin</span>
                 </a>
             </div>
         </div>
@@ -964,106 +947,7 @@
                     <i class="fas fa-chevron-left"></i>
                 </button>
                 <div class="testimoni-track" id="testimoniTrack">
-                    <div class="testimoni-card">
-                        <div class="quote-icon">
-                            <i class="fas fa-quote-left"></i>
-                        </div>
-                        <div class="testimoni-text">
-                            "Pengalaman canyoneering yang luar biasa! Informasi di website sangat lengkap dan proses
-                            pemesanannya mudah. Guide yang mendampingi juga profesional dan ramah. Sangat
-                            direkomendasikan untuk pemula maupun yang sudah berpengalaman."
-                        </div>
-                        <div class="testimoni-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimoni-name">- Putri, Marabahan -</div>
-                    </div>
-                    <div class="testimoni-card">
-                        <div class="quote-icon">
-                            <i class="fas fa-quote-left"></i>
-                        </div>
-                        <div class="testimoni-text">
-                            "Pelayanan sangat memuaskan. Tim selalu cepat menjawab pertanyaan melalui kontak yang
-                            tersedia di website. Kegiatan berlangsung aman, menyenangkan, dan penuh petualangan."
-                        </div>
-                        <div class="testimoni-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimoni-name">- Siti, Batu Licin -</div>
-                    </div>
-                    <div class="testimoni-card">
-                        <div class="quote-icon">
-                            <i class="fas fa-quote-left"></i>
-                        </div>
-                        <div class="testimoni-text">
-                            "Salah satu pengalaman outdoor terbaik yang pernah saya coba. Booking online praktis,
-                            informasi lengkap, dan dokumentasi kegiatan yang diberikan sangat keren."
-                        </div>
-                        <div class="testimoni-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimoni-name">- Ryan, Banjarbaru -</div>
-                    </div>
-                    <div class="testimoni-card">
-                        <div class="quote-icon">
-                            <i class="fas fa-quote-left"></i>
-                        </div>
-                        <div class="testimoni-text">
-                            "Recommended untuk pecinta alam dan tantangan!"
-                        </div>
-                        <div class="testimoni-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimoni-name">- Rahman, Banjarmasin -</div>
-                    </div>
-                    <div class="testimoni-card">
-                        <div class="quote-icon">
-                            <i class="fas fa-quote-left"></i>
-                        </div>
-                        <div class="testimoni-text">
-                            "Pelayanan ramah, proses booking cepat, dan pengalaman petualangan yang seru."
-                        </div>
-                        <div class="testimoni-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimoni-name">- Rahmad, Banjarmasin -</div>
-                    </div>
-                    <div class="testimoni-card">
-                        <div class="quote-icon">
-                            <i class="fas fa-quote-left"></i>
-                        </div>
-                        <div class="testimoni-text">
-                            "Website mudah digunakan dan paket wisatanya sangat menarik."
-                        </div>
-                        <div class="testimoni-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimoni-name">- Adya, Sampit -</div>
-                    </div>
+                    <!-- Akan diisi oleh JavaScript -->
                 </div>
                 <button class="carousel-btn next" id="nextBtn">
                     <i class="fas fa-chevron-right"></i>
@@ -1073,7 +957,7 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
+    <!-- FOOTER - Link Admin Disembunyikan di Copyright -->
     <footer class="footer">
         <div class="container">
             <div class="footer-container">
@@ -1102,7 +986,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© CanyoKuy - 2026 | Petualangan Alam Bersama KPA Ulin</p>
+                <p>© 2026 <a href="{{ route('admin.login') }}" class="admin-link-footer">CanyoKuy</a>. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1125,7 +1009,11 @@
                 const result = await response.json();
 
                 if (result.success && result.data.length > 0) {
-                    testimonialsData = result.data;
+                    // SORTIR DARI YANG PALING LAMA (ID terkecil/created_at paling lama)
+                    const sortedData = result.data.sort((a, b) => {
+                        return (a.id || 0) - (b.id || 0);
+                    });
+                    testimonialsData = sortedData;
                     renderTestimonialsToCarousel();
                 } else {
                     // Gunakan data default jika tidak ada data dari database
@@ -1137,62 +1025,18 @@
             }
         }
 
-        // Gunakan testimoni default (statis)
+        // Gunakan testimoni default (statis) - sudah diurutkan dari yang paling lama
         function useDefaultTestimonials() {
-            testimonialsData = [{
-                    name: 'Putri',
-                    city: 'Marabahan',
-                    message: 'Pengalaman canyoneering yang luar biasa! Informasi di website sangat lengkap dan proses pemesanannya mudah. Guide yang mendampingi juga profesional dan ramah. Sangat direkomendasikan untuk pemula maupun yang sudah berpengalaman.',
-                    rating: 5
-                },
-                {
-                    name: 'Siti',
-                    city: 'Batu Licin',
-                    message: 'Pelayanan sangat memuaskan. Tim selalu cepat menjawab pertanyaan melalui kontak yang tersedia di website. Kegiatan berlangsung aman, menyenangkan, dan penuh petualangan.',
-                    rating: 5
-                },
-                {
-                    name: 'Ryan',
-                    city: 'Banjarbaru',
-                    message: 'Salah satu pengalaman outdoor terbaik yang pernah saya coba. Booking online praktis, informasi lengkap, dan dokumentasi kegiatan yang diberikan sangat keren.',
-                    rating: 5
-                },
-                {
-                    name: 'Rahman',
-                    city: 'Banjarmasin',
-                    message: 'Recommended untuk pecinta alam dan tantangan! Next mau coba paket yang lain.',
-                    rating: 5
-                },
-                {
-                    name: 'Rahmad',
-                    city: 'Banjarmasin',
-                    message: 'Pelayanan ramah, proses booking cepat, dan pengalaman petualangan yang seru. Worth it banget!',
-                    rating: 5
-                },
-                {
-                    name: 'Adya',
-                    city: 'Sampit',
-                    message: 'Website mudah digunakan dan paket wisatanya sangat menarik. Guide juga ramah-ramah!',
-                    rating: 5
-                },
-                {
-                    name: 'Linda',
-                    city: 'Jakarta',
-                    message: 'Pemandangan indah dan guide yang sangat berpengalaman. Safety equipment lengkap, jadi merasa aman selama kegiatan.',
-                    rating: 5
-                },
-                {
-                    name: 'Ahmad',
-                    city: 'Banjarmasin',
-                    message: 'Pertama kali coba canyoneering, awalnya takut tapi guide sangat membantu.',
-                    rating: 5
-                },
-                {
-                    name: 'Maya',
-                    city: 'Balikpapan',
-                    message: 'Terima kasih CanyoKuy! Pelayanan ramah, proses booking mudah, dan dokumentasi kegiatannya keren banget.',
-                    rating: 5
-                }
+            testimonialsData = [
+                { id: 1, name: 'Putri', city: 'Marabahan', message: 'Pengalaman canyoneering yang luar biasa! Informasi di website sangat lengkap dan proses pemesanannya mudah. Guide yang mendampingi juga profesional dan ramah. Sangat direkomendasikan untuk pemula maupun yang sudah berpengalaman.', rating: 5 },
+                { id: 2, name: 'Siti', city: 'Batu Licin', message: 'Pelayanan sangat memuaskan. Tim selalu cepat menjawab pertanyaan melalui kontak yang tersedia di website. Kegiatan berlangsung aman, menyenangkan, dan penuh petualangan.', rating: 5 },
+                { id: 3, name: 'Ryan', city: 'Banjarbaru', message: 'Salah satu pengalaman outdoor terbaik yang pernah saya coba. Booking online praktis, informasi lengkap, dan dokumentasi kegiatan yang diberikan sangat keren.', rating: 5 },
+                { id: 4, name: 'Rahman', city: 'Banjarmasin', message: 'Recommended untuk pecinta alam dan tantangan! Next mau coba paket yang lain.', rating: 5 },
+                { id: 5, name: 'Rahmad', city: 'Banjarmasin', message: 'Pelayanan ramah, proses booking cepat, dan pengalaman petualangan yang seru. Worth it banget!', rating: 5 },
+                { id: 6, name: 'Adya', city: 'Sampit', message: 'Website mudah digunakan dan paket wisatanya sangat menarik. Guide juga ramah-ramah!', rating: 5 },
+                { id: 7, name: 'Linda', city: 'Jakarta', message: 'Pemandangan indah dan guide yang sangat berpengalaman. Safety equipment lengkap, jadi merasa aman selama kegiatan.', rating: 5 },
+                { id: 8, name: 'Ahmad', city: 'Banjarmasin', message: 'Pertama kali coba canyoneering, awalnya takut tapi guide sangat membantu.', rating: 5 },
+                { id: 9, name: 'Maya', city: 'Balikpapan', message: 'Terima kasih CanyoKuy! Pelayanan ramah, proses booking mudah, dan dokumentasi kegiatannya keren banget.', rating: 5 }
             ];
             renderTestimonialsToCarousel();
         }

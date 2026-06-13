@@ -17,7 +17,9 @@
         --border-color: #e2e8f0;
     }
 
-    body, .content-wrapper, .main-content {
+    body,
+    .content-wrapper,
+    .main-content {
         background-color: var(--bg-color) !important;
         font-family: 'Inter', sans-serif;
     }
@@ -217,17 +219,23 @@
 
     .modal-overlay {
         display: none;
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background: rgba(15, 23, 42, 0.4);
         z-index: 1000;
-        justify-content: center; align-items: center;
+        justify-content: center;
+        align-items: center;
         backdrop-filter: blur(4px);
     }
 
     .modal-box {
         background: var(--card-bg);
         border-radius: 20px;
-        width: 100%; max-width: 420px;
+        width: 100%;
+        max-width: 420px;
         padding: 30px;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         transform: translateY(-20px);
@@ -235,26 +243,42 @@
     }
 
     @keyframes modalFadeIn {
-        to { transform: translateY(0); opacity: 1; }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 
     .modal-title {
-        font-size: 20px; font-weight: 700; color: var(--text-dark);
-        margin-top: 0; margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-top: 0;
+        margin-bottom: 20px;
     }
 
-    .form-group { margin-bottom: 18px; }
-    
+    .form-group {
+        margin-bottom: 18px;
+    }
+
     .form-group label {
-        display: block; font-size: 13px; font-weight: 600;
-        color: var(--text-gray); margin-bottom: 8px;
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-gray);
+        margin-bottom: 8px;
     }
 
     .form-control {
-        width: 100%; padding: 12px 16px;
-        border: 1px solid var(--border-color); border-radius: 10px;
-        font-family: 'Inter', sans-serif; font-size: 14px;
-        outline: none; transition: all 0.3s ease; box-sizing: border-box;
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
     }
 
     input[type="file"].form-control {
@@ -268,15 +292,26 @@
     }
 
     .modal-actions {
-        display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        justify-content: flex-end;
     }
 
     .btn-cancel {
-        background: white; color: var(--text-gray); border: 1px solid var(--border-color);
-        padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer;
+        background: white;
+        color: var(--text-gray);
+        border: 1px solid var(--border-color);
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
     }
-    
-    .btn-cancel:hover { background: #f8fafc; color: var(--text-dark); }
+
+    .btn-cancel:hover {
+        background: #f8fafc;
+        color: var(--text-dark);
+    }
 </style>
 
 <div class="green-banner-header">
@@ -305,17 +340,17 @@
         <h3 id="modalTitle" class="modal-title">Tambah Guide</h3>
         <form id="guideForm" onsubmit="return false;">
             <input type="hidden" id="editId">
-            
+
             <div class="form-group">
                 <label>Nama Lengkap Guide</label>
                 <input type="text" id="name" class="form-control" placeholder="Masukkan nama guide" required>
             </div>
-            
+
             <div class="form-group">
                 <label>Keahlian Spesifik</label>
                 <input type="text" id="skill" class="form-control" placeholder="Contoh: Canyoneering Expert" required>
             </div>
-            
+
             <div class="form-group">
                 <label>Upload Foto Profile</label>
                 <input type="file" id="imageFile" class="form-control" accept="image/*">
@@ -336,7 +371,7 @@
     let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';
     let guides = [];
     let currentEditId = null;
-    
+
     // Fungsi untuk membuka modal tambah guide
     function showAddModal() {
         console.log('showAddModal dipanggil'); // Debug
@@ -348,54 +383,105 @@
         document.getElementById('imageFile').value = '';
         document.getElementById('guideModal').style.display = 'flex';
     }
-    
+
     // Fungsi untuk menutup modal
     function closeModal() {
         document.getElementById('guideModal').style.display = 'none';
         currentEditId = null;
     }
-    
+
     // Load guide dari database
     async function loadGuides() {
         try {
             const response = await fetch('/api/guides');
             const result = await response.json();
-            
+
             if (result.success && result.data.length > 0) {
-                guides = result.data;
+                // SORTIR DATA DARI YANG PALING LAMA (ID terkecil/created_at paling lama)
+                guides = result.data.sort((a, b) => {
+                    return (a.id || 0) - (b.id || 0);
+                });
                 displayGuides();
             } else {
-                // Data default jika database kosong
-                guides = [
-                    { id: 1, name: 'Via', skill: 'Canyoneering Expert', image: '/images/via.jpg' },
-                    { id: 2, name: 'Faren', skill: 'Hiking Guide', image: '/images/Faren.jpg' },
-                    { id: 3, name: 'Dori', skill: 'Safety & Rescue', image: '/images/Dori.jpeg' },
-                    { id: 4, name: 'Lembut', skill: 'Nature Guide', image: '/images/lembut.jpeg' },
-                    { id: 5, name: 'Nurmala', skill: 'Camping Specialist', image: '/images/nurmala.jpeg' },
-                    { id: 6, name: 'Yaya', skill: 'Eco Tourism', image: '/images/yaya.jpeg' },
-                    { id: 7, name: 'Badog', skill: 'Climbing Guide', image: '/images/badhog.jpeg' },
-                    { id: 8, name: 'Kucrit', skill: 'Photography Guide', image: '/images/kucrit.jpg' }
-                ];
+                // Data default jika database kosong (tetap urutkan berdasarkan ID)
+                guides = [{
+                        id: 1,
+                        name: 'Via',
+                        skill: 'Canyoneering Expert',
+                        image: '/images/via.jpg'
+                    },
+                    {
+                        id: 2,
+                        name: 'Faren',
+                        skill: 'Hiking Guide',
+                        image: '/images/Faren.jpg'
+                    },
+                    {
+                        id: 3,
+                        name: 'Dori',
+                        skill: 'Safety & Rescue',
+                        image: '/images/Dori.jpeg'
+                    },
+                    {
+                        id: 4,
+                        name: 'Lembut',
+                        skill: 'Nature Guide',
+                        image: '/images/lembut.jpeg'
+                    },
+                    {
+                        id: 5,
+                        name: 'Nurmala',
+                        skill: 'Camping Specialist',
+                        image: '/images/nurmala.jpeg'
+                    },
+                    {
+                        id: 6,
+                        name: 'Yaya',
+                        skill: 'Eco Tourism',
+                        image: '/images/yaya.jpeg'
+                    },
+                    {
+                        id: 7,
+                        name: 'Badog',
+                        skill: 'Climbing Guide',
+                        image: '/images/badhog.jpeg'
+                    },
+                    {
+                        id: 8,
+                        name: 'Kucrit',
+                        skill: 'Photography Guide',
+                        image: '/images/kucrit.jpg'
+                    }
+                ].sort((a, b) => a.id - b.id);
                 displayGuides();
             }
         } catch (error) {
             console.error('Error:', error);
             // Data default jika error
-            guides = [
-                { id: 1, name: 'Via', skill: 'Canyoneering Expert', image: '/images/via.jpg' },
-                { id: 2, name: 'Faren', skill: 'Hiking Guide', image: '/images/Faren.jpg' }
-            ];
+            guides = [{
+                    id: 1,
+                    name: 'Via',
+                    skill: 'Canyoneering Expert',
+                    image: '/images/via.jpg'
+                },
+                {
+                    id: 2,
+                    name: 'Faren',
+                    skill: 'Hiking Guide',
+                    image: '/images/Faren.jpg'
+                }
+            ].sort((a, b) => a.id - b.id);
             displayGuides();
         }
     }
-    
+
     function displayGuides() {
         const grid = document.getElementById('guidesGrid');
         if (!guides || guides.length === 0) {
             grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-gray); padding: 40px 0;">Belum ada data tour guide.</div>';
             return;
         }
-        
+
         grid.innerHTML = guides.map(guide => `
             <div class="guide-card" data-id="${guide.id}">
                 <img src="${guide.image || '/images/default-avatar.jpg'}" onerror="this.src='/images/default-avatar.jpg'">
@@ -408,7 +494,7 @@
             </div>
         `).join('');
     }
-    
+
     function escapeHtml(text) {
         if (!text) return '';
         return text.replace(/[&<>]/g, function(m) {
@@ -418,7 +504,7 @@
             return m;
         });
     }
-    
+
     function editGuide(id) {
         const guide = guides.find(g => g.id == id);
         if (guide) {
@@ -431,7 +517,7 @@
             document.getElementById('guideModal').style.display = 'flex';
         }
     }
-    
+
     async function deleteGuide(id) {
         if (confirm('Yakin ingin menghapus guide ini?')) {
             try {
@@ -455,7 +541,7 @@
             }
         }
     }
-    
+
     function convertFileToBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -464,36 +550,40 @@
             reader.onerror = error => reject(error);
         });
     }
-    
+
     // Handle form submit
     document.getElementById('guideForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+
         const id = document.getElementById('editId').value;
         const name = document.getElementById('name').value;
         const skill = document.getElementById('skill').value;
         const fileInput = document.getElementById('imageFile');
-        
+
         if (!name || !skill) {
             alert('Nama dan keahlian harus diisi!');
             return;
         }
-        
+
         const saveBtn = document.getElementById('saveGuideBtn');
         const originalText = saveBtn.innerHTML;
         saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
         saveBtn.disabled = true;
-        
+
         try {
             let imageData = null;
             if (fileInput.files && fileInput.files[0]) {
                 imageData = await convertFileToBase64(fileInput.files[0]);
             }
-            
-            const data = { name: name, skill: skill, image: imageData };
+
+            const data = {
+                name: name,
+                skill: skill,
+                image: imageData
+            };
             const url = id ? `/api/guides/${id}` : '/api/guides';
             const method = id ? 'PUT' : 'POST';
-            
+
             const response = await fetch(url, {
                 method: method,
                 headers: {
@@ -502,7 +592,7 @@
                 },
                 body: JSON.stringify(data)
             });
-            
+
             const result = await response.json();
             if (result.success) {
                 alert(id ? '✅ Guide berhasil diupdate!' : '✅ Guide berhasil ditambahkan!');
@@ -519,12 +609,12 @@
             saveBtn.disabled = false;
         }
     });
-    
+
     // Event listener untuk tombol tambah guide
     document.getElementById('tambahGuideBtn').addEventListener('click', function() {
         showAddModal();
     });
-    
+
     // Load data saat halaman dibuka
     loadGuides();
 </script>

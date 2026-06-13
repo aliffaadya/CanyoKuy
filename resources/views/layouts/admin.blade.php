@@ -35,6 +35,7 @@
             overflow-y: auto;
             box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            z-index: 100;
         }
 
         .sidebar-header {
@@ -119,45 +120,7 @@
             min-height: 100vh;
         }
 
-        /* Top Bar */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            background: white;
-            padding: 16px 24px;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-        }
-
-        .page-title h1 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .admin-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .admin-name {
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .admin-avatar {
-            width: 40px;
-            height: 40px;
-            background: #2F6B5E;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
+        /* TOP BAR SUDAH DIHAPUS! LANGSUNG KONTEN */
 
         /* Card & Table Styles */
         .stats-grid {
@@ -336,6 +299,49 @@
             margin-bottom: 12px;
         }
 
+        /* Banner Hijau untuk halaman booking dll */
+        .green-banner-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 16px;
+            padding: 28px 32px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
+        }
+
+        .banner-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .banner-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            color: white;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            margin: 4px 0 0 0;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .stats-grid {
@@ -360,6 +366,13 @@
             }
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+            .green-banner-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .banner-left {
+                flex-direction: column;
             }
         }
 
@@ -411,13 +424,9 @@
                     <i class="fas fa-star"></i>
                     <span>Kelola Testimoni</span>
                 </a>
-                <a href="{{ route('admin.profile') }}" class="nav-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Profile & Password</span>
-                </a>
 
                 <div class="logout-btn">
-                    <a href="{{ route('admin.logout') }}" class="nav-item">
+                    <a href="{{ route('admin.logout') }}" class="nav-item" onclick="return confirm('Yakin ingin logout?')">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </a>
@@ -425,22 +434,8 @@
             </div>
         </div>
 
-        <!-- MAIN CONTENT -->
+        <!-- MAIN CONTENT - TOP BAR SUDAH DIHAPUS! -->
         <div class="main-content">
-            <!-- TOP BAR -->
-            <div class="top-bar">
-                <div class="page-title">
-                    <h1>@yield('title')</h1>
-                </div>
-                <div class="admin-info">
-                    <span class="admin-name">Hello, {{ session('admin_username', 'Admin') }}</span>
-                    <div class="admin-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CONTENT -->
             @yield('content')
         </div>
 
