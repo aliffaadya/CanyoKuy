@@ -5,6 +5,7 @@ use App\Http\Controllers\TourController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Http\Request;
 
 // ========== HALAMAN DEPAN ==========
@@ -58,6 +59,12 @@ Route::prefix('api')->group(function () {
     Route::post('/schedules', [ScheduleController::class, 'store']);
     Route::put('/schedules/{id}', [ScheduleController::class, 'update']);
     Route::delete('/schedules/{id}', [ScheduleController::class, 'destroy']);
+    
+    // API Booking
+    Route::get('/bookings', [BookingController::class, 'getAllBookings']);
+    Route::post('/bookings', [BookingController::class, 'store']);
+    Route::put('/bookings/{id}/status', [BookingController::class, 'updateStatus']);
+    Route::delete('/bookings/{id}', [BookingController::class, 'destroy']);
 });
 
 // ========== HALAMAN ADMIN ==========
@@ -96,14 +103,10 @@ Route::prefix('admin')->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 
-    Route::get('/booking', function () {
-        if (!session()->has('admin_logged_in')) {
-            return redirect()->route('admin.login')->with('error', 'Silakan login terlebih dahulu!');
-        }
-        return view('admin.booking');
-    })->name('admin.booking');
+    // HALAMAN ADMIN BOOKING
+    Route::get('/booking', [BookingController::class, 'index'])->name('admin.booking');
 
-    // HALAMAN ADMIN JADWAL (mengambil data dari database)
+    // HALAMAN ADMIN JADWAL
     Route::get('/jadwal', [ScheduleController::class, 'index'])->name('admin.jadwal');
 
     // HALAMAN ADMIN GUIDE
