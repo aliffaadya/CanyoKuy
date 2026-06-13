@@ -830,17 +830,17 @@
             style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
+                <span class="logo-text">CanyoKuy</span>
             </div>
             <div class="nav-links">
-                <a href="#">Beranda</a>
-                <a href="#paketWisata">Paket Wisata</a>
-                <a href="/cekBooking">Cek Booking</a>
-                <a href="#testimoni">Testimoni</a>
-                <a href="/guide">Tour Guide</a>
+                <a href="{{ url('/') }}">Beranda</a>
+                <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
+                <a href="{{ url('/cekBooking') }}">Cek Booking</a>
+                <a href="{{ url('/#testimoni') }}">Testimoni</a>
+                <a href="{{ url('/guide') }}">Tour Guide</a>
                 <a href="https://wa.me/6283150774897" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
                 </a>
-                <!-- TOMBOL LOGIN ADMIN -->
                 <a href="{{ route('admin.login') }}" class="admin-login-btn" title="Login Admin">
                     <i class="fas fa-user-shield"></i>
                     <span>Admin</span>
@@ -857,7 +857,7 @@
 
                 <!-- Ikon Air Terjun & Matahari -->
                 <div class="hero-icon" style="margin-bottom: 15px;">
-                  <i class="fas fa-leaf" style="font-size: 56px; color: white; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4));"></i>
+                    <i class="fas fa-leaf" style="font-size: 56px; color: white; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4));"></i>
                 </div>
 
                 <!-- Judul Besar -->
@@ -1108,62 +1108,106 @@
     </footer>
 
     <script>
-    // ========== CAROUSEL TESTIMONI ==========
-    const track = document.getElementById('testimoniTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const dotsContainer = document.getElementById('carouselDots');
+        // ========== CAROUSEL TESTIMONI ==========
+        const track = document.getElementById('testimoniTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('carouselDots');
 
-    let currentIndex = 0;
-    let cardsPerView = 3;
-    let testimonialsData = [];
+        let currentIndex = 0;
+        let cardsPerView = 3;
+        let testimonialsData = [];
 
-    // Fungsi untuk mengambil testimoni dari database
-    async function loadTestimonialsFromDB() {
-        try {
-            const response = await fetch('/api/testimonials');
-            const result = await response.json();
-            
-            if (result.success && result.data.length > 0) {
-                testimonialsData = result.data;
-                renderTestimonialsToCarousel();
-            } else {
-                // Gunakan data default jika tidak ada data dari database
+        // Fungsi untuk mengambil testimoni dari database
+        async function loadTestimonialsFromDB() {
+            try {
+                const response = await fetch('/api/testimonials');
+                const result = await response.json();
+
+                if (result.success && result.data.length > 0) {
+                    testimonialsData = result.data;
+                    renderTestimonialsToCarousel();
+                } else {
+                    // Gunakan data default jika tidak ada data dari database
+                    useDefaultTestimonials();
+                }
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
                 useDefaultTestimonials();
             }
-        } catch (error) {
-            console.error('Error loading testimonials:', error);
-            useDefaultTestimonials();
         }
-    }
 
-    // Gunakan testimoni default (statis)
-    function useDefaultTestimonials() {
-        testimonialsData = [
-            { name: 'Putri', city: 'Marabahan', message: 'Pengalaman canyoneering yang luar biasa! Informasi di website sangat lengkap dan proses pemesanannya mudah. Guide yang mendampingi juga profesional dan ramah. Sangat direkomendasikan untuk pemula maupun yang sudah berpengalaman.', rating: 5 },
-            { name: 'Siti', city: 'Batu Licin', message: 'Pelayanan sangat memuaskan. Tim selalu cepat menjawab pertanyaan melalui kontak yang tersedia di website. Kegiatan berlangsung aman, menyenangkan, dan penuh petualangan.', rating: 5 },
-            { name: 'Ryan', city: 'Banjarbaru', message: 'Salah satu pengalaman outdoor terbaik yang pernah saya coba. Booking online praktis, informasi lengkap, dan dokumentasi kegiatan yang diberikan sangat keren.', rating: 5 },
-            { name: 'Rahman', city: 'Banjarmasin', message: 'Recommended untuk pecinta alam dan tantangan! Next mau coba paket yang lain.', rating: 5 },
-            { name: 'Rahmad', city: 'Banjarmasin', message: 'Pelayanan ramah, proses booking cepat, dan pengalaman petualangan yang seru. Worth it banget!', rating: 5 },
-            { name: 'Adya', city: 'Sampit', message: 'Website mudah digunakan dan paket wisatanya sangat menarik. Guide juga ramah-ramah!', rating: 5 },
-            { name: 'Linda', city: 'Jakarta', message: 'Pemandangan indah dan guide yang sangat berpengalaman. Safety equipment lengkap, jadi merasa aman selama kegiatan.', rating: 5 },
-            { name: 'Ahmad', city: 'Banjarmasin', message: 'Pertama kali coba canyoneering, awalnya takut tapi guide sangat membantu.', rating: 5 },
-            { name: 'Maya', city: 'Balikpapan', message: 'Terima kasih CanyoKuy! Pelayanan ramah, proses booking mudah, dan dokumentasi kegiatannya keren banget.', rating: 5 }
-        ];
-        renderTestimonialsToCarousel();
-    }
+        // Gunakan testimoni default (statis)
+        function useDefaultTestimonials() {
+            testimonialsData = [{
+                    name: 'Putri',
+                    city: 'Marabahan',
+                    message: 'Pengalaman canyoneering yang luar biasa! Informasi di website sangat lengkap dan proses pemesanannya mudah. Guide yang mendampingi juga profesional dan ramah. Sangat direkomendasikan untuk pemula maupun yang sudah berpengalaman.',
+                    rating: 5
+                },
+                {
+                    name: 'Siti',
+                    city: 'Batu Licin',
+                    message: 'Pelayanan sangat memuaskan. Tim selalu cepat menjawab pertanyaan melalui kontak yang tersedia di website. Kegiatan berlangsung aman, menyenangkan, dan penuh petualangan.',
+                    rating: 5
+                },
+                {
+                    name: 'Ryan',
+                    city: 'Banjarbaru',
+                    message: 'Salah satu pengalaman outdoor terbaik yang pernah saya coba. Booking online praktis, informasi lengkap, dan dokumentasi kegiatan yang diberikan sangat keren.',
+                    rating: 5
+                },
+                {
+                    name: 'Rahman',
+                    city: 'Banjarmasin',
+                    message: 'Recommended untuk pecinta alam dan tantangan! Next mau coba paket yang lain.',
+                    rating: 5
+                },
+                {
+                    name: 'Rahmad',
+                    city: 'Banjarmasin',
+                    message: 'Pelayanan ramah, proses booking cepat, dan pengalaman petualangan yang seru. Worth it banget!',
+                    rating: 5
+                },
+                {
+                    name: 'Adya',
+                    city: 'Sampit',
+                    message: 'Website mudah digunakan dan paket wisatanya sangat menarik. Guide juga ramah-ramah!',
+                    rating: 5
+                },
+                {
+                    name: 'Linda',
+                    city: 'Jakarta',
+                    message: 'Pemandangan indah dan guide yang sangat berpengalaman. Safety equipment lengkap, jadi merasa aman selama kegiatan.',
+                    rating: 5
+                },
+                {
+                    name: 'Ahmad',
+                    city: 'Banjarmasin',
+                    message: 'Pertama kali coba canyoneering, awalnya takut tapi guide sangat membantu.',
+                    rating: 5
+                },
+                {
+                    name: 'Maya',
+                    city: 'Balikpapan',
+                    message: 'Terima kasih CanyoKuy! Pelayanan ramah, proses booking mudah, dan dokumentasi kegiatannya keren banget.',
+                    rating: 5
+                }
+            ];
+            renderTestimonialsToCarousel();
+        }
 
-    // Render testimoni ke carousel
-    function renderTestimonialsToCarousel() {
-        if (!track) return;
-        
-        track.innerHTML = '';
-        
-        testimonialsData.forEach(testimonial => {
-            const stars = '★'.repeat(testimonial.rating) + '☆'.repeat(5 - testimonial.rating);
-            const card = document.createElement('div');
-            card.className = 'testimoni-card';
-            card.innerHTML = `
+        // Render testimoni ke carousel
+        function renderTestimonialsToCarousel() {
+            if (!track) return;
+
+            track.innerHTML = '';
+
+            testimonialsData.forEach(testimonial => {
+                const stars = '★'.repeat(testimonial.rating) + '☆'.repeat(5 - testimonial.rating);
+                const card = document.createElement('div');
+                card.className = 'testimoni-card';
+                card.innerHTML = `
                 <div class="quote-icon">
                     <i class="fas fa-quote-left"></i>
                 </div>
@@ -1175,107 +1219,110 @@
                 </div>
                 <div class="testimoni-name">- ${testimonial.name}, ${testimonial.city} -</div>
             `;
-            track.appendChild(card);
-        });
-        
-        // Re-initialize carousel setelah data dimuat
-        setTimeout(() => {
-            initCarousel();
-        }, 100);
-    }
+                track.appendChild(card);
+            });
 
-    // ========== FUNGSI CAROUSEL ==========
-    function updateCardsPerView() {
-        if (window.innerWidth <= 900) {
-            cardsPerView = 1;
-        } else {
-            cardsPerView = 3;
+            // Re-initialize carousel setelah data dimuat
+            setTimeout(() => {
+                initCarousel();
+            }, 100);
         }
-    }
 
-    function initCarousel() {
-        const cards = document.querySelectorAll('.testimoni-card');
-        if (cards.length === 0) return;
-        
-        const totalCards = cards.length;
-        const totalSlides = Math.ceil(totalCards / cardsPerView);
-        
-        if (dotsContainer) {
-            dotsContainer.innerHTML = '';
-            
-            for (let i = 0; i < totalSlides; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('dot');
-                if (i === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => goToSlide(i));
-                dotsContainer.appendChild(dot);
+        // ========== FUNGSI CAROUSEL ==========
+        function updateCardsPerView() {
+            if (window.innerWidth <= 900) {
+                cardsPerView = 1;
+            } else {
+                cardsPerView = 3;
             }
         }
-        
-        currentIndex = 0;
-        updateDots();
-        scrollToSlide(0);
-    }
 
-    function updateDots() {
-        const dots = document.querySelectorAll('.dot');
-        dots.forEach((dot, i) => {
-            if (i === currentIndex) dot.classList.add('active');
-            else dot.classList.remove('active');
+        function initCarousel() {
+            const cards = document.querySelectorAll('.testimoni-card');
+            if (cards.length === 0) return;
+
+            const totalCards = cards.length;
+            const totalSlides = Math.ceil(totalCards / cardsPerView);
+
+            if (dotsContainer) {
+                dotsContainer.innerHTML = '';
+
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('dot');
+                    if (i === 0) dot.classList.add('active');
+                    dot.addEventListener('click', () => goToSlide(i));
+                    dotsContainer.appendChild(dot);
+                }
+            }
+
+            currentIndex = 0;
+            updateDots();
+            scrollToSlide(0);
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, i) => {
+                if (i === currentIndex) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        }
+
+        function getCardWidth() {
+            const cards = document.querySelectorAll('.testimoni-card');
+            if (cards.length === 0) return 300;
+            return cards[0].offsetWidth;
+        }
+
+        function scrollToSlide(index) {
+            if (!track) return;
+            const cardWidth = getCardWidth();
+            const gap = 30;
+            const scrollAmount = index * (cardWidth + gap) * cardsPerView;
+            track.scrollTo({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        function goToSlide(index) {
+            const cards = document.querySelectorAll('.testimoni-card');
+            const totalCards = cards.length;
+            if (totalCards === 0) return;
+
+            const totalSlides = Math.ceil(totalCards / cardsPerView);
+
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+            currentIndex = index;
+            scrollToSlide(currentIndex);
+            updateDots();
+        }
+
+        // Event listeners untuk tombol carousel
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+        }
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            updateCardsPerView();
+            setTimeout(() => {
+                initCarousel();
+                goToSlide(currentIndex);
+            }, 100);
         });
-    }
 
-    function getCardWidth() {
-        const cards = document.querySelectorAll('.testimoni-card');
-        if (cards.length === 0) return 300;
-        return cards[0].offsetWidth;
-    }
-
-    function scrollToSlide(index) {
-        if (!track) return;
-        const cardWidth = getCardWidth();
-        const gap = 30;
-        const scrollAmount = index * (cardWidth + gap) * cardsPerView;
-        track.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-    }
-
-    function goToSlide(index) {
-        const cards = document.querySelectorAll('.testimoni-card');
-        const totalCards = cards.length;
-        if (totalCards === 0) return;
-        
-        const totalSlides = Math.ceil(totalCards / cardsPerView);
-        
-        if (index < 0) index = 0;
-        if (index >= totalSlides) index = totalSlides - 1;
-        currentIndex = index;
-        scrollToSlide(currentIndex);
-        updateDots();
-    }
-
-    // Event listeners untuk tombol carousel
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-    }
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-    }
-
-    // Resize handler
-    window.addEventListener('resize', () => {
-        updateCardsPerView();
-        setTimeout(() => {
-            initCarousel();
-            goToSlide(currentIndex);
-        }, 100);
-    });
-
-    // Load data saat halaman siap
-    document.addEventListener('DOMContentLoaded', function() {
-        updateCardsPerView();
-        loadTestimonialsFromDB();
-    });
-</script>
+        // Load data saat halaman siap
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCardsPerView();
+            loadTestimonialsFromDB();
+        });
+    </script>
 
 </body>
 
