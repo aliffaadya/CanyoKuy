@@ -845,7 +845,7 @@
             <div class="thumbnail-gallery">
                 <div class="video-thumbnail">
                     <video controls width="250">
-                        <source src="{{ asset('videos/video1.mp4') }}" type="video/mp4">
+                        <source src="{{ asset('videos/video7.mp4') }}" type="video/mp4">
                         Browser Anda tidak mendukung video.
                     </video>
                 </div>
