@@ -9,6 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         * {
             margin: 0;
@@ -23,12 +24,7 @@
             line-height: 1.5;
         }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
+        /* ========== NAVBAR ========== */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -106,7 +102,6 @@
             transform: scale(1.05);
         }
 
-        /* Tombol Login Admin */
         .admin-login-btn {
             display: flex;
             align-items: center;
@@ -126,10 +121,6 @@
             transform: scale(1.05);
         }
 
-        .admin-login-btn i {
-            font-size: 16px;
-        }
-
         /* ========== HALAMAN CEK BOOKING ========== */
         .booking-page {
             position: relative;
@@ -139,7 +130,6 @@
             background-size: cover;
             background-position: center 30%;
             background-repeat: no-repeat;
-            opacity: 90%;
         }
 
         .booking-page::before {
@@ -164,33 +154,32 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 100px 0 80px 0;
+            padding: 120px 0 80px 0;
         }
 
         .booking-form-container {
             text-align: center;
-            max-width: 900px;
+            max-width: 800px;
             width: 100%;
+            margin-top: -50px;
         }
 
         .booking-title {
-            margin-top: -150px;
             font-size: 42px;
             font-weight: 700;
             color: white;
-            margin-bottom: 50px;
-            letter-spacing: -0.5px;
+            margin-bottom: 40px;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
         }
 
         .search-row {
             display: flex;
             align-items: center;
-            gap: 0;
+            gap: 12px;
             background: rgba(255, 255, 255, 0.12);
             border-radius: 60px;
             backdrop-filter: blur(8px);
-            overflow: hidden;
+            padding: 5px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -207,21 +196,19 @@
 
         .search-input::placeholder {
             color: rgba(255, 255, 255, 0.6);
-            font-weight: 400;
         }
 
         .search-select {
-            flex: 0.6;
             padding: 16px 20px;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-            border-left: 1px solid rgba(255, 255, 255, 0.2);
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
             font-size: 16px;
             color: white;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
             outline: none;
+            min-width: 160px;
         }
 
         .search-select option {
@@ -230,8 +217,9 @@
         }
 
         .search-btn {
-            background: rgba(47, 107, 94, 0.9);
+            background: rgba(47, 107, 94, 0.95);
             border: none;
+            border-radius: 50px;
             padding: 16px 36px;
             font-size: 16px;
             font-weight: 600;
@@ -244,6 +232,137 @@
 
         .search-btn:hover {
             background: #2F6B5E;
+            transform: scale(1.02);
+        }
+
+        /* Result Card */
+        .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2F6B5E;
+        }
+
+        .result-header h3 {
+            color: #2F6B5E;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-paid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-waiting {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-pending {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .result-item {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 12px;
+        }
+
+        .result-item label {
+            font-size: 11px;
+            color: #6b7a8a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .result-item .value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e2a3e;
+        }
+
+        .not-found {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+            color: #e74c3c;
+            display: none;
+        }
+
+        .not-found i {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+        }
+
+        .loading-spinner i {
+            font-size: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .reset-btn {
+            background: rgba(47, 107, 94, 0.9);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .reset-btn:hover {
+            background: #2F6B5E;
         }
 
         @media (max-width: 768px) {
@@ -254,27 +373,22 @@
             .search-row {
                 flex-direction: column;
                 border-radius: 24px;
+                background: rgba(255, 255, 255, 0.2);
             }
 
             .search-input,
             .search-select,
             .search-btn {
                 width: 100%;
-                border: none;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            }
-
-            .search-select {
-                border-left: none;
-                border-right: none;
-            }
-
-            .search-btn {
-                border-radius: 0;
+                border-radius: 40px;
             }
 
             .booking-content {
-                padding: 120px 0 80px 0;
+                padding: 150px 0 80px 0;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -282,11 +396,13 @@
 
 <body>
 
+    <!-- NAVBAR -->
     <div class="navbar">
         <div class="container-navbar"
             style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
+                <span class="logo-text">CanyoKuy</span>
             </div>
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
@@ -305,25 +421,194 @@
         </div>
     </div>
 
+    <!-- CONTENT -->
     <div class="booking-page">
         <div class="container">
             <div class="booking-content">
                 <div class="booking-form-container">
                     <h1 class="booking-title">Cek Kode Booking mu Disini</h1>
                     <div class="search-row">
-                        <input type="text" class="search-input" placeholder="Masukkan kode booking">
-                        <select class="search-select">
-                            <option value="">Pilih Paket</option>
-                            <option value="roundtrip">Paket Round Trip</option>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Masukkan kode booking"
+                            value="">
+                        <select id="packageFilter" class="search-select">
+                            <option value="all">Semua Paket</option>
                             <option value="camp">Paket Camp</option>
+                            <option value="roundtrip">Paket Round Trip</option>
                         </select>
-                        <button class="search-btn">Search</button>
+                        <button class="search-btn" onclick="checkBooking()">Search</button>
+                    </div>
+
+                    <div id="loadingSpinner" class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Mencari data...</p>
+                    </div>
+
+                    <div id="resultCard" class="result-card">
+                        <div class="result-header">
+                            <h3><i class="fas fa-receipt"></i> Detail Booking</h3>
+                            <span id="statusBadge" class="status-badge"></span>
+                        </div>
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <label>Kode Booking</label>
+                                <div class="value" id="resultKode">-</div>
+                            </div>
+                            <div class="result-item">
+                                <label>Nama Lengkap</label>
+                                <div class="value" id="resultNama">-</div>
+                            </div>
+                            <div class="result-item">
+                                <label>Email</label>
+                                <div class="value" id="resultEmail">-</div>
+                            </div>
+                            <div class="result-item">
+                                <label>WhatsApp</label>
+                                <div class="value" id="resultWA">-</div>
+                            </div>
+                            <div class="result-item">
+                                <label>Paket Wisata</label>
+                                <div class="value" id="resultPaket">-</div>
+                            </div>
+                            <div class="result-item">
+                                <label>Tanggal Keberangkatan</label>
+                                <div class="value" id="resultTanggal">-</div>
+                            </div>
+                            <div class="result-item">
+                                <label>Total Pembayaran</label>
+                                <div class="value" id="resultTotal">-</div>
+                            </div>
+                            <div class="result-item">
+                                <label>DP Dibayar</label>
+                                <div class="value" id="resultDP">-</div>
+                            </div>
+                            <div class="result-item">
+                                <label>Sisa Pembayaran</label>
+                                <div class="value" id="resultSisa">-</div>
+                            </div>
+                            <div class="result-item">
+                                <label>Tanggal Booking</label>
+                                <div class="value" id="resultCreated">-</div>
+                            </div>
+                        </div>
+                        <button class="reset-btn" onclick="resetSearch()">
+                            <i class="fas fa-search"></i> Cek Kode Lain
+                        </button>
+                    </div>
+
+                    <div id="notFoundCard" class="not-found">
+                        <i class="fas fa-search"></i>
+                        <h3>Booking Tidak Ditemukan</h3>
+                        <p>Kode booking yang Anda masukkan tidak valid. Silakan periksa kembali.</p>
+                        <button class="reset-btn" onclick="resetSearch()" style="margin-top: 20px;">
+                            <i class="fas fa-arrow-left"></i> Coba Lagi
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        async function checkBooking() {
+            const bookingCode = document.getElementById('searchInput').value.trim().toUpperCase();
+            const packageFilter = document.getElementById('packageFilter').value;
+
+            if (!bookingCode) {
+                alert('Silakan masukkan kode booking terlebih dahulu!');
+                return;
+            }
+
+            // Tampilkan loading
+            document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('resultCard').style.display = 'none';
+            document.getElementById('notFoundCard').style.display = 'none';
+
+            try {
+                const response = await fetch(`/api/bookings/check/${encodeURIComponent(bookingCode)}`);
+                const result = await response.json();
+
+                document.getElementById('loadingSpinner').style.display = 'none';
+
+                if (result.success && result.data) {
+                    const booking = result.data;
+
+                    // Filter berdasarkan paket jika dipilih
+                    if (packageFilter !== 'all') {
+                        const packageMap = {
+                            'camp': 'Paket Camp',
+                            'roundtrip': 'Paket Round Trip'
+                        };
+                        if (booking.package_name !== packageMap[packageFilter]) {
+                            document.getElementById('notFoundCard').style.display = 'block';
+                            return;
+                        }
+                    }
+
+                    displayBookingResult(booking);
+                } else {
+                    document.getElementById('notFoundCard').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loadingSpinner').style.display = 'none';
+                alert('Terjadi kesalahan. Periksa koneksi internet Anda.');
+            }
+        }
+
+        function displayBookingResult(booking) {
+            let statusText = '';
+            let statusClass = '';
+
+            if (booking.payment_status === 'paid') {
+                statusText = '✅ Sudah Diverifikasi / Lunas';
+                statusClass = 'status-paid';
+            } else if (booking.payment_status === 'waiting_confirmation') {
+                statusText = '⏳ Menunggu Verifikasi';
+                statusClass = 'status-waiting';
+            } else {
+                statusText = '🕐 Menunggu Pembayaran';
+                statusClass = 'status-pending';
+            }
+
+            const tanggalBerangkat = new Date(booking.booking_date).toLocaleDateString('id-ID', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+
+            const tanggalBooking = new Date(booking.created_at).toLocaleDateString('id-ID', {
+                year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+
+            document.getElementById('statusBadge').className = `status-badge ${statusClass}`;
+            document.getElementById('statusBadge').textContent = statusText;
+            document.getElementById('resultKode').textContent = booking.booking_code;
+            document.getElementById('resultNama').textContent = booking.customer_name;
+            document.getElementById('resultEmail').textContent = booking.email;
+            document.getElementById('resultWA').textContent = booking.phone;
+            document.getElementById('resultPaket').textContent = booking.package_name;
+            document.getElementById('resultTanggal').textContent = tanggalBerangkat;
+            document.getElementById('resultTotal').textContent = 'Rp ' + (booking.total_price || 0).toLocaleString('id-ID');
+            document.getElementById('resultDP').textContent = 'Rp ' + (booking.dp_amount || 0).toLocaleString('id-ID');
+            document.getElementById('resultSisa').textContent = 'Rp ' + (booking.remaining_amount || 0).toLocaleString('id-ID');
+            document.getElementById('resultCreated').textContent = tanggalBooking;
+
+            document.getElementById('resultCard').style.display = 'block';
+        }
+
+        function resetSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('packageFilter').value = 'all';
+            document.getElementById('searchInput').focus();
+            document.getElementById('resultCard').style.display = 'none';
+            document.getElementById('notFoundCard').style.display = 'none';
+        }
+
+        // Enter key untuk search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkBooking();
+            }
+        });
+    </script>
 </body>
 
 </html>

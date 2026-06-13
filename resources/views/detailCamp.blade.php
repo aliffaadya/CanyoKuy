@@ -1037,7 +1037,7 @@
         let isRedirecting = false;
 
         function showBookingPopup() {
-            console.log('showBookingPopup dipanggil'); // Debug
+            console.log('showBookingPopup dipanggil');
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
@@ -1047,7 +1047,6 @@
                 modal.style.display = 'flex';
             } else {
                 console.error('Modal tidak ditemukan!');
-                // Fallback: langsung redirect
                 redirectToBooking();
                 return;
             }
@@ -1084,13 +1083,10 @@
                 name: 'Paket Camp',
                 price: 330000,
                 price_formatted: 'Rp 330.000',
-                quota: '3 Tenda',
                 guide: 'Tim B'
             };
 
             sessionStorage.setItem('selected_package', JSON.stringify(packageData));
-
-            // Redirect ke halaman booking camp
             window.location.href = "{{ route('booking.camp') }}";
         }
 
@@ -1118,7 +1114,6 @@
             }
         }
 
-        // Tutup modal jika klik di luar
         window.onclick = function(event) {
             if (event.target === modal) {
                 closeModal();
@@ -1129,6 +1124,7 @@
             }
         }
 
+        // ========== FUNGSI LOAD KUOTA DARI DATABASE ==========
         // Fungsi untuk mengambil jadwal dari database
         async function loadSchedule() {
             try {
@@ -1136,25 +1132,23 @@
                 const result = await response.json();
 
                 if (result.success && result.data.length > 0) {
-                    const campSchedule = result.data.find(s => s.package_type === 'camp');
+                    // Ambil jadwal terdekat (tanpa filter)
+                    const nearestSchedule = result.data[0];
+                    const remainingQuota = nearestSchedule.quota - (nearestSchedule.filled || 0);
 
-                    if (campSchedule) {
-                        const remainingQuota = campSchedule.quota - (campSchedule.filled || 0);
+                    const quotaBadge = document.querySelector('.badge.highlight');
+                    if (quotaBadge) {
+                        quotaBadge.innerHTML = `<i class="fas fa-fire"></i> Sisa Kuota: ${remainingQuota} Peserta`;
+                    }
 
-                        const quotaBadge = document.querySelector('.badge.highlight');
-                        if (quotaBadge) {
-                            quotaBadge.innerHTML = `<i class="fas fa-fire"></i> Sisa Kuota: ${remainingQuota} Peserta`;
-                        }
-
-                        const scheduleBadge = document.querySelector('.badge:not(.highlight)');
-                        if (scheduleBadge) {
-                            const formattedDate = new Date(campSchedule.schedule_date).toLocaleDateString('id-ID', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            });
-                            scheduleBadge.innerHTML = `<i class="fas fa-calendar-alt"></i> Jadwal: ${formattedDate}`;
-                        }
+                    const scheduleBadge = document.querySelector('.badge:not(.highlight)');
+                    if (scheduleBadge) {
+                        const formattedDate = new Date(nearestSchedule.schedule_date).toLocaleDateString('id-ID', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        scheduleBadge.innerHTML = `<i class="fas fa-calendar-alt"></i> Jadwal: ${formattedDate}`;
                     }
                 }
             } catch (error) {
@@ -1162,16 +1156,9 @@
             }
         }
 
+        // Load data saat halaman siap
         document.addEventListener('DOMContentLoaded', function() {
             loadSchedule();
-
-            // Debug: cek apakah tombol ada
-            const btnBook = document.querySelector('.btn-book');
-            if (btnBook) {
-                console.log('Tombol Pesan Sekarang ditemukan');
-            } else {
-                console.error('Tombol Pesan Sekarang TIDAK ditemukan!');
-            }
         });
     </script>
 </body>

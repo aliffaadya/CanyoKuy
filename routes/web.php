@@ -65,6 +65,9 @@ Route::prefix('api')->group(function () {
     Route::post('/bookings', [BookingController::class, 'store']);
     Route::put('/bookings/{id}/status', [BookingController::class, 'updateStatus']);
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy']);
+    
+    // API CEK BOOKING (TAMBAHKAN INI)
+    Route::get('/bookings/check/{code}', [BookingController::class, 'checkBooking']);
 });
 
 // ========== HALAMAN ADMIN ==========

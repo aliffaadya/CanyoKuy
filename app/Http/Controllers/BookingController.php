@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Schedule;
+use Illuminate\Support\Facades\Storage; // TAMBAHKAN INI
 
 class BookingController extends Controller
 {
@@ -34,7 +35,7 @@ class BookingController extends Controller
     {
         try {
             \Log::info('Booking data:', $request->all());
-            
+
             $request->validate([
                 'nama' => 'required|string|max:100',
                 'email' => 'required|email|max:100',
@@ -46,8 +47,12 @@ class BookingController extends Controller
                 'bukti_transfer' => 'nullable|image|mimes:jpeg,jpg,png|max:2048'
             ]);
 
-            // Generate kode booking
             $bookingCode = 'CYK' . date('Ymd') . rand(100, 999);
+
+            // Buat folder jika belum ada
+            if (!Storage::disk('public')->exists('payment_proofs')) {
+                Storage::disk('public')->makeDirectory('payment_proofs');
+            }
 
             // Upload bukti transfer
             $paymentProof = null;
@@ -58,25 +63,21 @@ class BookingController extends Controller
                 $paymentProof = '/storage/' . $path;
             }
 
-            // Cek dan update kuota schedule
-            $schedule = Schedule::where('schedule_date', $request->tanggal)
-                ->where('package_type', strtolower($request->paket) == 'paket camp' ? 'camp' : 'roundtrip')
-                ->first();
-            
+            // Cari schedule berdasarkan tanggal (tanpa package_type)
+            $schedule = Schedule::where('schedule_date', $request->tanggal)->first();
+
             if ($schedule) {
-                // Update filled + 1
                 $schedule->increment('filled');
             } else {
-                // Buat schedule baru jika belum ada
                 $schedule = Schedule::create([
                     'schedule_date' => $request->tanggal,
-                    'package_type' => strtolower($request->paket) == 'paket camp' ? 'camp' : 'roundtrip',
                     'quota' => 20,
                     'filled' => 1,
                     'is_active' => true
                 ]);
             }
 
+            // Simpan booking
             $booking = Booking::create([
                 'booking_code' => $bookingCode,
                 'package_name' => $request->paket,
@@ -100,7 +101,6 @@ class BookingController extends Controller
                 'remaining_quota' => $schedule->quota - $schedule->filled,
                 'data' => $booking
             ]);
-
         } catch (\Exception $e) {
             \Log::error('Booking error: ' . $e->getMessage());
             return response()->json([
@@ -125,6 +125,31 @@ class BookingController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // Cek booking berdasarkan kode booking
+    public function checkBooking($code)
+    {
+        try {
+            $booking = Booking::where('booking_code', $code)->first();
+
+            if ($booking) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $booking
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Booking tidak ditemukan'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
             ], 500);
         }
     }

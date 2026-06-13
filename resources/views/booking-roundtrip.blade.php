@@ -4,16 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Pemesanan Paket Round Trip - CanyoKuy</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Form Pemesanan & Pembayaran - CanyoKuy</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
-        /* INTERFACE VARIABLES ADMIN PANEL */
         :root {
-            --primary-green: #1a3c34;
-            /* Disesuaikan dengan warna tema asli Round Trip user */
-            --banner-green: #2F6B5E;
+            --primary-green: #29604c;
+            --banner-green: #4da674;
             --bg-color: #f7f9fa;
             --text-dark: #1e293b;
             --text-gray: #64748b;
@@ -28,7 +26,7 @@
         }
 
         body {
-            background-color: #f1f5f9;
+            background-color: #ffffff;
             padding: 50px 20px;
             display: flex;
             justify-content: center;
@@ -120,7 +118,6 @@
             margin-top: 2px;
         }
 
-        /* FORM FIELD STYLES */
         .form-group {
             margin-bottom: 20px;
         }
@@ -156,20 +153,18 @@
         .form-control:focus {
             background: #ffffff;
             border-color: var(--primary-green);
-            box-shadow: 0 0 0 3px rgba(26, 60, 52, 0.1);
+            box-shadow: 0 0 0 3px rgba(41, 96, 76, 0.1);
         }
 
-        .fixed-participant {
-            background: #f1f5f9;
-            padding: 11px 14px;
-            border-radius: 8px;
-            font-size: 13.5px;
-            color: var(--text-gray);
-            border: 1.5px solid #e2e8f0;
-            font-weight: 500;
+        select.form-control {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2329604c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
         }
 
-        /* PAYMENT DETAILS BOX */
         .payment-box {
             background: var(--bg-color);
             border: 1px solid #e2e8f0;
@@ -197,12 +192,8 @@
             font-weight: 700;
         }
 
-        .payment-row.total-dp span {
-            color: var(--text-dark);
-        }
-
         .payment-row.total-dp .price {
-            color: #e74c3c;
+            color: var(--primary-green);
             font-size: 16px;
             font-weight: 800;
         }
@@ -249,7 +240,6 @@
             background: #e2e8f0;
         }
 
-        /* ALUR PROSES PEMBAYARAN & PELUNASAN */
         .payment-flow-container {
             border: 1px solid #e2e8f0;
             border-radius: 10px;
@@ -287,10 +277,6 @@
             margin-bottom: 20px;
         }
 
-        .flow-item:last-child {
-            margin-bottom: 0;
-        }
-
         .flow-dot {
             position: absolute;
             left: -24px;
@@ -308,25 +294,6 @@
             background: var(--primary-green);
         }
 
-        .flow-item.next .flow-dot {
-            border-color: var(--banner-green);
-            background: #ffffff;
-        }
-
-        .flow-content h4 {
-            font-size: 13.5px;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 3px;
-        }
-
-        .flow-content p {
-            font-size: 12.5px;
-            color: var(--text-gray);
-            line-height: 1.5;
-        }
-
-        /* KOTAK PERINGATAN KHUSUS (SAMA KONSISTEN) */
         .warning-box {
             background: #fef2f2;
             border: 1px solid #fee2e2;
@@ -339,12 +306,6 @@
             line-height: 1.5;
         }
 
-        .warning-box strong {
-            color: #991b1b;
-            font-weight: 700;
-        }
-
-        /* UPLOAD ZONE */
         .upload-label {
             display: block;
             font-size: 13px;
@@ -366,7 +327,6 @@
         .upload-zone:hover {
             border-color: var(--primary-green);
             background: #f0fdf9;
-            /* Light green tint */
         }
 
         .upload-zone i {
@@ -375,20 +335,6 @@
             margin-bottom: 8px;
         }
 
-        .upload-zone p {
-            font-size: 13px;
-            color: var(--text-dark);
-            font-weight: 600;
-        }
-
-        .upload-zone span {
-            font-size: 11px;
-            color: var(--text-gray);
-            display: block;
-            margin-top: 4px;
-        }
-
-        /* BUTTONS */
         .btn-submit {
             width: 100%;
             background: var(--primary-green);
@@ -408,7 +354,7 @@
         }
 
         .btn-submit:hover {
-            background: var(--banner-green);
+            background: #1e4537;
         }
 
         .btn-back {
@@ -426,7 +372,28 @@
             color: var(--primary-green);
         }
 
-        /* SPINNER LOADING */
+        .btn-home {
+            display: block;
+            width: 100%;
+            background: #f1f5f9;
+            color: #1e293b;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-home:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
         .spinner {
             display: none;
             width: 18px;
@@ -447,7 +414,6 @@
             }
         }
 
-        /* SUCCESS VIEW */
         #successView {
             display: none;
             text-align: center;
@@ -570,38 +536,67 @@
         .btn-whatsapp:hover {
             background: #20ba5a;
         }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loading-spinner-large {
+            width: 50px;
+            height: 50px;
+            border: 4px solid white;
+            border-top: 4px solid #4da674;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            color: white;
+            margin-top: 20px;
+            font-size: 16px;
+        }
     </style>
 </head>
 
 <body>
 
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner-large"></div>
+        <div class="loading-text">Memproses data...</div>
+    </div>
+
     <div class="booking-card">
-        <!-- HEADER -->
         <div class="card-header">
             <h2>Form Pemesanan & Pembayaran</h2>
-            <p>Isi data diri dan upload bukti transfer DP untuk Paket Round Trip</p>
+            <p>Isi data diri dan upload bukti transfer DP untuk menyelesaikan booking</p>
         </div>
 
         <div class="card-body">
-            <!-- ================= VIEW 1: FORM INPUT ================= -->
+            <!-- FORM INPUT -->
             <form id="bookingForm" onsubmit="handleFormSubmit(event)">
-                <!-- Detail Singkat Paket -->
                 <div class="package-badge">
                     <div class="package-icon">
-                        <i class="fas fa-person-hiking"></i>
+                        <i class="fas fa-car"></i>
                     </div>
                     <div class="package-info">
                         <h3>Paket Round Trip</h3>
-                        <p>Rp 300.000 <span style="font-size:12px; color: var(--text-gray); font-weight:400;">/orang
-                                (Booking Individu)</span></p>
+                        <p>Rp 300.000 <span style="font-size:12px; color: var(--text-gray); font-weight:400;">/orang (Booking Individu)</span></p>
                     </div>
                 </div>
 
-                <!-- Input Data Diri -->
                 <div class="form-group">
                     <label>Nama Lengkap <span>*</span></label>
-                    <input type="text" id="inputNama" class="form-control" placeholder="Masukkan nama lengkap Anda"
-                        required>
+                    <input type="text" id="inputNama" class="form-control" placeholder="Masukkan nama lengkap Anda" required>
                 </div>
 
                 <div class="form-group">
@@ -616,16 +611,17 @@
 
                 <div class="form-group">
                     <label>Tanggal Keberangkatan <span>*</span></label>
-                    <input type="date" id="inputTanggal" class="form-control" required>
+                    <select id="inputTanggal" class="form-control" required>
+                        <option value="">-- Pilih Tanggal --</option>
+                    </select>
+                    <small style="font-size: 11px; color: var(--text-gray);">Pilih tanggal keberangkatan yang tersedia</small>
                 </div>
 
                 <div class="form-group">
                     <label>Catatan Tambahan</label>
-                    <textarea id="inputCatatan" class="form-control" rows="2"
-                        placeholder="Tulis kebutuhan khusus atau catatan lainnya..."></textarea>
+                    <textarea id="inputCatatan" class="form-control" rows="2" placeholder="Tulis kebutuhan khusus atau catatan lainnya..."></textarea>
                 </div>
 
-                <!-- Box Rincian Pembayaran & Rekening -->
                 <div class="payment-box">
                     <div class="payment-row">
                         <span>Paket</span>
@@ -633,72 +629,60 @@
                     </div>
                     <div class="payment-row">
                         <span>Harga Paket</span>
-                        <span>Rp 300.000</span>
+                        <span id="labelHargaPaket">Rp 300.000</span>
                     </div>
                     <div class="payment-row total-dp">
                         <span>DP (50%) yang Harus Ditransfer</span>
-                        <span class="price">Rp 150.000</span>
+                        <span class="price" id="labelTotalDP">Rp 150.000</span>
                     </div>
 
-                    <!-- Rekening Bank -->
                     <div class="bank-section">
                         <div class="bank-name">BANK MANDIRI</div>
-                        <div class="bank-account" id="rekNumber">123 00 12345678 9</div>
+                        <div class="bank-account">123 00 12345678 9</div>
                         <button type="button" class="btn-copy" onclick="copyReconciliation()">
                             <i class="fas fa-copy"></i> Salin No. Rekening
                         </button>
                     </div>
                 </div>
 
-                <!-- ALUR PROSES PEMBAYARAN -->
                 <div class="payment-flow-container">
                     <div class="flow-title">Alur Proses & Pelunasan Pembayaran</div>
                     <div class="flow-steps">
-                        <!-- Tahap 1 -->
                         <div class="flow-item current">
                             <div class="flow-dot"></div>
                             <div class="flow-content">
                                 <h4>Tahap 1: Down Payment (DP)</h4>
-                                <p>Melakukan transfer komitmen awal sebesar 50% (Rp 150.000) dari total biaya paket dan
-                                    mengunggah bukti pembayaran pada form di bawah.</p>
+                                <p>Transfer komitmen awal sebesar 50% dari total biaya paket.</p>
                             </div>
                         </div>
-                        <!-- Tahap 2 -->
                         <div class="flow-item next">
                             <div class="flow-dot"></div>
                             <div class="flow-content">
-                                <h4>Tahap 2: Verifikasi & Konfirmasi Admin</h4>
-                                <p>Sistem admin akan melakukan pengecekan data serta validasi bukti transfer yang Anda
-                                    unggah untuk meresmikan status booking.</p>
+                                <h4>Tahap 2: Verifikasi Admin</h4>
+                                <p>Admin akan mengecek data dan validasi bukti transfer Anda.</p>
                             </div>
                         </div>
-                        <!-- Tahap 3 -->
                         <div class="flow-item next">
                             <div class="flow-dot"></div>
                             <div class="flow-content">
                                 <h4>Tahap 3: Pelunasan di Hari H</h4>
-                                <p>Sisa pembayaran sebesar Rp 150.000 dilunasi langsung di lokasi saat kegiatan
-                                    berlangsung secara tunai maupun transfer bank.</p>
+                                <p>Sisa pembayaran dilunasi di lokasi saat kegiatan berlangsung.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- KOTAK PERINGATAN KHUSUS (KONSISTEN) -->
                 <div class="warning-box">
-                    <strong>Peringatan Pembatalan:</strong> Apabila pemesanan dibatalkan secara sepihak oleh pihak
-                    pemesan, maka dana komitmen awal (DP) dinyatakan hangus dan tidak dapat dikembalikan.
+                    <strong>Peringatan Pembatalan:</strong> Apabila pemesanan dibatalkan secara sepihak, maka DP dinyatakan hangus dan tidak dapat dikembalikan.
                 </div>
 
-                <!-- File Bukti Transfer -->
                 <div class="form-group">
                     <label class="upload-label">Upload Bukti Transfer DP <span>*</span></label>
                     <div class="upload-zone" onclick="document.getElementById('fileUpload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p id="uploadText">Klik untuk upload Bukti Transfer</p>
                         <span>Format JPG, JPEG, PNG (Max 2MB)</span>
-                        <input type="file" id="fileUpload" style="display:none;" accept="image/jpeg,image/jpg,image/png"
-                            required onchange="fileSelected(this)">
+                        <input type="file" id="fileUpload" style="display:none;" accept="image/*" required onchange="fileSelected(this)">
                     </div>
                 </div>
 
@@ -710,14 +694,13 @@
                 <a href="{{ url('/detailRoundTrip') }}" class="btn-back">Kembali</a>
             </form>
 
-            <!-- ================= VIEW 2: HALAMAN SUKSES (INVOICE) ================= -->
+            <!-- HALAMAN SUKSES -->
             <div id="successView">
                 <div class="success-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <h3 class="success-title">Pemesanan Terkirim!</h3>
-                <p class="success-desc">Data Anda telah disimpan di sistem. Silakan klik tombol di bawah untuk mengirim
-                    konfirmasi ke WhatsApp admin agar segera diverifikasi.</p>
+                <p class="success-desc">Data Anda telah disimpan di sistem. Silakan konfirmasi ke WhatsApp admin untuk verifikasi.</p>
 
                 <div class="invoice-box">
                     <div class="invoice-row">
@@ -729,12 +712,12 @@
                         <span class="value">Paket Round Trip</span>
                     </div>
                     <div class="invoice-row">
-                        <span class="label">Tanggal Keberangkatan</span>
+                        <span class="label">Tanggal</span>
                         <span class="value" id="resTanggal">-</span>
                     </div>
                     <div class="invoice-row">
                         <span class="label">Total DP</span>
-                        <span class="value" style="color: #e74c3c; font-weight:700;">Rp 150.000</span>
+                        <span class="value" id="resDP" style="color: var(--primary-green); font-weight:700;">-</span>
                     </div>
 
                     <div class="booking-code-wrapper">
@@ -743,23 +726,58 @@
                     </div>
                 </div>
 
-                <a href="#" target="_blank" class="btn-whatsapp" id="waLink" onclick="pindahKeBeranda()">
+                <a href="#" target="_blank" class="btn-whatsapp" id="waLink" onclick="openWhatsApp()">
                     <i class="fab fa-whatsapp"></i> Konfirmasi ke WA Admin
+                </a>
+
+                <a href="{{ url('/') }}" class="btn-home">
+                    <i class="fas fa-home"></i> Kembali ke Beranda
                 </a>
             </div>
         </div>
     </div>
 
     <script>
-        // Set minimal tanggal hari ini
-        window.onload = function () {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('inputTanggal').min = today;
-        };
+        // Load daftar tanggal dari database
+        // Load daftar tanggal dari database (SEMUA JADWAL)
+        async function loadAvailableDates() {
+            try {
+                const response = await fetch('/api/schedules');
+                const result = await response.json();
+
+                if (result.success && result.data.length > 0) {
+                    const dateSelect = document.getElementById('inputTanggal');
+                    // Ambil SEMUA jadwal (tanpa filter)
+                    const allSchedules = result.data;
+
+                    if (allSchedules.length > 0) {
+                        dateSelect.innerHTML = '<option value="">-- Pilih Tanggal --</option>';
+
+                        allSchedules.forEach(schedule => {
+                            const remainingQuota = schedule.quota - (schedule.filled || 0);
+                            const formattedDate = new Date(schedule.schedule_date).toLocaleDateString('id-ID', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+                            const option = document.createElement('option');
+                            option.value = schedule.schedule_date;
+                            option.textContent = `${formattedDate} (Sisa Kuota: ${remainingQuota} orang)`;
+                            if (remainingQuota <= 0) {
+                                option.disabled = true;
+                                option.textContent = `${formattedDate} (PENUH)`;
+                            }
+                            dateSelect.appendChild(option);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading schedules:', error);
+            }
+        }
 
         function copyReconciliation() {
-            const textToCopy = "12300123456789";
-            navigator.clipboard.writeText(textToCopy).then(() => {
+            navigator.clipboard.writeText("12300123456789").then(() => {
                 alert("Nomor rekening Mandiri berhasil disalin!");
             });
         }
@@ -767,87 +785,152 @@
         function fileSelected(input) {
             if (input.files.length > 0) {
                 const file = input.files[0];
-
-                // Validasi ukuran max 2MB
-                if (file.size > 2 * 1024 * 1024) {
-                    alert('Ukuran file maksimal 2MB!');
+                if (file.size > 1024 * 1024) {
+                    alert('Ukuran file terlalu besar! Maksimal 1MB. Silakan kompres gambar Anda.');
                     input.value = '';
-                    document.getElementById('uploadText').innerHTML = "Klik untuk upload Bukti Transfer";
-                    document.getElementById('uploadText').style.color = "var(--text-dark)";
                     return;
                 }
-
                 document.getElementById('uploadText').innerHTML = "<b>File Terpilih:</b> " + file.name;
                 document.getElementById('uploadText').style.color = "var(--primary-green)";
             }
         }
 
-        function generateRandomBookingCode() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = '';
-            for (let i = 0; i < 5; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return "CKY-" + result;
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    const maxWidth = 1024;
+                    if (width > maxWidth) {
+                        height = (height * maxWidth) / width;
+                        width = maxWidth;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob(function(blob) {
+                        const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.jpg'), {
+                            type: 'image/jpeg'
+                        });
+                        callback(compressedFile);
+                    }, 'image/jpeg', 0.7);
+                };
+            };
+        }
+
+        function formatTanggal(tanggal) {
+            const date = new Date(tanggal);
+            return date.toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
         }
 
         function handleFormSubmit(event) {
             event.preventDefault();
 
-            // Tampilkan state loading di tombol
+            const fileInput = document.getElementById('fileUpload');
+            if (!fileInput.files.length) {
+                alert('Silakan upload bukti transfer terlebih dahulu!');
+                return;
+            }
+
+            const tanggal = document.getElementById('inputTanggal').value;
+            if (!tanggal) {
+                alert('Silakan pilih tanggal keberangkatan!');
+                return;
+            }
+
+            const originalFile = fileInput.files[0];
+            if (originalFile.size > 2 * 1024 * 1024) {
+                alert('Ukuran file maksimal 2MB!');
+                return;
+            }
+
+            document.getElementById('loadingOverlay').style.display = 'flex';
             document.getElementById('btnSpinner').style.display = 'block';
-            document.getElementById('btnText').textContent = 'Memproses Data...';
+            document.getElementById('btnText').textContent = 'Mengompres...';
             document.getElementById('submitBtn').disabled = true;
 
-            setTimeout(() => {
-                // Ambil Data dari Form
-                const nama = document.getElementById('inputNama').value;
-                const email = document.getElementById('inputEmail').value;
-                const wa = document.getElementById('inputWA').value;
-                const tanggal = document.getElementById('inputTanggal').value;
-                const catatan = document.getElementById('inputCatatan').value || "-";
-                const fileInput = document.getElementById('fileUpload');
-                const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'Tidak ada file';
+            compressImage(originalFile, function(compressedFile) {
+                document.getElementById('btnText').textContent = 'Mengirim...';
 
-                const kodeBooking = generateRandomBookingCode();
+                const formData = new FormData();
+                formData.append('nama', document.getElementById('inputNama').value);
+                formData.append('email', document.getElementById('inputEmail').value);
+                formData.append('whatsapp', document.getElementById('inputWA').value);
+                formData.append('paket', 'Paket Round Trip');
+                formData.append('tanggal', tanggal);
+                formData.append('total', '300000');
+                formData.append('catatan', document.getElementById('inputCatatan').value || '-');
+                formData.append('bukti_transfer', compressedFile);
 
-                // Inject Data ke Invoice Sukses
-                document.getElementById('resNama').textContent = nama;
-                document.getElementById('resTanggal').textContent = tanggal;
-                document.getElementById('resKode').textContent = kodeBooking;
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                const nomorAdmin = "6283150774897";
+                fetch('/api/bookings', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        document.getElementById('loadingOverlay').style.display = 'none';
 
-                // Format Pesan WA Persis Seperti Template User
-                const textMessage = `Halo Admin CanyoKuy!%0A` +
-                    `Saya ingin konfirmasi pembayaran DP untuk paket wisata.%0A%0A` +
-                    `*Berikut Rincian Data Pemesanan:*%0A` +
-                    `• Kode Booking: *${kodeBooking}*%0A` +
-                    `• Nama Lengkap: ${nama}%0A` +
-                    `• Email: ${email}%0A` +
-                    `• No. WhatsApp: ${wa}%0A` +
-                    `• Total Nominal DP: *${formatDP}*%0A` +
-                    `• Catatan: ${catatan}%0A%0A` +
-                    `Saya sudah melampirkan bukti transfer di website. Mohon segera dicek dan diverifikasi ya, terima kasih!`;
+                        if (result.success) {
+                            document.getElementById('resNama').textContent = document.getElementById('inputNama').value;
+                            document.getElementById('resTanggal').textContent = formatTanggal(tanggal);
+                            document.getElementById('resDP').textContent = 'Rp 150.000';
+                            document.getElementById('resKode').textContent = result.booking_code;
 
-                document.getElementById('waLink').href = `https://wa.me/${nomorAdmin}?text=${message}`;
+                            const waMessage = `Halo Admin CanyoKuy!%0A%0A*KONFIRMASI PEMBAYARAN DP*%0A%0ANama: ${document.getElementById('inputNama').value}%0AEmail: ${document.getElementById('inputEmail').value}%0AKode Booking: ${result.booking_code}%0ATanggal: ${tanggal}%0ATotal DP: Rp 150.000%0A%0AMohon segera diverifikasi. Terima kasih.`;
+                            document.getElementById('waLink').href = `https://wa.me/6283150774897?text=${waMessage}`;
 
-                // Sembunyikan View Form & Tampilkan View Sukses (Invoice)
-                document.getElementById('bookingForm').style.display = 'none';
-                document.getElementById('successView').style.display = 'block';
+                            // REFRESH DAFTAR TANGGAL (UPDATE KUOTA)
+                            loadAvailableDates();
 
-                // Scroll ke atas dengan halus
-                document.querySelector('.booking-card').scrollIntoView({ behavior: 'smooth' });
+                            document.getElementById('bookingForm').style.display = 'none';
+                            document.getElementById('successView').style.display = 'block';
+                        } else {
+                            alert('Gagal: ' + (result.message || 'Terjadi kesalahan'));
+                            resetButton();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('loadingOverlay').style.display = 'none';
+                        alert('Terjadi kesalahan. Periksa koneksi internet Anda.');
+                        resetButton();
+                    });
+            });
 
-            }, 1500); // Simulasi delay proses 1.5 detik
+            function resetButton() {
+                document.getElementById('btnSpinner').style.display = 'none';
+                document.getElementById('btnText').textContent = 'Kirim';
+                document.getElementById('submitBtn').disabled = false;
+            }
         }
-        function pindahKeBeranda() {
-            // Beri jeda 1 detik agar tab WhatsApp terbuka dengan aman
-            // Setelah itu, pindahkan halaman form ini ke Beranda
-            setTimeout(() => {
-                window.location.href = "/"; // Jika kamu pakai Laravel blade, bisa juga pakai "{{ url('/') }}"
-            }, 1000);
+
+        function openWhatsApp() {
+            const waLink = document.getElementById('waLink').href;
+            window.open(waLink, '_blank');
         }
+
+        // Load tanggal saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAvailableDates();
+        });
     </script>
 </body>
 

@@ -271,10 +271,8 @@
         .thumbnail-gallery {
             display: flex;
             justify-content: center;
-            /* posisi horizontal tengah */
             align-items: center;
             gap: 30px;
-            /* jarak antar video */
             flex-wrap: wrap;
         }
 
@@ -283,32 +281,7 @@
             justify-content: center;
         }
 
-        .video-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .video-thumbnail .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 40px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-            pointer-events: none;
-            transition: 0.3s;
-        }
-
-        .video-thumbnail:hover .play-icon {
-            color: white;
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-
-        /* ========== TOMBOL AKSI ========== */
+        /* Tombol Pesan */
         .action-container {
             text-align: center;
             margin-top: 20px;
@@ -316,7 +289,7 @@
 
         .btn-book {
             background: #2F6B5E;
-            border: 2px solid #2F6B5E;
+            border: none;
             padding: 14px 40px;
             border-radius: 40px;
             font-weight: 600;
@@ -330,8 +303,228 @@
 
         .btn-book:hover {
             background: #1e4a40;
-            border-color: #1e4a40;
             transform: translateY(-2px);
+        }
+
+        /* ========== MODAL POPUP BOOKING ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            animation: slideInBooking 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes slideInBooking {
+            from {
+                transform: translateY(20px) scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #2F6B5E 0%, #1e4a40 100%);
+            color: white;
+            padding: 30px 20px 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .success-icon-wrap {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            backdrop-filter: blur(4px);
+        }
+
+        .success-icon-wrap i {
+            font-size: 34px;
+            color: #ffffff;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .modal-header p {
+            font-size: 13.5px;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .package-summary {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .package-summary h4 {
+            color: #1e2a3e;
+            margin-bottom: 16px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 12px;
+        }
+
+        .package-summary h4 i {
+            color: #2F6B5E;
+            font-size: 18px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .summary-item .label {
+            color: #64748b;
+        }
+
+        .summary-item .value {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .summary-item.total {
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px dashed #cbd5e1;
+        }
+
+        .summary-item.total .label {
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .summary-item.total .value {
+            color: #2F6B5E;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .countdown-text {
+            text-align: center;
+            padding: 14px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            color: #166534;
+            font-size: 13.5px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .countdown-number {
+            font-size: 16px;
+            font-weight: 800;
+            color: #15803d;
+        }
+
+        .modal-footer {
+            padding: 0 24px 24px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-close,
+        .btn-redirect {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-close {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .btn-close:hover {
+            background: #e2e8f0;
+            color: #1e2a3e;
+        }
+
+        .btn-redirect {
+            background: #2F6B5E;
+            color: white;
+            box-shadow: 0 4px 12px rgba(47, 107, 94, 0.2);
+        }
+
+        .btn-redirect:hover {
+            background: #1e4a40;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(47, 107, 94, 0.3);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* ========== FLOATING HELP BUTTON ========== */
@@ -361,7 +554,7 @@
             transform: scale(1.08) translateY(-2px);
         }
 
-        /* ========== MODAL ROADMAP (ALUR PEMESANAN) ========== */
+        /* ========== MODAL ROADMAP ========== */
         .modal-roadmap {
             display: none;
             position: fixed;
@@ -491,230 +684,6 @@
             line-height: 1.4;
         }
 
-        /* ========== MODAL BOOKING (REVISI UI KONSISTEN) ========== */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            max-width: 500px;
-            /* DIUBAH: Diperlebar jadi 500px */
-            width: 90%;
-            animation: slideInBooking 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        @keyframes slideInBooking {
-            from {
-                transform: translateY(20px) scale(0.95);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, #2F6B5E 0%, #1e4a40 100%);
-            color: white;
-            padding: 30px 20px 25px;
-            text-align: center;
-            position: relative;
-        }
-
-        .success-icon-wrap {
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            backdrop-filter: blur(4px);
-        }
-
-        .success-icon-wrap i {
-            font-size: 34px;
-            color: #ffffff;
-        }
-
-        .modal-header h2 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-        }
-
-        .modal-header p {
-            font-size: 13.5px;
-            opacity: 0.85;
-            font-weight: 400;
-        }
-
-        .modal-body {
-            padding: 24px;
-        }
-
-        .package-summary {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-        }
-
-        .package-summary h4 {
-            color: #1e2a3e;
-            margin-bottom: 16px;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px dashed #cbd5e1;
-            padding-bottom: 12px;
-        }
-
-        .package-summary h4 i {
-            color: #2F6B5E;
-            font-size: 18px;
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-size: 14px;
-        }
-
-        .summary-item .label {
-            color: #64748b;
-        }
-
-        .summary-item .value {
-            font-weight: 600;
-            color: #0f172a;
-        }
-
-        .summary-item.total {
-            margin-top: 10px;
-            padding-top: 15px;
-            border-top: 1px dashed #cbd5e1;
-        }
-
-        .summary-item.total .label {
-            color: #0f172a;
-            font-weight: 700;
-        }
-
-        .summary-item.total .value {
-            color: #2F6B5E;
-            /* DIUBAH: Mengikuti konsistensi hijau tema CanyoKuy */
-            font-size: 18px;
-            font-weight: 800;
-        }
-
-        .countdown-text {
-            text-align: center;
-            padding: 14px;
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            border-radius: 12px;
-            color: #166534;
-            font-size: 13.5px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .countdown-number {
-            font-size: 16px;
-            font-weight: 800;
-            color: #15803d;
-        }
-
-        .modal-footer {
-            padding: 0 24px 24px;
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn-close,
-        .btn-redirect {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-close {
-            background: #f1f5f9;
-            color: #475569;
-        }
-
-        .btn-close:hover {
-            background: #e2e8f0;
-            color: #1e2a3e;
-        }
-
-        .btn-redirect {
-            background: #2F6B5E;
-            color: white;
-            box-shadow: 0 4px 12px rgba(47, 107, 94, 0.2);
-        }
-
-        .btn-redirect:hover {
-            background: #1e4a40;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(47, 107, 94, 0.3);
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid white;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 900px) {
             .detail-grid {
                 grid-template-columns: 1fr;
@@ -770,12 +739,10 @@
     <div class="navbar">
         <div class="container-navbar"
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
                 <span class="logo-text">CanyoKuy</span>
             </div>
-
             <div class="nav-links">
                 <a href="{{ url('/') }}">Beranda</a>
                 <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
@@ -786,7 +753,6 @@
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
                 </a>
             </div>
-
         </div>
     </div>
 
@@ -842,57 +808,44 @@
                     </ul>
                 </div>
             </div>
+
             <div class="thumbnail-gallery">
-                <div class="thumbnail-gallery">
-                    <div class="video-thumbnail">
-                        <video autoplay muted loop playsinline width="250">
-                            <source src="{{ asset('videos/video7.mp4') }}" type="video/mp4">
-                            Browser Anda tidak mendukung video.
-                        </video>
-                    </div>
+                <div class="video-thumbnail">
+                    <video autoplay muted loop playsinline width="250">
+                        <source src="{{ asset('videos/video7.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
                 </div>
-
-                <div class="thumbnail-gallery">
-                    <div class="video-thumbnail">
-                        <video autoplay muted loop playsinline width="250">
-                            <source src="{{ asset('videos/video6.mp4') }}" type="video/mp4">
-                            Browser Anda tidak mendukung video.
-                        </video>
-                    </div>
+                <div class="video-thumbnail">
+                    <video autoplay muted loop playsinline width="250">
+                        <source src="{{ asset('videos/video6.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
                 </div>
-
-                <div class="thumbnail-gallery">
-                    <div class="video-thumbnail">
-                        <video autoplay muted loop playsinline width="250">
-                            <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
-                            Browser Anda tidak mendukung video.
-                        </video>
-                    </div>
+                <div class="video-thumbnail">
+                    <video autoplay muted loop playsinline width="250">
+                        <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
                 </div>
-                <div class="thumbnail-gallery">
-                    <div class="video-thumbnail">
-                        <video autoplay muted loop playsinline width="250">
-                            <source src="{{ asset('videos/video4.mp4') }}" type="video/mp4">
-                            Browser Anda tidak mendukung video.
-                        </video>
-                    </div>
+                <div class="video-thumbnail">
+                    <video autoplay muted loop playsinline width="250">
+                        <source src="{{ asset('videos/video4.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
                 </div>
             </div>
-
 
             <div class="action-container">
                 <button class="btn-book" onclick="showBookingPopup()">Pesan Sekarang</button>
             </div>
-
         </div>
     </div>
 
-    <!-- TOMBOL HELP MELAYANG -->
     <div class="floating-help-btn" onclick="openRoadmapModal()" title="Panduan Alur Pemesanan">
         <i class="fas fa-question"></i>
     </div>
 
-    <!-- MODAL POPUP BOOKING (REVISI UI KONSISTEN) -->
     <div id="bookingModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -928,19 +881,16 @@
                 </div>
                 <div class="countdown-text">
                     <i class="fas fa-spinner fa-spin"></i> Mengalihkan otomatis dalam
-                    <!-- DIUBAH: Menjadi 5 detik -->
                     <span class="countdown-number" id="countdown">5</span> detik
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-close" onclick="closeModal()">Batal</button>
-                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan <i
-                        class="fas fa-arrow-right"></i></button>
+                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan <i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL ROADMAP / ALUR PEMESANAN -->
     <div id="roadmapModal" class="modal-roadmap">
         <div class="modal-roadmap-content">
             <span class="close-roadmap" onclick="closeRoadmapModal()">&times;</span>
@@ -974,7 +924,7 @@
                         </div>
                         <div class="step-content">
                             <h4>Isi Form Booking</h4>
-                            <p>Lengkapi formulir secara teliti dan benar untuk mencegah kendala data ke depan.</p>
+                            <p>Lengkapi formulir secara teliti dan benar.</p>
                         </div>
                     </div>
                     <div class="roadmap-item">
@@ -984,7 +934,7 @@
                         </div>
                         <div class="step-content">
                             <h4>Upload Bukti Transfer</h4>
-                            <p>Kirimkan dana lalu upload bukti transfer ke rekening resmi sebelum kirim form.</p>
+                            <p>Kirimkan dana lalu upload bukti transfer ke rekening resmi.</p>
                         </div>
                     </div>
                 </div>
@@ -1006,7 +956,7 @@
                         </div>
                         <div class="step-content">
                             <h4>Verifikasi Admin</h4>
-                            <p>Tim admin akan segera memeriksa validasi form beserta mutasi transfer Anda.</p>
+                            <p>Tim admin akan memeriksa validasi form dan mutasi transfer Anda.</p>
                         </div>
                     </div>
                     <div class="roadmap-item">
@@ -1016,7 +966,7 @@
                         </div>
                         <div class="step-content">
                             <h4>Pantau Status</h4>
-                            <p>Cek berkala kode pemesanan untuk melihat status (Pending, Diterima, Ditolak).</p>
+                            <p>Cek berkala kode pemesanan untuk melihat status.</p>
                         </div>
                     </div>
                     <div class="roadmap-item">
@@ -1026,7 +976,7 @@
                         </div>
                         <div class="step-content">
                             <h4>Grup Koordinasi</h4>
-                            <p>Jika sukses, gabung ke Group Chat khusus untuk koordinasi perjalanan tim!</p>
+                            <p>Jika sukses, gabung ke Group Chat untuk koordinasi perjalanan tim! 🎉</p>
                         </div>
                     </div>
                 </div>
@@ -1035,6 +985,104 @@
     </div>
 
     <script>
+        let countdownInterval;
+        let modal = document.getElementById('bookingModal');
+        let isRedirecting = false;
+
+        function showBookingPopup() {
+            console.log('showBookingPopup dipanggil');
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            isRedirecting = false;
+
+            if (modal) {
+                modal.style.display = 'flex';
+            } else {
+                console.error('Modal tidak ditemukan!');
+                redirectToBooking();
+                return;
+            }
+
+            let seconds = 5;
+            const countdownElement = document.getElementById('countdown');
+            if (countdownElement) {
+                countdownElement.textContent = seconds;
+            }
+
+            countdownInterval = setInterval(() => {
+                if (!isRedirecting && seconds > 1) {
+                    seconds--;
+                    if (countdownElement) countdownElement.textContent = seconds;
+                }
+
+                if (seconds <= 1 && !isRedirecting) {
+                    clearInterval(countdownInterval);
+                    redirectToBooking();
+                }
+            }, 1000);
+        }
+
+        function redirectToBooking() {
+            if (isRedirecting) return;
+            isRedirecting = true;
+
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+
+            const packageData = {
+                id: 2,
+                name: 'Paket Round Trip',
+                price: 300000,
+                price_formatted: 'Rp 300.000',
+                dp: 150000,
+                dp_formatted: 'Rp 150.000',
+                sisa: 150000,
+                sisa_formatted: 'Rp 150.000',
+                dp_percent: '50%',
+                guide: 'Tim A'
+            };
+
+            sessionStorage.setItem('selected_package', JSON.stringify(packageData));
+            window.location.href = "{{ route('booking.roundtrip') }}";
+        }
+
+        function closeModal() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            if (modal) {
+                modal.style.display = 'none';
+            }
+            isRedirecting = false;
+        }
+
+        function openRoadmapModal() {
+            const roadmapModal = document.getElementById('roadmapModal');
+            if (roadmapModal) {
+                roadmapModal.style.display = "flex";
+            }
+        }
+
+        function closeRoadmapModal() {
+            const roadmapModal = document.getElementById('roadmapModal');
+            if (roadmapModal) {
+                roadmapModal.style.display = "none";
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+            const roadmapModal = document.getElementById('roadmapModal');
+            if (event.target === roadmapModal) {
+                closeRoadmapModal();
+            }
+        };
+
+        // ========== FUNGSI LOAD KUOTA DARI DATABASE ==========
         // Fungsi untuk mengambil jadwal dari database
         async function loadSchedule() {
             try {
@@ -1042,17 +1090,15 @@
                 const result = await response.json();
 
                 if (result.success && result.data.length > 0) {
-                    // Ambil jadwal terdekat
+                    // Ambil jadwal terdekat (tanpa filter)
                     const nearestSchedule = result.data[0];
                     const remainingQuota = nearestSchedule.quota - (nearestSchedule.filled || 0);
 
-                    // Update badge Sisa Kuota
                     const quotaBadge = document.querySelector('.badge.highlight');
                     if (quotaBadge) {
                         quotaBadge.innerHTML = `<i class="fas fa-fire"></i> Sisa Kuota: ${remainingQuota} Peserta`;
                     }
 
-                    // Update badge Jadwal
                     const scheduleBadge = document.querySelector('.badge:not(.highlight)');
                     if (scheduleBadge) {
                         const formattedDate = new Date(nearestSchedule.schedule_date).toLocaleDateString('id-ID', {
@@ -1068,7 +1114,7 @@
             }
         }
 
-        // Panggil fungsi saat halaman dimuat
+        // Load data saat halaman siap
         document.addEventListener('DOMContentLoaded', function() {
             loadSchedule();
         });
