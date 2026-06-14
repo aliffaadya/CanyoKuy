@@ -264,6 +264,11 @@
             color: #856404;
         }
 
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
         .status-pending {
             background: #cfe2ff;
             color: #084298;
@@ -294,6 +299,32 @@
             font-size: 15px;
             font-weight: 600;
             color: #1e2a3e;
+        }
+
+        .result-item-full {
+            grid-column: span 2;
+        }
+
+        .rejection-box {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 12px;
+        }
+
+        .rejection-box label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #dc2626;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .rejection-box .rejection-text {
+            font-size: 14px;
+            color: #991b1b;
+            line-height: 1.5;
         }
 
         .not-found {
@@ -351,6 +382,7 @@
             .search-input, .search-btn { width: 100%; border-radius: 40px; }
             .booking-content { padding: 150px 0 80px 0; }
             .result-grid { grid-template-columns: 1fr; }
+            .result-item-full { grid-column: span 1; }
         }
     </style>
 </head>
@@ -408,10 +440,6 @@
                                 <div class="value" id="resultNama">-</div>
                             </div>
                             <div class="result-item">
-                                <label>Email</label>
-                                <div class="value" id="resultEmail">-</div>
-                            </div>
-                            <div class="result-item">
                                 <label>WhatsApp</label>
                                 <div class="value" id="resultWA">-</div>
                             </div>
@@ -440,6 +468,10 @@
                                 <div class="value" id="resultCreated">-</div>
                             </div>
                         </div>
+                        
+                        <!-- Tempat untuk menampilkan alasan penolakan -->
+                        <div id="rejectionContainer" style="display: none;"></div>
+                        
                         <button class="reset-btn" onclick="resetSearch()">
                             <i class="fas fa-search"></i> Cek Kode Lain
                         </button>
@@ -494,11 +526,14 @@
             let statusClass = '';
 
             if (booking.payment_status === 'paid') {
-                statusText = '✅ Sudah Diverifikasi / Lunas';
+                statusText = '✅ Sudah Diverifikasi';
                 statusClass = 'status-paid';
             } else if (booking.payment_status === 'waiting_confirmation') {
                 statusText = '⏳ Menunggu Verifikasi';
                 statusClass = 'status-waiting';
+            } else if (booking.payment_status === 'rejected') {
+                statusText = '❌ Ditolak';
+                statusClass = 'status-rejected';
             } else {
                 statusText = '🕐 Menunggu Pembayaran';
                 statusClass = 'status-pending';
@@ -516,7 +551,6 @@
             document.getElementById('statusBadge').textContent = statusText;
             document.getElementById('resultKode').textContent = booking.booking_code;
             document.getElementById('resultNama').textContent = booking.customer_name;
-            document.getElementById('resultEmail').textContent = booking.email;
             document.getElementById('resultWA').textContent = booking.phone;
             document.getElementById('resultPaket').textContent = booking.package_name;
             document.getElementById('resultTanggal').textContent = tanggalBerangkat;
@@ -524,6 +558,24 @@
             document.getElementById('resultDP').textContent = 'Rp ' + (booking.dp_amount || 0).toLocaleString('id-ID');
             document.getElementById('resultSisa').textContent = 'Rp ' + (booking.remaining_amount || 0).toLocaleString('id-ID');
             document.getElementById('resultCreated').textContent = tanggalBooking;
+
+            // TAMPILKAN ALASAN PENOLAKAN JIKA STATUS REJECTED
+            const rejectionContainer = document.getElementById('rejectionContainer');
+            if (booking.payment_status === 'rejected' && booking.rejection_reason) {
+                rejectionContainer.style.display = 'block';
+                rejectionContainer.innerHTML = `
+                    <div class="rejection-box">
+                        <label><i class="fas fa-exclamation-triangle"></i> Alasan Penolakan:</label>
+                        <div class="rejection-text">${booking.rejection_reason}</div>
+                        <p style="font-size: 12px; color: #991b1b; margin-top: 10px;">
+                            <i class="fas fa-info-circle"></i> Silakan hubungi admin untuk informasi lebih lanjut.
+                        </p>
+                    </div>
+                `;
+            } else {
+                rejectionContainer.style.display = 'none';
+                rejectionContainer.innerHTML = '';
+            }
 
             document.getElementById('resultCard').style.display = 'block';
         }

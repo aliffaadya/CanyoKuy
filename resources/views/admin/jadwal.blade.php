@@ -135,7 +135,7 @@
         const tbody = document.getElementById('scheduleTable');
         
         if (!schedules || schedules.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px;">Belum ada jadwal. Silakan buat jadwal baru.ERER数';
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px;">Belum ada jadwal. Silakan buat jadwal baru.';
             return;
         }
         

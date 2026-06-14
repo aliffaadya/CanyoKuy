@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Admin;
 
 return [
 
@@ -42,6 +43,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        
+        // TAMBAHKAN GUARD UNTUK ADMIN
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -65,6 +72,12 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
+        ],
+        
+        // TAMBAHKAN PROVIDER UNTUK ADMIN
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
 
         // 'users' => [
@@ -96,6 +109,14 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        
+        // TAMBAHKAN PASSWORD RESET UNTUK ADMIN (OPSIONAL)
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'admin_password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],
