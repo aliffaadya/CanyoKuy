@@ -401,8 +401,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         #successView {
@@ -412,8 +417,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .success-icon {
@@ -683,10 +695,6 @@
                         <span class="value">Paket Camp</span>
                     </div>
                     <div class="invoice-row">
-                        <span class="label">Tanggal</span>
-                        <span class="value" id="resTanggal">-</span>
-                    </div>
-                    <div class="invoice-row">
                         <span class="label">Total DP</span>
                         <span class="value" id="resDP" style="color: var(--primary-green); font-weight:700;">-</span>
                     </div>
@@ -720,8 +728,8 @@
         function fileSelected(input) {
             if (input.files.length > 0) {
                 const file = input.files[0];
-                if (file.size > 1024 * 1024) {
-                    alert('Ukuran file terlalu besar! Maksimal 1MB. Silakan kompres gambar Anda.');
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Ukuran file terlalu besar! Maksimal 2MB. Silakan kompres gambar Anda.');
                     input.value = '';
                     return;
                 }
@@ -753,18 +761,13 @@
                     ctx.drawImage(img, 0, 0, width, height);
 
                     canvas.toBlob(function(blob) {
-                        const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.jpg'), { type: 'image/jpeg' });
+                        const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '.jpg'), {
+                            type: 'image/jpeg'
+                        });
                         callback(compressedFile);
                     }, 'image/jpeg', 0.7);
                 };
             };
-        }
-
-        function formatTanggal(tanggal) {
-            const date = new Date(tanggal);
-            return date.toLocaleDateString('id-ID', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
         }
 
         async function handleFormSubmit(event) {
@@ -773,6 +776,23 @@
             if (isSubmitting) return;
             isSubmitting = true;
 
+            // Validasi nama
+            const nama = document.getElementById('inputNama').value;
+            if (!nama.trim()) {
+                alert('Silakan masukkan nama lengkap!');
+                isSubmitting = false;
+                return;
+            }
+
+            // Validasi WhatsApp
+            const wa = document.getElementById('inputWA').value;
+            if (!wa.trim()) {
+                alert('Silakan masukkan nomor WhatsApp!');
+                isSubmitting = false;
+                return;
+            }
+
+            // Validasi file upload
             const fileInput = document.getElementById('fileUpload');
             if (!fileInput.files.length) {
                 alert('Silakan upload bukti transfer terlebih dahulu!');
@@ -780,31 +800,47 @@
                 return;
             }
 
-            const tanggal = document.getElementById('inputTanggal').value;
-            if (!tanggal) {
-                alert('Tanggal tidak tersedia. Silakan hubungi admin.');
-                isSubmitting = false;
-                return;
-            }
+            // CEK KUOTA DAN AMBIL TANGGAL JADWAL TERDEKAT
+            let scheduleDate = null;
+            let scheduleQuota = null;
 
-            // CEK KUOTA SEBELUM SUBMIT
             try {
                 const scheduleResponse = await fetch('/api/schedules');
                 const scheduleResult = await scheduleResponse.json();
 
                 if (scheduleResult.success && scheduleResult.data.length > 0) {
-                    const schedule = scheduleResult.data[0];
-                    const remainingQuota = schedule.quota - (schedule.filled || 0);
+                    // Cari jadwal terdekat dengan kuota tersisa > 0
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
 
-                    if (remainingQuota <= 0) {
-                        alert('❌ Maaf, kuota sudah penuh! Tidak dapat melakukan pemesanan.');
+                    const availableSchedules = scheduleResult.data
+                        .filter(s => {
+                            const scheduleDateObj = new Date(s.schedule_date);
+                            const remainingQuota = (s.quota || 0) - (s.filled || 0);
+                            return scheduleDateObj >= today && remainingQuota > 0;
+                        })
+                        .sort((a, b) => new Date(a.schedule_date) - new Date(b.schedule_date));
+
+                    if (availableSchedules.length === 0) {
+                        alert('❌ Maaf, tidak ada jadwal dengan kuota tersedia! Silakan hubungi admin.');
                         isSubmitting = false;
                         return;
                     }
+
+                    // Ambil jadwal terdekat yang masih ada kuota
+                    const selectedSchedule = availableSchedules[0];
+                    scheduleDate = selectedSchedule.schedule_date;
+                    scheduleQuota = (selectedSchedule.quota || 0) - (selectedSchedule.filled || 0);
+
+                    console.log('Jadwal terpilih:', scheduleDate, 'Sisa kuota:', scheduleQuota);
+                } else {
+                    alert('❌ Tidak ada jadwal kegiatan. Silakan hubungi admin.');
+                    isSubmitting = false;
+                    return;
                 }
             } catch (error) {
-                console.error('Error checking quota:', error);
-                alert('Gagal mengecek kuota. Silakan coba lagi.');
+                console.error('Error checking schedule:', error);
+                alert('Gagal mengecek jadwal. Silakan coba lagi.');
                 isSubmitting = false;
                 return;
             }
@@ -817,7 +853,7 @@
             }
 
             document.getElementById('loadingOverlay').style.display = 'flex';
-            document.getElementById('btnSpinner').style.display = 'block';
+            document.getElementById('btnSpinner').style.display = 'inline-block';
             document.getElementById('btnText').textContent = 'Mengompres...';
             document.getElementById('submitBtn').disabled = true;
 
@@ -826,49 +862,82 @@
 
                 const formData = new FormData();
                 formData.append('nama', document.getElementById('inputNama').value);
-                formData.append('email', document.getElementById('inputEmail').value);
+                formData.append('email', '-');
                 formData.append('whatsapp', document.getElementById('inputWA').value);
-                formData.append('paket', 'Paket Camp');
-                formData.append('tanggal', tanggal);
-                formData.append('total', '330000');
+
+                // Tentukan paket dan total
+                const isCamp = window.location.href.includes('camp');
+                const packageName = isCamp ? 'Paket Camp' : 'Paket Round Trip';
+                const totalPrice = isCamp ? '330000' : '300000';
+                const dpAmount = isCamp ? 'Rp 165.000' : 'Rp 150.000';
+
+                formData.append('paket', packageName);
+                formData.append('tanggal', scheduleDate); // PAKAI TANGGAL JADWAL, BUKAN TANGGAL MESAN!
+                formData.append('total', totalPrice);
                 formData.append('catatan', document.getElementById('inputCatatan').value || '-');
                 formData.append('bukti_transfer', compressedFile);
 
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                 fetch('/api/bookings', {
-                    method: 'POST',
-                    headers: { 'X-CSRF-TOKEN': csrfToken },
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(result => {
-                    document.getElementById('loadingOverlay').style.display = 'none';
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        document.getElementById('loadingOverlay').style.display = 'none';
 
-                    if (result.success) {
-                        document.getElementById('resNama').textContent = document.getElementById('inputNama').value;
-                        document.getElementById('resTanggal').textContent = formatTanggal(tanggal);
-                        document.getElementById('resDP').textContent = 'Rp 165.000';
-                        document.getElementById('resKode').textContent = result.booking_code;
+                        if (result.success) {
+                            // Format tanggal untuk ditampilkan
+                            const formattedDate = new Date(scheduleDate).toLocaleDateString('id-ID', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
 
-                        const waMessage = `Halo Admin CanyoKuy!%0A%0A*KONFIRMASI PEMBAYARAN DP*%0A%0ANama: ${document.getElementById('inputNama').value}%0AEmail: ${document.getElementById('inputEmail').value}%0AKode Booking: ${result.booking_code}%0ATotal DP: Rp 165.000%0A%0AMohon segera diverifikasi. Terima kasih.`;
-                        document.getElementById('waLink').href = `https://wa.me/6283150774897?text=${waMessage}`;
+                            document.getElementById('resNama').textContent = document.getElementById('inputNama').value;
+                            document.getElementById('resDP').textContent = dpAmount;
+                            document.getElementById('resKode').textContent = result.booking_code;
 
-                        document.getElementById('bookingForm').style.display = 'none';
-                        document.getElementById('successView').style.display = 'block';
-                    } else {
-                        alert('Gagal: ' + (result.message || 'Terjadi kesalahan'));
+                            // Tambah baris tanggal di invoice jika ada
+                            const invoiceBox = document.querySelector('.invoice-box');
+                            const existingTanggalRow = document.querySelector('.invoice-row.tanggal-row');
+                            if (!existingTanggalRow && invoiceBox) {
+                                const tanggalRow = document.createElement('div');
+                                tanggalRow.className = 'invoice-row tanggal-row';
+                                tanggalRow.innerHTML = `
+                        <span class="label">Tanggal Kegiatan</span>
+                        <span class="value">${formattedDate}</span>
+                    `;
+                                // Insert setelah baris Paket
+                                const paketRow = invoiceBox.querySelector('.invoice-row:nth-child(2)');
+                                if (paketRow) {
+                                    paketRow.insertAdjacentElement('afterend', tanggalRow);
+                                }
+                            }
+
+                            const waMessage = `Halo Admin CanyoKuy!%0A%0A*KONFIRMASI PEMBAYARAN DP*%0A%0ANama: ${document.getElementById('inputNama').value}%0AKode Booking: ${result.booking_code}%0ATanggal Kegiatan: ${formattedDate}%0ATotal DP: ${dpAmount}%0A%0AMohon segera diverifikasi. Terima kasih.`;
+                            document.getElementById('waLink').href = `https://wa.me/6283150774897?text=${waMessage}`;
+
+                            document.getElementById('bookingForm').style.display = 'none';
+                            document.getElementById('successView').style.display = 'block';
+                        } else {
+                            alert('Gagal: ' + (result.message || 'Terjadi kesalahan'));
+                            resetButton();
+                        }
+                        isSubmitting = false;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('loadingOverlay').style.display = 'none';
+                        alert('Terjadi kesalahan: ' + error.message);
                         resetButton();
-                    }
-                    isSubmitting = false;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                    alert('Terjadi kesalahan. Periksa koneksi internet Anda.');
-                    resetButton();
-                    isSubmitting = false;
-                });
+                        isSubmitting = false;
+                    });
             });
 
             function resetButton() {
@@ -884,4 +953,5 @@
         }
     </script>
 </body>
+
 </html>

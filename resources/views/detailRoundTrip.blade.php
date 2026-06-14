@@ -9,6 +9,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -112,19 +113,19 @@
             overflow: hidden;
         }
 
-        .hero-section img:nth-child(3) {
-            object-position: center 70%;
+        .hero-section img {
+            width: 33.333%;
+            height: 350px;
+            object-fit: cover;
+            object-position: center;
         }
 
         .hero-section img:nth-child(2) {
             object-position: center 95%;
         }
 
-        .hero-section img {
-            width: 33.333%;
-            height: 350px;
-            object-fit: cover;
-            object-position: center;
+        .hero-section img:nth-child(3) {
+            object-position: center 70%;
         }
 
         .title-banner {
@@ -946,12 +947,141 @@
         let countdownInterval;
         let modal = document.getElementById('bookingModal');
         let isRedirecting = false;
+        let currentSchedule = null;
+
+        async function loadSchedule() {
+            try {
+                const response = await fetch('/api/schedules');
+                const result = await response.json();
+
+                if (result.success && result.data.length > 0) {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    // Filter dan sortir jadwal
+                    let availableSchedules = result.data
+                        .filter(schedule => {
+                            const scheduleDate = new Date(schedule.schedule_date);
+                            const remainingQuota = schedule.quota - (schedule.filled || 0);
+                            return scheduleDate >= today && remainingQuota > 0;
+                        })
+                        .sort((a, b) => new Date(a.schedule_date) - new Date(b.schedule_date));
+                    
+                    let nearestSchedule = null;
+                    let remainingQuota = 0;
+                    
+                    if (availableSchedules.length > 0) {
+                        nearestSchedule = availableSchedules[0];
+                        remainingQuota = nearestSchedule.quota - (nearestSchedule.filled || 0);
+                    } else {
+                        // Cek jadwal yang akan datang meskipun kuota penuh
+                        const allUpcoming = result.data
+                            .filter(schedule => new Date(schedule.schedule_date) >= today)
+                            .sort((a, b) => new Date(a.schedule_date) - new Date(b.schedule_date));
+                        
+                        if (allUpcoming.length > 0) {
+                            nearestSchedule = allUpcoming[0];
+                            remainingQuota = 0;
+                        }
+                    }
+                    
+                    const quotaBadge = document.querySelector('#quotaBadge');
+                    const scheduleBadge = document.getElementById('scheduleBadge');
+                    const btnBook = document.getElementById('btnBook');
+                    
+                    if (nearestSchedule) {
+                        const formattedDate = new Date(nearestSchedule.schedule_date).toLocaleDateString('id-ID', {
+                            year: 'numeric', month: 'long', day: 'numeric'
+                        });
+                        
+                        if (scheduleBadge) {
+                            scheduleBadge.innerHTML = `<i class="fas fa-calendar-alt"></i> Jadwal: ${formattedDate}`;
+                        }
+                        
+                        // Simpan jadwal ke data attribute
+                        currentSchedule = nearestSchedule;
+                        document.body.dataset.scheduleDate = nearestSchedule.schedule_date;
+                        document.body.dataset.scheduleQuota = remainingQuota;
+                        document.body.dataset.scheduleId = nearestSchedule.id;
+                        
+                        if (remainingQuota <= 0) {
+                            // Kuota habis
+                            if (quotaBadge) {
+                                quotaBadge.classList.remove('highlight');
+                                quotaBadge.classList.add('badge-full');
+                                quotaBadge.innerHTML = `<i class="fas fa-ban"></i> Kuota Penuh!`;
+                            }
+                            if (btnBook) {
+                                btnBook.disabled = true;
+                                btnBook.style.background = '#95a5a6';
+                                btnBook.style.cursor = 'not-allowed';
+                                btnBook.title = 'Maaf, kuota sudah penuh!';
+                            }
+                        } else {
+                            // Kuota tersedia
+                            if (quotaBadge) {
+                                quotaBadge.classList.remove('badge-full');
+                                quotaBadge.classList.add('highlight');
+                                quotaBadge.innerHTML = `<i class="fas fa-fire"></i> Sisa Kuota: ${remainingQuota} Peserta`;
+                            }
+                            if (btnBook) {
+                                btnBook.disabled = false;
+                                btnBook.style.background = '#2F6B5E';
+                                btnBook.style.cursor = 'pointer';
+                                btnBook.title = '';
+                            }
+                        }
+                    } else {
+                        // Tidak ada jadwal
+                        if (scheduleBadge) {
+                            scheduleBadge.innerHTML = `<i class="fas fa-calendar-alt"></i> Jadwal: Belum tersedia`;
+                        }
+                        if (quotaBadge) {
+                            quotaBadge.classList.remove('highlight');
+                            quotaBadge.classList.add('badge-full');
+                            quotaBadge.innerHTML = `<i class="fas fa-times"></i> Jadwal tidak tersedia`;
+                        }
+                        if (btnBook) {
+                            btnBook.disabled = true;
+                            btnBook.style.background = '#95a5a6';
+                            btnBook.style.cursor = 'not-allowed';
+                            btnBook.title = 'Belum ada jadwal tersedia';
+                        }
+                    }
+                } else {
+                    console.error('No schedules found');
+                    const quotaBadge = document.querySelector('#quotaBadge');
+                    const btnBook = document.getElementById('btnBook');
+                    if (quotaBadge) {
+                        quotaBadge.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Jadwal tidak tersedia`;
+                    }
+                    if (btnBook) {
+                        btnBook.disabled = true;
+                        btnBook.style.background = '#95a5a6';
+                        btnBook.style.cursor = 'not-allowed';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading schedule:', error);
+                const quotaBadge = document.querySelector('#quotaBadge');
+                if (quotaBadge) {
+                    quotaBadge.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Gagal memuat kuota`;
+                }
+            }
+        }
 
         function showBookingPopup() {
-            // Cek kuota sebelum buka popup
-            const quotaBadge = document.getElementById('quotaBadge');
-            if (quotaBadge && quotaBadge.classList.contains('badge-full')) {
+            // Cek kuota dan jadwal
+            const remainingQuota = parseInt(document.body.dataset.scheduleQuota || '0');
+            const scheduleDate = document.body.dataset.scheduleDate;
+            
+            if (remainingQuota <= 0) {
                 alert('❌ Maaf, kuota sudah penuh! Tidak dapat melakukan pemesanan.');
+                return;
+            }
+            
+            if (!scheduleDate) {
+                alert('❌ Jadwal tidak tersedia! Silakan hubungi admin.');
                 return;
             }
 
@@ -981,10 +1111,15 @@
             isRedirecting = true;
             if (countdownInterval) clearInterval(countdownInterval);
 
+            // Simpan data paket dan jadwal
             const packageData = {
-                id: 2, name: 'Paket Round Trip', price: 300000, price_formatted: 'Rp 300.000',
-                dp: 150000, dp_formatted: 'Rp 150.000', sisa: 150000, sisa_formatted: 'Rp 150.000',
-                dp_percent: '50%', guide: 'Tim A'
+                id: 2,
+                name: 'Paket Round Trip',
+                price: 300000,
+                price_formatted: 'Rp 300.000',
+                dp_amount: 150000,
+                schedule_date: document.body.dataset.scheduleDate,
+                schedule_id: document.body.dataset.scheduleId
             };
             sessionStorage.setItem('selected_package', JSON.stringify(packageData));
             window.location.href = "{{ route('booking.roundtrip') }}";
@@ -1012,68 +1147,10 @@
             if (event.target === roadmapModal) closeRoadmapModal();
         };
 
-        async function loadSchedule() {
-            try {
-                const response = await fetch('/api/schedules');
-                const result = await response.json();
-
-                if (result.success && result.data.length > 0) {
-                    const nearestSchedule = result.data[0];
-                    const remainingQuota = nearestSchedule.quota - (nearestSchedule.filled || 0);
-                    const formattedDate = new Date(nearestSchedule.schedule_date).toLocaleDateString('id-ID', {
-                        year: 'numeric', month: 'long', day: 'numeric'
-                    });
-
-                    const quotaBadge = document.getElementById('quotaBadge');
-                    const scheduleBadge = document.getElementById('scheduleBadge');
-                    const modalQuota = document.getElementById('modalQuota');
-                    const btnBook = document.getElementById('btnBook');
-
-                    if (scheduleBadge) {
-                        scheduleBadge.innerHTML = `<i class="fas fa-calendar-alt"></i> Jadwal: ${formattedDate}`;
-                    }
-
-                    if (modalQuota) {
-                        modalQuota.textContent = `${remainingQuota} Peserta`;
-                    }
-
-                    // CEK KUOTA
-                    if (remainingQuota <= 0) {
-                        // Kuota habis
-                        if (quotaBadge) {
-                            quotaBadge.classList.remove('highlight');
-                            quotaBadge.classList.add('badge-full');
-                            quotaBadge.innerHTML = `<i class="fas fa-ban"></i> Kuota Penuh!`;
-                        }
-                        if (btnBook) {
-                            btnBook.disabled = true;
-                            btnBook.style.background = '#95a5a6';
-                            btnBook.style.cursor = 'not-allowed';
-                            btnBook.title = 'Maaf, kuota sudah penuh!';
-                        }
-                    } else {
-                        // Kuota tersedia
-                        if (quotaBadge) {
-                            quotaBadge.classList.remove('badge-full');
-                            quotaBadge.classList.add('highlight');
-                            quotaBadge.innerHTML = `<i class="fas fa-fire"></i> Sisa Kuota: ${remainingQuota} Peserta`;
-                        }
-                        if (btnBook) {
-                            btnBook.disabled = false;
-                            btnBook.style.background = '#2F6B5E';
-                            btnBook.style.cursor = 'pointer';
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading schedule:', error);
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', function () {
             loadSchedule();
-            // Refresh setiap 10 detik
-            setInterval(loadSchedule, 10000);
+            // Refresh setiap 15 detik
+            setInterval(loadSchedule, 15000);
         });
     </script>
 </body>
