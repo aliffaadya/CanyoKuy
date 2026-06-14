@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Hash;
 
 return new class extends Migration
 {
@@ -13,11 +14,19 @@ return new class extends Migration
             $table->string('username', 50)->unique();
             $table->string('email', 100)->unique();
             $table->string('password');
-            $table->string('reset_token')->nullable();
-            $table->timestamp('reset_token_expires')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->string('name')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('admins')->insert([
+            'username' => 'admin',
+            'email' => 'admin@canyokuy.com',
+            'password' => Hash::make('admin123'),
+            'name' => 'Administrator',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     public function down()

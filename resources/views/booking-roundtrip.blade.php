@@ -156,15 +156,6 @@
             box-shadow: 0 0 0 3px rgba(41, 96, 76, 0.1);
         }
 
-        select.form-control {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2329604c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-        }
-
         .payment-box {
             background: var(--bg-color);
             border: 1px solid #e2e8f0;
@@ -355,6 +346,11 @@
 
         .btn-submit:hover {
             background: #1e4537;
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .btn-back {
@@ -599,7 +595,6 @@
                     <input type="text" id="inputNama" class="form-control" placeholder="Masukkan nama lengkap Anda" required>
                 </div>
 
-
                 <div class="form-group">
                     <label>Nomor WhatsApp <span>*</span></label>
                     <input type="tel" id="inputWA" class="form-control" placeholder="081234567890" required>
@@ -722,43 +717,7 @@
     </div>
 
     <script>
-        // Load daftar tanggal dari database
-        // Load daftar tanggal dari database (SEMUA JADWAL)
-        async function loadAvailableDates() {
-            try {
-                const response = await fetch('/api/schedules');
-                const result = await response.json();
-
-                if (result.success && result.data.length > 0) {
-                    const dateSelect = document.getElementById('inputTanggal');
-                    // Ambil SEMUA jadwal (tanpa filter)
-                    const allSchedules = result.data;
-
-                    if (allSchedules.length > 0) {
-                        dateSelect.innerHTML = '<option value="">-- Pilih Tanggal --</option>';
-
-                        allSchedules.forEach(schedule => {
-                            const remainingQuota = schedule.quota - (schedule.filled || 0);
-                            const formattedDate = new Date(schedule.schedule_date).toLocaleDateString('id-ID', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            });
-                            const option = document.createElement('option');
-                            option.value = schedule.schedule_date;
-                            option.textContent = `${formattedDate} (Sisa Kuota: ${remainingQuota} orang)`;
-                            if (remainingQuota <= 0) {
-                                option.disabled = true;
-                                option.textContent = `${formattedDate} (PENUH)`;
-                            }
-                            dateSelect.appendChild(option);
-                        });
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading schedules:', error);
-            }
-        }
+        let isSubmitting = false;
 
         function copyReconciliation() {
             navigator.clipboard.writeText("12300123456789").then(() => {
@@ -769,8 +728,8 @@
         function fileSelected(input) {
             if (input.files.length > 0) {
                 const file = input.files[0];
-                if (file.size > 1024 * 1024) {
-                    alert('Ukuran file terlalu besar! Maksimal 1MB. Silakan kompres gambar Anda.');
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Ukuran file terlalu besar! Maksimal 2MB. Silakan kompres gambar Anda.');
                     input.value = '';
                     return;
                 }
@@ -820,29 +779,90 @@
             });
         }
 
-        function handleFormSubmit(event) {
+        async function handleFormSubmit(event) {
             event.preventDefault();
 
-            const fileInput = document.getElementById('fileUpload');
-            if (!fileInput.files.length) {
-                alert('Silakan upload bukti transfer terlebih dahulu!');
+            if (isSubmitting) return;
+            isSubmitting = true;
+
+            // Validasi nama
+            const nama = document.getElementById('inputNama').value;
+            if (!nama.trim()) {
+                alert('Silakan masukkan nama lengkap!');
+                isSubmitting = false;
                 return;
             }
 
-            const tanggal = document.getElementById('inputTanggal').value;
-            if (!tanggal) {
-                alert('Silakan pilih tanggal keberangkatan!');
+            // Validasi WhatsApp
+            const wa = document.getElementById('inputWA').value;
+            if (!wa.trim()) {
+                alert('Silakan masukkan nomor WhatsApp!');
+                isSubmitting = false;
+                return;
+            }
+
+            // Validasi file upload
+            const fileInput = document.getElementById('fileUpload');
+            if (!fileInput.files.length) {
+                alert('Silakan upload bukti transfer terlebih dahulu!');
+                isSubmitting = false;
+                return;
+            }
+
+            // CEK KUOTA DAN AMBIL TANGGAL JADWAL TERDEKAT
+            let scheduleDate = null;
+            let scheduleQuota = null;
+
+            try {
+                const scheduleResponse = await fetch('/api/schedules');
+                const scheduleResult = await scheduleResponse.json();
+
+                if (scheduleResult.success && scheduleResult.data.length > 0) {
+                    // Cari jadwal terdekat dengan kuota tersisa > 0
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    const availableSchedules = scheduleResult.data
+                        .filter(s => {
+                            const scheduleDateObj = new Date(s.schedule_date);
+                            const remainingQuota = (s.quota || 0) - (s.filled || 0);
+                            return scheduleDateObj >= today && remainingQuota > 0;
+                        })
+                        .sort((a, b) => new Date(a.schedule_date) - new Date(b.schedule_date));
+
+                    if (availableSchedules.length === 0) {
+                        alert('❌ Maaf, tidak ada jadwal dengan kuota tersedia! Silakan hubungi admin.');
+                        isSubmitting = false;
+                        return;
+                    }
+
+                    // Ambil jadwal terdekat yang masih ada kuota
+                    const selectedSchedule = availableSchedules[0];
+                    scheduleDate = selectedSchedule.schedule_date;
+                    scheduleQuota = (selectedSchedule.quota || 0) - (selectedSchedule.filled || 0);
+
+                    console.log('Jadwal terpilih:', scheduleDate, 'Sisa kuota:', scheduleQuota);
+                } else {
+                    alert('❌ Tidak ada jadwal kegiatan. Silakan hubungi admin.');
+                    isSubmitting = false;
+                    return;
+                }
+            } catch (error) {
+                console.error('Error checking schedule:', error);
+                alert('Gagal mengecek jadwal. Silakan coba lagi.');
+                isSubmitting = false;
                 return;
             }
 
             const originalFile = fileInput.files[0];
             if (originalFile.size > 2 * 1024 * 1024) {
                 alert('Ukuran file maksimal 2MB!');
+                isSubmitting = false;
                 return;
             }
 
             document.getElementById('loadingOverlay').style.display = 'flex';
-            document.getElementById('btnSpinner').style.display = 'block';
+            document.getElementById('btnSpinner').style.display = 'inline-block';
             document.getElementById('btnText').textContent = 'Mengompres...';
             document.getElementById('submitBtn').disabled = true;
 
@@ -851,11 +871,18 @@
 
                 const formData = new FormData();
                 formData.append('nama', document.getElementById('inputNama').value);
-                formData.append('email', document.getElementById('inputEmail').value);
+                formData.append('email', '-');
                 formData.append('whatsapp', document.getElementById('inputWA').value);
-                formData.append('paket', 'Paket Round Trip');
-                formData.append('tanggal', tanggal);
-                formData.append('total', '300000');
+
+                // Tentukan paket dan total
+                const isCamp = window.location.href.includes('camp');
+                const packageName = isCamp ? 'Paket Camp' : 'Paket Round Trip';
+                const totalPrice = isCamp ? '330000' : '300000';
+                const dpAmount = isCamp ? 'Rp 165.000' : 'Rp 150.000';
+
+                formData.append('paket', packageName);
+                formData.append('tanggal', scheduleDate); // PAKAI TANGGAL JADWAL, BUKAN TANGGAL MESAN!
+                formData.append('total', totalPrice);
                 formData.append('catatan', document.getElementById('inputCatatan').value || '-');
                 formData.append('bukti_transfer', compressedFile);
 
@@ -864,7 +891,8 @@
                 fetch('/api/bookings', {
                         method: 'POST',
                         headers: {
-                            'X-CSRF-TOKEN': csrfToken
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json'
                         },
                         body: formData
                     })
@@ -873,16 +901,36 @@
                         document.getElementById('loadingOverlay').style.display = 'none';
 
                         if (result.success) {
+                            // Format tanggal untuk ditampilkan
+                            const formattedDate = new Date(scheduleDate).toLocaleDateString('id-ID', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+
                             document.getElementById('resNama').textContent = document.getElementById('inputNama').value;
-                            document.getElementById('resTanggal').textContent = formatTanggal(tanggal);
-                            document.getElementById('resDP').textContent = 'Rp 150.000';
+                            document.getElementById('resDP').textContent = dpAmount;
                             document.getElementById('resKode').textContent = result.booking_code;
 
-                            const waMessage = `Halo Admin CanyoKuy!%0A%0A*KONFIRMASI PEMBAYARAN DP*%0A%0ANama: ${document.getElementById('inputNama').value}%0AEmail: ${document.getElementById('inputEmail').value}%0AKode Booking: ${result.booking_code}%0ATanggal: ${tanggal}%0ATotal DP: Rp 150.000%0A%0AMohon segera diverifikasi. Terima kasih.`;
-                            document.getElementById('waLink').href = `https://wa.me/6283150774897?text=${waMessage}`;
+                            // Tambah baris tanggal di invoice jika ada
+                            const invoiceBox = document.querySelector('.invoice-box');
+                            const existingTanggalRow = document.querySelector('.invoice-row.tanggal-row');
+                            if (!existingTanggalRow && invoiceBox) {
+                                const tanggalRow = document.createElement('div');
+                                tanggalRow.className = 'invoice-row tanggal-row';
+                                tanggalRow.innerHTML = `
+                        <span class="label">Tanggal Kegiatan</span>
+                        <span class="value">${formattedDate}</span>
+                    `;
+                                // Insert setelah baris Paket
+                                const paketRow = invoiceBox.querySelector('.invoice-row:nth-child(2)');
+                                if (paketRow) {
+                                    paketRow.insertAdjacentElement('afterend', tanggalRow);
+                                }
+                            }
 
-                            // REFRESH DAFTAR TANGGAL (UPDATE KUOTA)
-                            loadAvailableDates();
+                            const waMessage = `Halo Admin CanyoKuy!%0A%0A*KONFIRMASI PEMBAYARAN DP*%0A%0ANama: ${document.getElementById('inputNama').value}%0AKode Booking: ${result.booking_code}%0ATanggal Kegiatan: ${formattedDate}%0ATotal DP: ${dpAmount}%0A%0AMohon segera diverifikasi. Terima kasih.`;
+                            document.getElementById('waLink').href = `https://wa.me/6283150774897?text=${waMessage}`;
 
                             document.getElementById('bookingForm').style.display = 'none';
                             document.getElementById('successView').style.display = 'block';
@@ -890,14 +938,17 @@
                             alert('Gagal: ' + (result.message || 'Terjadi kesalahan'));
                             resetButton();
                         }
+                        isSubmitting = false;
                     })
                     .catch(error => {
                         console.error('Error:', error);
                         document.getElementById('loadingOverlay').style.display = 'none';
-                        alert('Terjadi kesalahan. Periksa koneksi internet Anda.');
+                        alert('Terjadi kesalahan: ' + error.message);
                         resetButton();
+                        isSubmitting = false;
                     });
             });
+
 
             function resetButton() {
                 document.getElementById('btnSpinner').style.display = 'none';
@@ -910,11 +961,6 @@
             const waLink = document.getElementById('waLink').href;
             window.open(waLink, '_blank');
         }
-
-        // Load tanggal saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            loadAvailableDates();
-        });
     </script>
 </body>
 

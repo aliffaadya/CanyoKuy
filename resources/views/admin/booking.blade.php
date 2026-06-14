@@ -52,10 +52,17 @@
 
     .toolbar {
         display: flex;
-        justify-content: flex-end;
-        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 20px;
         flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 12px;
+        align-items: center;
     }
 
     .filter-select {
@@ -68,17 +75,42 @@
         cursor: pointer;
     }
 
-    .btn-action {
-        padding: 6px 14px;
+    .search-input {
+        padding: 8px 14px;
         border-radius: 8px;
-        font-size: 12px;
+        border: 1px solid #e2e8f0;
+        font-size: 13px;
+        width: 250px;
+    }
+
+    .btn-action {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 13px;
         font-weight: 500;
         cursor: pointer;
         border: none;
         transition: all 0.2s;
     }
 
-    /* CARD VIEW - TANPA SCROLL */
+    .btn-excel {
+        background: #10b981;
+        color: white;
+    }
+
+    .btn-excel:hover {
+        background: #059669;
+    }
+
+    .btn-pdf {
+        background: #ef4444;
+        color: white;
+    }
+
+    .btn-pdf:hover {
+        background: #dc2626;
+    }
+
     .bookings-grid {
         display: flex;
         flex-direction: column;
@@ -169,9 +201,14 @@
         color: #d97706;
     }
 
-    .badge-pending {
-        background: #f1f5f9;
-        color: #475569;
+    .badge-danger {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .badge-info {
+        background: #e0f2fe;
+        color: #0284c7;
     }
 
     .card-footer {
@@ -192,13 +229,33 @@
         font-size: 14px;
     }
 
-    .btn-edit {
-        background: #f0fdf4;
-        color: #16a34a;
+    .btn-verify {
+        background: #d1fae5;
+        color: #059669;
     }
 
-    .btn-edit:hover {
-        background: #16a34a;
+    .btn-verify:hover {
+        background: #059669;
+        color: white;
+    }
+
+    .btn-reject {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .btn-reject:hover {
+        background: #dc2626;
+        color: white;
+    }
+
+    .btn-restore {
+        background: #e0f2fe;
+        color: #0284c7;
+    }
+
+    .btn-restore:hover {
+        background: #0284c7;
         color: white;
     }
 
@@ -218,6 +275,8 @@
         padding: 6px 12px;
         border-radius: 6px;
         font-size: 12px;
+        border: none;
+        cursor: pointer;
     }
 
     .btn-proof:hover {
@@ -225,7 +284,6 @@
         color: white;
     }
 
-    /* Modal Styles */
     .modal-overlay {
         display: none;
         position: fixed;
@@ -273,6 +331,20 @@
         font-weight: 500;
     }
 
+    .btn-submit {
+        background: #10b981;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .btn-submit:hover {
+        background: #059669;
+    }
+
     .empty-state {
         text-align: center;
         padding: 60px 20px;
@@ -281,13 +353,40 @@
         color: #64748b;
     }
 
+    .rejection-reason {
+        background: #fef2f2;
+        padding: 8px;
+        border-radius: 6px;
+        margin-top: 8px;
+        font-size: 12px;
+        color: #dc2626;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: inherit;
+    }
+
     @media (max-width: 640px) {
         .card-body {
             grid-template-columns: 1fr;
         }
         
         .toolbar {
-            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .filter-group {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            width: 100%;
         }
         
         .green-banner-header {
@@ -316,17 +415,23 @@
     </div>
 
     <div class="toolbar">
-        <button onclick="exportToCSV()" class="btn-action" style="background: #10b981; color: white;">
-            <i class="fas fa-file-excel"></i> Export Excel
-        </button>
-        <button onclick="exportToPDF()" class="btn-action" style="background: #ef4444; color: white;">
-            <i class="fas fa-file-pdf"></i> Export PDF
-        </button>
-        <select id="filterStatus" onchange="filterBookings()" class="filter-select">
-            <option value="all">Semua Status</option>
-            <option value="waiting">Menunggu Verifikasi</option>
-            <option value="paid">Sudah Diverifikasi</option>
-        </select>
+        <div class="filter-group">
+            <input type="text" id="searchInput" placeholder="Cari nama atau kode booking..." class="search-input">
+            <select id="filterStatus" onchange="filterBookings()" class="filter-select">
+                <option value="all">Semua Status</option>
+                <option value="waiting_confirmation">Menunggu Verifikasi</option>
+                <option value="paid">Sudah Diverifikasi</option>
+                <option value="rejected">Ditolak</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <button onclick="exportToCSV()" class="btn-action btn-excel">
+                <i class="fas fa-file-excel"></i> Export Excel
+            </button>
+            <button onclick="exportToPDF()" class="btn-action btn-pdf">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </button>
+        </div>
     </div>
 
     <div id="bookingsContainer" class="bookings-grid">
@@ -336,6 +441,7 @@
     </div>
 </div>
 
+<!-- Modal Lihat Bukti -->
 <div id="proofModal" class="modal-overlay" onclick="if(event.target === this) closeModal()">
     <div class="modal-box">
         <h3 class="modal-title">
@@ -347,8 +453,28 @@
         </div>
         <div class="modal-actions">
             <button onclick="closeModal()" class="btn-cancel">Tutup</button>
-            <button onclick="verifyPayment()" class="btn-action" style="background: #10b981; color: white;">
+            <button onclick="verifyPayment()" class="btn-submit">
                 <i class="fas fa-check-circle"></i> Verifikasi
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tolak Booking -->
+<div id="rejectModal" class="modal-overlay" onclick="if(event.target === this) closeRejectModal()">
+    <div class="modal-box">
+        <h3 class="modal-title">
+            <i class="fas fa-times-circle" style="color: #dc2626;"></i> 
+            Tolak Booking
+        </h3>
+        <div style="margin-bottom: 16px;">
+            <label style="font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Alasan Penolakan:</label>
+            <textarea id="rejectionReason" rows="4" placeholder="Masukkan alasan penolakan booking..."></textarea>
+        </div>
+        <div class="modal-actions">
+            <button onclick="closeRejectModal()" class="btn-cancel">Batal</button>
+            <button onclick="submitRejection()" class="btn-submit" style="background: #dc2626;">
+                <i class="fas fa-times"></i> Tolak
             </button>
         </div>
     </div>
@@ -358,17 +484,20 @@
     let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';
     let allBookings = [];
     let currentBookingId = null;
+    let currentBookingCode = null;
 
     function getStatusText(booking) {
         if (booking.payment_status === 'paid') return 'Sudah Diverifikasi';
         if (booking.payment_status === 'waiting_confirmation') return 'Menunggu Verifikasi';
+        if (booking.payment_status === 'rejected') return 'Ditolak';
         return 'Menunggu Pembayaran';
     }
 
     function getStatusClass(booking) {
         if (booking.payment_status === 'paid') return 'badge-success';
         if (booking.payment_status === 'waiting_confirmation') return 'badge-warning';
-        return 'badge-pending';
+        if (booking.payment_status === 'rejected') return 'badge-danger';
+        return 'badge-info';
     }
 
     async function loadBookings() {
@@ -396,21 +525,34 @@
 
     function filterBookings() {
         const filter = document.getElementById('filterStatus').value;
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        
         let filtered = [...allBookings];
 
-        if (filter === 'waiting') {
-            filtered = filtered.filter(b => b.payment_status === 'waiting_confirmation');
-        } else if (filter === 'paid') {
-            filtered = filtered.filter(b => b.payment_status === 'paid');
+        if (filter !== 'all') {
+            filtered = filtered.filter(b => b.payment_status === filter);
         }
 
+        if (searchTerm) {
+            filtered = filtered.filter(b => 
+                b.booking_code?.toLowerCase().includes(searchTerm) ||
+                b.customer_name?.toLowerCase().includes(searchTerm) ||
+                b.phone?.includes(searchTerm)
+            );
+        }
+
+        renderBookings(filtered);
+    }
+
+    function renderBookings(bookings) {
         const container = document.getElementById('bookingsContainer');
-        if (filtered.length === 0) {
+        
+        if (bookings.length === 0) {
             container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Tidak ada data yang sesuai</p></div>';
             return;
         }
 
-        container.innerHTML = filtered.map(booking => `
+        container.innerHTML = bookings.map(booking => `
             <div class="booking-card">
                 <div class="card-header">
                     <span class="booking-code">
@@ -429,13 +571,6 @@
                     
                     <div class="info-item">
                         <div class="info-label">
-                            <i class="fas fa-box"></i> Paket
-                        </div>
-                        <div class="info-value">${booking.package_name || '-'}</div>
-                    </div>
-                    
-                    <div class="info-item">
-                        <div class="info-label">
                             <i class="fab fa-whatsapp"></i> WhatsApp
                         </div>
                         <div class="info-value">${booking.phone || '-'}</div>
@@ -443,7 +578,14 @@
                     
                     <div class="info-item">
                         <div class="info-label">
-                            <i class="fas fa-calendar"></i> Tanggal
+                            <i class="fas fa-box"></i> Paket
+                        </div>
+                        <div class="info-value">${booking.package_name || '-'}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-calendar"></i> Tanggal Booking
                         </div>
                         <div class="info-value">${booking.booking_date ? new Date(booking.booking_date).toLocaleDateString('id-ID') : '-'}</div>
                     </div>
@@ -469,13 +611,30 @@
                     </div>
                 </div>
                 
+                ${booking.rejection_reason && booking.payment_status === 'rejected' ? `
+                <div class="rejection-reason">
+                    <strong><i class="fas fa-comment"></i> Alasan Ditolak:</strong><br>
+                    ${booking.rejection_reason}
+                </div>
+                ` : ''}
+                
                 <div class="card-footer">
-                    ${booking.payment_status !== 'paid' && booking.payment_proof
-                        ? `<button class="btn-icon btn-edit" onclick="updateStatus(${booking.id}, 'paid')" title="Verifikasi">
+                    ${booking.payment_status === 'waiting_confirmation' && booking.payment_proof ? `
+                        <button class="btn-icon btn-verify" onclick="verifyBooking(${booking.id})" title="Verifikasi">
                             <i class="fas fa-check"></i>
-                           </button>`
-                        : ''}
-                    <button class="btn-icon btn-delete" onclick="deleteBooking(${booking.id})" title="Hapus">
+                        </button>
+                        <button class="btn-icon btn-reject" onclick="showRejectModal(${booking.id}, '${booking.booking_code}')" title="Tolak">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    ` : ''}
+                    
+                    ${booking.payment_status === 'rejected' ? `
+                        <button class="btn-icon btn-restore" onclick="restoreBooking(${booking.id})" title="Batalkan Penolakan">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                    ` : ''}
+                    
+                    <button class="btn-icon btn-delete" onclick="deleteBooking(${booking.id})" title="Hapus Permanen">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -503,9 +662,13 @@
         }
     }
 
+    function verifyBooking(id) {
+        if (confirm('Verifikasi pendaftaran ini?')) {
+            updateStatus(id, 'paid');
+        }
+    }
+
     async function updateStatus(id, newStatus) {
-        if (!confirm('Verifikasi pendaftaran ini?')) return;
-        
         try {
             const response = await fetch(`/api/bookings/${id}/status`, {
                 method: 'PUT',
@@ -518,7 +681,7 @@
             const result = await response.json();
 
             if (result.success) {
-                alert('✅ Status berhasil diverifikasi!');
+                alert('✅ Status berhasil diupdate!');
                 loadBookings();
             } else {
                 alert('❌ Gagal: ' + (result.message || 'Terjadi kesalahan'));
@@ -529,50 +692,118 @@
         }
     }
 
-    async function deleteBooking(id) {
-        if (!confirm('Yakin ingin menghapus booking ini?')) return;
+    function showRejectModal(id, bookingCode) {
+        currentBookingId = id;
+        currentBookingCode = bookingCode;
+        document.getElementById('rejectionReason').value = '';
+        document.getElementById('rejectModal').style.display = 'flex';
+    }
+
+    function closeRejectModal() {
+        document.getElementById('rejectModal').style.display = 'none';
+        currentBookingId = null;
+        currentBookingCode = null;
+    }
+
+    async function submitRejection() {
+        const reason = document.getElementById('rejectionReason').value;
+        
+        if (!reason.trim()) {
+            alert('Harap masukkan alasan penolakan!');
+            return;
+        }
         
         try {
-            const response = await fetch(`/api/bookings/${id}`, {
-                method: 'DELETE',
+            const response = await fetch(`/api/bookings/${currentBookingId}/reject`, {
+                method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({ rejection_reason: reason })
             });
             const result = await response.json();
 
             if (result.success) {
-                alert('✅ Booking dihapus!');
+                alert('✅ Booking berhasil ditolak!');
+                closeRejectModal();
                 loadBookings();
             } else {
                 alert('❌ Gagal: ' + (result.message || 'Terjadi kesalahan'));
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('❌ Gagal menghapus');
+            alert('❌ Gagal menolak booking');
+        }
+    }
+
+    async function restoreBooking(id) {
+        if (confirm('Batalkan penolakan dan kembalikan status ke menunggu verifikasi?')) {
+            await updateStatus(id, 'waiting_confirmation');
+        }
+    }
+
+    async function deleteBooking(id) {
+        if (confirm('Yakin ingin menghapus booking ini secara permanen? Tindakan ini tidak dapat dibatalkan!')) {
+            try {
+                const response = await fetch(`/api/bookings/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('✅ Booking dihapus permanen!');
+                    loadBookings();
+                } else {
+                    alert('❌ Gagal: ' + (result.message || 'Terjadi kesalahan'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Gagal menghapus booking');
+            }
         }
     }
 
     function exportToCSV() {
-        if (allBookings.length === 0) {
+        const filter = document.getElementById('filterStatus').value;
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        
+        let dataToExport = [...allBookings];
+        
+        if (filter !== 'all') {
+            dataToExport = dataToExport.filter(b => b.payment_status === filter);
+        }
+        
+        if (searchTerm) {
+            dataToExport = dataToExport.filter(b => 
+                b.booking_code?.toLowerCase().includes(searchTerm) ||
+                b.customer_name?.toLowerCase().includes(searchTerm)
+            );
+        }
+        
+        if (dataToExport.length === 0) {
             alert("Tidak ada data untuk diexport!");
             return;
         }
 
-        const headers = ['Kode Booking', 'Nama', 'Paket', 'WhatsApp', 'Tanggal', 'Total', 'Status'];
-        const rows = allBookings.map(b => [
+        const headers = ['Kode Booking', 'Nama', 'WhatsApp', 'Paket', 'Tanggal', 'Total', 'Status', 'Alasan Ditolak'];
+        const rows = dataToExport.map(b => [
             b.booking_code,
             b.customer_name,
-            b.package_name,
             b.phone,
-            b.booking_date,
+            b.package_name,
+            b.booking_date ? new Date(b.booking_date).toLocaleDateString('id-ID') : '',
             b.total_price,
-            getStatusText(b)
+            getStatusText(b),
+            b.rejection_reason || ''
         ]);
 
         const csvContent = [headers, ...rows]
-            .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+            .map(row => row.map(cell => `"${String(cell || '').replace(/"/g, '""')}"`).join(','))
             .join('\n');
 
         const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -590,7 +821,12 @@
         window.print();
     }
 
-    // Load data
-    loadBookings();
+    document.getElementById('searchInput')?.addEventListener('input', function() {
+        filterBookings();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadBookings();
+    });
 </script>
 @endsection
