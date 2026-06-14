@@ -17,7 +17,9 @@
         --border-color: #e2e8f0;
     }
 
-    body, .content-wrapper, .main-content {
+    body,
+    .content-wrapper,
+    .main-content {
         background-color: var(--bg-color) !important;
         font-family: 'Inter', sans-serif;
     }
@@ -235,17 +237,23 @@
 
     .modal-overlay {
         display: none;
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background: rgba(15, 23, 42, 0.4);
         z-index: 1000;
-        justify-content: center; align-items: center;
+        justify-content: center;
+        align-items: center;
         backdrop-filter: blur(4px);
     }
 
     .modal-box {
         background: var(--card-bg);
         border-radius: 20px;
-        width: 100%; max-width: 440px;
+        width: 100%;
+        max-width: 440px;
         padding: 30px;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         transform: translateY(-20px);
@@ -253,26 +261,42 @@
     }
 
     @keyframes modalFadeIn {
-        to { transform: translateY(0); opacity: 1; }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 
     .modal-title {
-        font-size: 20px; font-weight: 700; color: var(--text-dark);
-        margin-top: 0; margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-top: 0;
+        margin-bottom: 20px;
     }
 
-    .form-group { margin-bottom: 18px; }
-    
+    .form-group {
+        margin-bottom: 18px;
+    }
+
     .form-group label {
-        display: block; font-size: 13px; font-weight: 600;
-        color: var(--text-gray); margin-bottom: 8px;
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-gray);
+        margin-bottom: 8px;
     }
 
     .form-control {
-        width: 100%; padding: 12px 16px;
-        border: 1px solid var(--border-color); border-radius: 10px;
-        font-family: 'Inter', sans-serif; font-size: 14px;
-        outline: none; transition: all 0.3s ease; box-sizing: border-box;
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
     }
 
     .form-control:focus {
@@ -286,15 +310,26 @@
     }
 
     .modal-actions {
-        display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        justify-content: flex-end;
     }
 
     .btn-cancel {
-        background: white; color: var(--text-gray); border: 1px solid var(--border-color);
-        padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer;
+        background: white;
+        color: var(--text-gray);
+        border: 1px solid var(--border-color);
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
     }
-    
-    .btn-cancel:hover { background: #f8fafc; color: var(--text-dark); }
+
+    .btn-cancel:hover {
+        background: #f8fafc;
+        color: var(--text-dark);
+    }
 </style>
 
 <div class="green-banner-header">
@@ -321,22 +356,22 @@
         <h3 id="modalTitle" class="modal-title">Tambah Testimoni</h3>
         <form id="testimonialForm">
             <input type="hidden" id="editId">
-            
+
             <div class="form-group">
                 <label>Nama Pelanggan</label>
                 <input type="text" id="name" class="form-control" placeholder="Masukkan nama pelanggan" required>
             </div>
-            
+
             <div class="form-group">
                 <label>Asal Kota</label>
                 <input type="text" id="city" class="form-control" placeholder="Contoh: Banjarmasin" required>
             </div>
-            
+
             <div class="form-group">
                 <label>Isi Testimoni</label>
                 <textarea id="message" rows="3" class="form-control" placeholder="Tulis komentar ulasan petualangan di sini..." required></textarea>
             </div>
-            
+
             <div class="form-group">
                 <label>Skor Rating Kepuasan</label>
                 <select id="rating" class="form-control" style="cursor: pointer;">
@@ -358,28 +393,32 @@
 
 <script>
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    
+
     // Load testimoni dari database
     async function loadTestimonials() {
         try {
             const response = await fetch('/api/testimonials');
             const result = await response.json();
-            
+
             if (result.success) {
-                displayTestimonials(result.data);
+                // SORTIR DARI YANG PALING LAMA (ID terkecil/created_at paling lama)
+                const sortedData = result.data.sort((a, b) => {
+                    return (a.id || 0) - (b.id || 0);
+                });
+                displayTestimonials(sortedData);
             }
         } catch (error) {
             console.error('Error:', error);
         }
     }
-    
+
     function displayTestimonials(testimonials) {
         const grid = document.getElementById('testimonialsGrid');
         if (!testimonials || testimonials.length === 0) {
             grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-gray); padding: 40px 0;">Belum ada data testimoni pelanggan.</div>';
             return;
         }
-        
+
         grid.innerHTML = testimonials.map((t, i) => `
             <div class="testimonial-card" data-id="${t.id}">
                 <div>
@@ -397,7 +436,7 @@
             </div>
         `).join('');
     }
-    
+
     function escapeHtml(text) {
         if (!text) return '';
         return text.replace(/[&<>]/g, function(m) {
@@ -407,24 +446,24 @@
             return m;
         });
     }
-    
+
     function showAddModal() {
         document.getElementById('modalTitle').innerText = 'Tambah Testimoni';
         document.getElementById('editId').value = '';
         document.getElementById('testimonialForm').reset();
         document.getElementById('testimonialModal').style.display = 'flex';
     }
-    
+
     function closeModal() {
         document.getElementById('testimonialModal').style.display = 'none';
     }
-    
+
     async function editTestimonial(id) {
         try {
             const response = await fetch('/api/testimonials');
             const result = await response.json();
             const testimonial = result.data.find(t => t.id === id);
-            
+
             if (testimonial) {
                 document.getElementById('modalTitle').innerText = 'Edit Testimoni';
                 document.getElementById('editId').value = testimonial.id;
@@ -439,7 +478,7 @@
             alert('Gagal mengambil data testimoni');
         }
     }
-    
+
     async function deleteTestimonial(id) {
         if (confirm('Yakin ingin menghapus testimoni ini?')) {
             try {
@@ -450,7 +489,7 @@
                         'Content-Type': 'application/json'
                     }
                 });
-                
+
                 const result = await response.json();
                 if (result.success) {
                     alert('✅ Testimoni berhasil dihapus!');
@@ -462,10 +501,10 @@
             }
         }
     }
-    
+
     document.getElementById('testimonialForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+
         const editId = document.getElementById('editId').value;
         const data = {
             name: document.getElementById('name').value,
@@ -473,10 +512,10 @@
             message: document.getElementById('message').value,
             rating: parseInt(document.getElementById('rating').value)
         };
-        
+
         const url = editId ? `/api/testimonials/${editId}` : '/api/testimonials';
         const method = editId ? 'PUT' : 'POST';
-        
+
         try {
             const response = await fetch(url, {
                 method: method,
@@ -486,7 +525,7 @@
                 },
                 body: JSON.stringify(data)
             });
-            
+
             const result = await response.json();
             if (result.success) {
                 alert(editId ? '✅ Testimoni berhasil diupdate!' : '✅ Testimoni berhasil ditambahkan!');
@@ -498,7 +537,7 @@
             alert('Gagal menyimpan testimoni');
         }
     });
-    
+
     // Load data saat halaman dibuka
     loadTestimonials();
 </script>

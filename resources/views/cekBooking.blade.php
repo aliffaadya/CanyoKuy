@@ -357,6 +357,7 @@
 
 <body>
 
+    <!-- NAVBAR -->
     <div class="navbar">
         <div class="container-navbar"
             style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
@@ -372,10 +373,6 @@
                 <a href="{{ url('/guide') }}">Tour Guide</a>
                 <a href="https://wa.me/6283150774897" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
-                </a>
-                <a href="{{ route('admin.login') }}" class="admin-login-btn" title="Login Admin">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Admin</span>
                 </a>
             </div>
         </div>

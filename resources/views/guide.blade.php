@@ -238,14 +238,17 @@
             .guide-title {
                 font-size: 32px;
             }
+
             .guide-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
+
             .navbar {
                 flex-direction: column;
                 text-align: center;
             }
+
             .nav-links {
                 justify-content: center;
             }
@@ -255,6 +258,7 @@
 
 <body>
 
+    <!-- NAVBAR -->
     <div class="navbar">
         <div class="container-navbar"
             style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
@@ -270,10 +274,6 @@
                 <a href="{{ url('/guide') }}">Tour Guide</a>
                 <a href="https://wa.me/6283150774897" target="_blank">
                     <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
-                </a>
-                <a href="{{ route('admin.login') }}" class="admin-login-btn" title="Login Admin">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Admin</span>
                 </a>
             </div>
         </div>
@@ -296,9 +296,14 @@
             try {
                 const response = await fetch('/api/guides');
                 const result = await response.json();
-                
+
                 if (result.success && result.data.length > 0) {
-                    renderGuides(result.data);
+                    // SORTIR DATA DARI YANG PALING LAMA (ID terkecil/created_at paling lama)
+                    const sortedData = result.data.sort((a, b) => {
+                        // Sort by ID ascending (yang kecil dulu = data lama)
+                        return (a.id || 0) - (b.id || 0);
+                    });
+                    renderGuides(sortedData);
                 } else {
                     // Tampilkan pesan jika tidak ada data
                     document.getElementById('guidesContainer').innerHTML = '<p style="text-align: center; color: white;">Belum ada data tour guide.</p>';
@@ -312,13 +317,13 @@
         // Fungsi untuk merender guide ke dalam grid
         function renderGuides(guides) {
             const container = document.getElementById('guidesContainer');
-            
+
             // Bagi data menjadi 2 baris (masing-masing 4 card) atau sesuai jumlah
             const firstRow = guides.slice(0, 4);
             const secondRow = guides.slice(4, 8);
-            
+
             let html = '';
-            
+
             // Baris pertama
             if (firstRow.length > 0) {
                 html += '<div class="guide-grid">';
@@ -333,7 +338,7 @@
                 });
                 html += '</div>';
             }
-            
+
             // Baris kedua
             if (secondRow.length > 0) {
                 html += '<div class="guide-grid">';
@@ -348,12 +353,12 @@
                 });
                 html += '</div>';
             }
-            
+
             // Jika total guide kurang dari 4, hanya tampilkan satu baris
             if (guides.length <= 4 && guides.length > 0) {
                 // sudah ditangani di atas
             }
-            
+
             container.innerHTML = html;
         }
 

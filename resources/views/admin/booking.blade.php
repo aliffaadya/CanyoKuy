@@ -4,160 +4,159 @@
 
 @section('content')
 <style>
-    /* ========== KELOLA BOOKING UI STYLES ========== */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    :root {
-        --primary-green: #10b981;
-        --banner-green: #059669;
-        --bg-color: #f8fafc;
-        --text-dark: #0f172a;
-        --text-gray: #64748b;
-        --card-bg: #ffffff;
-        --border-color: #e2e8f0;
-    }
-
-    body,
-    .content-wrapper,
-    .main-content {
-        background-color: var(--bg-color) !important;
+    .booking-content {
         font-family: 'Inter', sans-serif;
+        padding: 0 20px;
     }
 
     .green-banner-header {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         border-radius: 16px;
-        padding: 28px 32px;
+        padding: 20px 28px;
         color: white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         margin-bottom: 24px;
-        margin-top: 20px;
         box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .green-banner-header::after {
-        content: '';
-        position: absolute;
-        width: 200px;
-        height: 200px;
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 50%;
-        bottom: -70px;
-        right: -40px;
-        pointer-events: none;
     }
 
     .banner-left {
         display: flex;
         align-items: center;
-        gap: 20px;
-        z-index: 2;
+        gap: 16px;
     }
 
     .banner-icon {
         background: rgba(255, 255, 255, 0.2);
-        width: 52px;
-        height: 52px;
+        width: 48px;
+        height: 48px;
         border-radius: 12px;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 22px;
-        color: #ffffff;
-        backdrop-filter: blur(4px);
-    }
-
-    .banner-text {
-        display: flex;
-        flex-direction: column;
+        font-size: 20px;
     }
 
     .page-title {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 700;
-        color: #ffffff;
         margin: 0;
-        letter-spacing: -0.5px;
+        color: white;
     }
 
     .page-subtitle {
-        font-size: 14px;
+        font-size: 13px;
         color: rgba(255, 255, 255, 0.85);
-        margin: 4px 0 0 0;
-        font-weight: 400;
+        margin: 4px 0 0;
+    }
+
+    .toolbar {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
     }
 
     .filter-select {
-        padding: 10px 16px;
-        border-radius: 10px;
-        border: 1px solid var(--border-color);
-        font-family: 'Inter', sans-serif;
+        padding: 8px 14px;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
         font-size: 13px;
-        font-weight: 600;
-        color: var(--text-dark);
-        background-color: #ffffff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        font-weight: 500;
+        background: white;
         cursor: pointer;
-        outline: none;
+    }
+
+    .btn-action {
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+    }
+
+    /* CARD VIEW - TANPA SCROLL */
+    .bookings-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .booking-card {
+        background: white;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
     }
 
-    .filter-select:hover {
-        border-color: #10b981;
+    .booking-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
     }
 
-    .table-container {
-        background: var(--card-bg);
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-        overflow-x: auto;
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #f1f5f9;
     }
 
-    .data-table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 1000px;
+    .booking-code {
+        font-weight: 700;
+        font-size: 14px;
+        color: #10b981;
+        background: #f0fdf4;
+        padding: 4px 10px;
+        border-radius: 6px;
+        display: inline-block;
     }
 
-    .data-table th {
-        text-align: left;
-        font-size: 13px;
+    .card-body {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .info-label {
+        font-size: 11px;
         font-weight: 600;
-        color: var(--text-gray);
+        color: #64748b;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        padding: 16px;
-        border-bottom: 2px solid #f1f5f9;
     }
 
-    .data-table td {
-        padding: 16px;
+    .info-value {
         font-size: 14px;
-        color: var(--text-dark);
-        border-bottom: 1px solid #f1f5f9;
-        vertical-align: middle;
+        font-weight: 500;
+        color: #1e293b;
+        word-break: break-word;
     }
 
-    .data-table tr:hover td {
-        background-color: #f8fafc;
-    }
-
-    .data-table tr:last-child td {
-        border-bottom: none;
+    .info-value strong {
+        font-size: 16px;
+        color: #10b981;
     }
 
     .badge {
-        padding: 6px 12px;
+        padding: 4px 10px;
         border-radius: 20px;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 600;
         display: inline-block;
-        text-align: center;
+        width: fit-content;
     }
 
     .badge-success {
@@ -175,46 +174,22 @@
         color: #475569;
     }
 
-    .btn-action {
-        padding: 8px 16px;
-        border-radius: 10px;
-        font-family: 'Inter', sans-serif;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        border: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-proof {
-        background: #e0f2fe;
-        color: #0284c7;
-    }
-
-    .btn-proof:hover {
-        background: #0284c7;
-        color: white;
-    }
-
-    .action-buttons {
+    .card-footer {
         display: flex;
+        justify-content: flex-end;
         gap: 8px;
+        padding-top: 12px;
+        border-top: 1px solid #f1f5f9;
     }
 
     .btn-icon {
-        width: 34px;
-        height: 34px;
-        border-radius: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
         border: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         cursor: pointer;
-        transition: all 0.2s ease;
-        font-size: 13px;
+        transition: all 0.2s;
+        font-size: 14px;
     }
 
     .btn-edit {
@@ -237,6 +212,20 @@
         color: white;
     }
 
+    .btn-proof {
+        background: #e0f2fe;
+        color: #0284c7;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+    }
+
+    .btn-proof:hover {
+        background: #0284c7;
+        color: white;
+    }
+
+    /* Modal Styles */
     .modal-overlay {
         display: none;
         position: fixed;
@@ -244,123 +233,122 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(15, 23, 42, 0.4);
-        z-index: 1000;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
         justify-content: center;
         align-items: center;
-        backdrop-filter: blur(4px);
     }
 
     .modal-box {
-        background: var(--card-bg);
-        border-radius: 20px;
-        width: 100%;
+        background: white;
+        border-radius: 16px;
+        width: 90%;
         max-width: 500px;
-        padding: 30px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        transform: translateY(-20px);
-        animation: modalFadeIn 0.3s forwards ease-out;
-    }
-
-    @keyframes modalFadeIn {
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        padding: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     }
 
     .modal-title {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
-        color: var(--text-dark);
-        margin-top: 0;
-        margin-bottom: 20px;
+        margin: 0 0 16px 0;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
     }
 
     .modal-actions {
         display: flex;
         gap: 12px;
-        margin-top: 24px;
+        margin-top: 20px;
         justify-content: flex-end;
     }
 
     .btn-cancel {
-        background: white;
-        color: var(--text-gray);
-        border: 1px solid var(--border-color);
-        padding: 10px 20px;
-        border-radius: 10px;
-        font-weight: 600;
+        background: #f1f5f9;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        font-weight: 500;
     }
 
-    .btn-cancel:hover {
-        background: #f8fafc;
-        color: var(--text-dark);
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 12px;
+        color: #64748b;
+    }
+
+    @media (max-width: 640px) {
+        .card-body {
+            grid-template-columns: 1fr;
+        }
+        
+        .toolbar {
+            justify-content: center;
+        }
+        
+        .green-banner-header {
+            text-align: center;
+        }
+        
+        .banner-left {
+            flex-direction: column;
+            text-align: center;
+            width: 100%;
+        }
     }
 </style>
 
-<div class="green-banner-header">
-    <div class="banner-left">
-        <div class="banner-icon">
-            <i class="fas fa-receipt"></i>
+<div class="booking-content">
+    <div class="green-banner-header">
+        <div class="banner-left">
+            <div class="banner-icon">
+                <i class="fas fa-receipt"></i>
+            </div>
+            <div class="banner-text">
+                <h1 class="page-title">Semua Booking</h1>
+                <p class="page-subtitle">Pantau dan verifikasi pesanan tiket dari pelanggan.</p>
+            </div>
         </div>
-        <div class="banner-text">
-            <h1 class="page-title">Semua Booking</h1>
-            <p class="page-subtitle">Pantau dan verifikasi pesanan tiket dari pelanggan.</p>
+    </div>
+
+    <div class="toolbar">
+        <button onclick="exportToCSV()" class="btn-action" style="background: #10b981; color: white;">
+            <i class="fas fa-file-excel"></i> Export Excel
+        </button>
+        <button onclick="exportToPDF()" class="btn-action" style="background: #ef4444; color: white;">
+            <i class="fas fa-file-pdf"></i> Export PDF
+        </button>
+        <select id="filterStatus" onchange="filterBookings()" class="filter-select">
+            <option value="all">Semua Status</option>
+            <option value="waiting">Menunggu Verifikasi</option>
+            <option value="paid">Sudah Diverifikasi</option>
+        </select>
+    </div>
+
+    <div id="bookingsContainer" class="bookings-grid">
+        <div class="empty-state">
+            <i class="fas fa-spinner fa-spin"></i> Memuat data...
         </div>
     </div>
 </div>
 
-<div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-bottom: 16px;">
-    <button onclick="exportToCSV()" class="btn-action" style="background: #ffffff; color: #10b981; border: 1px solid #10b981; padding: 10px 16px;">
-        <i class="fas fa-file-excel"></i> Export Excel
-    </button>
-
-    <button onclick="exportToPDF()" class="btn-action" style="background: #ffffff; color: #ef4444; border: 1px solid #ef4444; padding: 10px 16px;">
-        <i class="fas fa-file-pdf"></i> Export PDF
-    </button>
-
-    <select id="filterStatus" onchange="filterBookings()" class="filter-select">
-        <option value="all">Semua Status</option>
-        <option value="waiting">Menunggu Verifikasi</option>
-        <option value="paid">Sudah Diverifikasi</option>
-    </select>
-</div>
-
-<div class="table-container">
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Kode</th>
-                <th>Nama</th>
-                <th>Paket</th>
-                <th>WhatsApp</th>
-                <th>Tanggal</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Bukti TF</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody id="bookingsTable"></tbody>
-    </table>
-</div>
-
-<div id="proofModal" class="modal-overlay">
+<div id="proofModal" class="modal-overlay" onclick="if(event.target === this) closeModal()">
     <div class="modal-box">
-        <h3 class="modal-title"><i class="fas fa-file-invoice-dollar" style="color: #10b981;"></i> Bukti Transfer</h3>
-        <div style="background: #f8fafc; padding: 10px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
-            <img id="proofImage" style="max-width: 100%; max-height: 400px; border-radius: 8px; object-fit: contain;">
+        <h3 class="modal-title">
+            <i class="fas fa-file-invoice-dollar" style="color: #10b981;"></i> 
+            Bukti Transfer
+        </h3>
+        <div style="background: #f8fafc; padding: 20px; border-radius: 12px; text-align: center;">
+            <img id="proofImage" style="max-width: 100%; max-height: 400px; border-radius: 8px;">
         </div>
         <div class="modal-actions">
             <button onclick="closeModal()" class="btn-cancel">Tutup</button>
-            <button onclick="verifyPayment()" class="btn-action" style="background-color: #10b981; color: white; padding: 10px 20px;">
-                <i class="fas fa-check-circle"></i> Verifikasi Pendaftaran
+            <button onclick="verifyPayment()" class="btn-action" style="background: #10b981; color: white;">
+                <i class="fas fa-check-circle"></i> Verifikasi
             </button>
         </div>
     </div>
@@ -371,21 +359,18 @@
     let allBookings = [];
     let currentBookingId = null;
 
-    // Fungsi untuk mendapatkan teks status
     function getStatusText(booking) {
         if (booking.payment_status === 'paid') return 'Sudah Diverifikasi';
         if (booking.payment_status === 'waiting_confirmation') return 'Menunggu Verifikasi';
-        return '🕐 Menunggu Pembayaran';
+        return 'Menunggu Pembayaran';
     }
 
-    // Fungsi untuk mendapatkan class status
     function getStatusClass(booking) {
         if (booking.payment_status === 'paid') return 'badge-success';
         if (booking.payment_status === 'waiting_confirmation') return 'badge-warning';
         return 'badge-pending';
     }
 
-    // Load data dari DATABASE via API
     async function loadBookings() {
         try {
             const response = await fetch('/api/bookings');
@@ -395,69 +380,114 @@
                 allBookings = result.data;
                 filterBookings();
             } else {
-                console.error('Gagal load data:', result.message);
-                allBookings = [];
-                filterBookings();
+                console.error('Error:', result.message);
+                showEmptyState();
             }
         } catch (error) {
             console.error('Error:', error);
-            allBookings = [];
-            filterBookings();
+            showEmptyState();
         }
+    }
+
+    function showEmptyState() {
+        const container = document.getElementById('bookingsContainer');
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Tidak ada data booking</p></div>';
     }
 
     function filterBookings() {
         const filter = document.getElementById('filterStatus').value;
         let filtered = [...allBookings];
 
-        if (filter === 'pending') {
-            filtered = filtered.filter(b => b.payment_status === 'pending');
-        } else if (filter === 'waiting') {
+        if (filter === 'waiting') {
             filtered = filtered.filter(b => b.payment_status === 'waiting_confirmation');
         } else if (filter === 'paid') {
             filtered = filtered.filter(b => b.payment_status === 'paid');
         }
 
-        const tbody = document.getElementById('bookingsTable');
+        const container = document.getElementById('bookingsContainer');
         if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--text-gray); padding: 30px;">Tidak ada data booking yang sesuai dengan filter.</td><tr>';
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Tidak ada data yang sesuai</p></div>';
             return;
         }
 
-        tbody.innerHTML = filtered.map((booking) => {
-            const statusText = getStatusText(booking);
-            const statusClass = getStatusClass(booking);
-
-            return `
-                <tr>
-                    <td><strong>${booking.booking_code || '-'}</strong></td>
-                    <td>${booking.customer_name || '-'}</td>
-                    <td>${booking.package_name || '-'}</td>
-                    <td>${booking.phone || '-'}</td>
-                    <td>${booking.booking_date || '-'}</td>
-                    <td><strong>Rp ${(booking.total_price || 0).toLocaleString('id-ID')}</strong></td>
-                    <td><span class="badge ${statusClass}">${statusText}</span></td>
-                    <td>
-                        ${booking.payment_proof 
-                            ? `<button class="btn-action btn-proof" onclick="viewProof('${booking.payment_proof}', ${booking.id})"><i class="fas fa-image"></i> Cek</button>` 
-                            : '<span style="color:var(--text-gray); font-size: 13px;">Belum upload</span>'}
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            ${booking.payment_status !== 'paid' 
-                                ? `<button class="btn-icon btn-edit" onclick="updateStatus(${booking.id}, 'paid')" title="Verifikasi Pendaftaran"><i class="fas fa-check"></i></button>`
-                                : ''}
-                            <button class="btn-icon btn-delete" onclick="deleteBooking(${booking.id})" title="Hapus"><i class="fas fa-trash"></i></button>
+        container.innerHTML = filtered.map(booking => `
+            <div class="booking-card">
+                <div class="card-header">
+                    <span class="booking-code">
+                        <i class="fas fa-ticket-alt"></i> ${booking.booking_code || '-'}
+                    </span>
+                    <span class="badge ${getStatusClass(booking)}">${getStatusText(booking)}</span>
+                </div>
+                
+                <div class="card-body">
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-user"></i> Nama
                         </div>
-                    </td>
-                </tr>
-            `;
-        }).join('');
+                        <div class="info-value">${booking.customer_name || '-'}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-box"></i> Paket
+                        </div>
+                        <div class="info-value">${booking.package_name || '-'}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </div>
+                        <div class="info-value">${booking.phone || '-'}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-calendar"></i> Tanggal
+                        </div>
+                        <div class="info-value">${booking.booking_date ? new Date(booking.booking_date).toLocaleDateString('id-ID') : '-'}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-money-bill"></i> Total
+                        </div>
+                        <div class="info-value"><strong>Rp ${(booking.total_price || 0).toLocaleString('id-ID')}</strong></div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-receipt"></i> Bukti Transfer
+                        </div>
+                        <div class="info-value">
+                            ${booking.payment_proof 
+                                ? `<button class="btn-proof" onclick="viewProof('${booking.payment_proof}', ${booking.id})">
+                                    <i class="fas fa-image"></i> Lihat Bukti
+                                   </button>` 
+                                : '<span style="color:#94a3b8;">Belum upload</span>'}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    ${booking.payment_status !== 'paid' && booking.payment_proof
+                        ? `<button class="btn-icon btn-edit" onclick="updateStatus(${booking.id}, 'paid')" title="Verifikasi">
+                            <i class="fas fa-check"></i>
+                           </button>`
+                        : ''}
+                    <button class="btn-icon btn-delete" onclick="deleteBooking(${booking.id})" title="Hapus">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
     }
 
     function viewProof(proofUrl, id) {
         currentBookingId = id;
-        document.getElementById('proofImage').src = proofUrl;
+        const img = document.getElementById('proofImage');
+        img.src = proofUrl;
+        img.onerror = () => { img.src = 'https://via.placeholder.com/400?text=Gambar+tidak+dapat+dimuat'; };
         document.getElementById('proofModal').style.display = 'flex';
     }
 
@@ -474,53 +504,53 @@
     }
 
     async function updateStatus(id, newStatus) {
-        if (confirm('Verifikasi pendaftaran ini?')) {
-            try {
-                const response = await fetch(`/api/bookings/${id}/status`, {
-                    method: 'PUT',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                const result = await response.json();
+        if (!confirm('Verifikasi pendaftaran ini?')) return;
+        
+        try {
+            const response = await fetch(`/api/bookings/${id}/status`, {
+                method: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+            const result = await response.json();
 
-                if (result.success) {
-                    alert('✅ Status pendaftaran berhasil diverifikasi!');
-                    loadBookings();
-                } else {
-                    alert('❌ Gagal update status: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Gagal update status');
+            if (result.success) {
+                alert('✅ Status berhasil diverifikasi!');
+                loadBookings();
+            } else {
+                alert('❌ Gagal: ' + (result.message || 'Terjadi kesalahan'));
             }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('❌ Gagal update status');
         }
     }
 
     async function deleteBooking(id) {
-        if (confirm('Yakin ingin menghapus data booking ini secara permanen?')) {
-            try {
-                const response = await fetch(`/api/bookings/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const result = await response.json();
-
-                if (result.success) {
-                    alert('✅ Booking berhasil dihapus!');
-                    loadBookings();
-                } else {
-                    alert('❌ Gagal menghapus: ' + result.message);
+        if (!confirm('Yakin ingin menghapus booking ini?')) return;
+        
+        try {
+            const response = await fetch(`/api/bookings/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Gagal menghapus booking');
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                alert('✅ Booking dihapus!');
+                loadBookings();
+            } else {
+                alert('❌ Gagal: ' + (result.message || 'Terjadi kesalahan'));
             }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('❌ Gagal menghapus');
         }
     }
 
@@ -530,30 +560,37 @@
             return;
         }
 
-        let csvContent = "Kode Booking,Nama,Paket,WhatsApp,Tanggal,Total,Status\n";
+        const headers = ['Kode Booking', 'Nama', 'Paket', 'WhatsApp', 'Tanggal', 'Total', 'Status'];
+        const rows = allBookings.map(b => [
+            b.booking_code,
+            b.customer_name,
+            b.package_name,
+            b.phone,
+            b.booking_date,
+            b.total_price,
+            getStatusText(b)
+        ]);
 
-        allBookings.forEach(b => {
-            let status = b.payment_status === 'paid' ? 'Sudah Diverifikasi' : (b.payment_status === 'waiting_confirmation' ? 'Menunggu Verifikasi' : 'Menunggu Pembayaran');
-            let row = `"${b.booking_code}","${b.customer_name}","${b.package_name}","${b.phone}","${b.booking_date}","${b.total_price}","${status}"`;
-            csvContent += row + "\n";
-        });
+        const csvContent = [headers, ...rows]
+            .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+            .join('\n');
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
+        const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
         const url = URL.createObjectURL(blob);
-
-        link.setAttribute("href", url);
-        link.setAttribute("download", "Data_Booking_CanyoKuy.csv");
+        link.href = url;
+        link.download = `Data_Booking_${new Date().toISOString().split('T')[0]}.csv`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
 
     function exportToPDF() {
-        alert("Fitur PDF akan segera hadir. Silakan gunakan print browser (Ctrl+P)");
+        window.print();
     }
 
-    // Load data saat halaman dibuka
+    // Load data
     loadBookings();
 </script>
 @endsection

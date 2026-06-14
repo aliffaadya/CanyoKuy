@@ -50,7 +50,7 @@
             background: #2F6B5E;
             padding: 8px 24px 8px 10px;
             border-radius: 50px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .logo-img {
@@ -65,7 +65,7 @@
             font-size: 22px;
             font-weight: 800;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .nav-links {
@@ -77,7 +77,7 @@
             background: #2F6B5E;
             padding: 10px 30px;
             border-radius: 50px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .nav-links a {
@@ -112,10 +112,19 @@
             overflow: hidden;
         }
 
+        .hero-section img:nth-child(3) {
+            object-position: center 70%;
+        }
+
+        .hero-section img:nth-child(2) {
+            object-position: center 95%;
+        }
+
         .hero-section img {
             width: 33.333%;
-            height: 100%;
+            height: 350px;
             object-fit: cover;
+            object-position: center;
         }
 
         .title-banner {
@@ -224,11 +233,13 @@
             margin-bottom: 16px;
         }
 
-        .facilities-list, .info-list {
+        .facilities-list,
+        .info-list {
             list-style: none;
         }
 
-        .facilities-list li, .info-list li {
+        .facilities-list li,
+        .info-list li {
             display: flex;
             align-items: flex-start;
             gap: 12px;
@@ -238,7 +249,8 @@
             font-weight: 600;
         }
 
-        .facilities-list li i, .info-list li i {
+        .facilities-list li i,
+        .info-list li i {
             color: #2F6B5E;
             font-size: 12px;
             margin-top: 4px;
@@ -273,7 +285,7 @@
             font-family: inherit;
             font-size: 16px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn-book:hover:not(:disabled) {
@@ -307,12 +319,19 @@
             width: 90%;
             animation: slideInBooking 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
 
         @keyframes slideInBooking {
-            from { transform: translateY(20px) scale(0.95); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
+            from {
+                transform: translateY(20px) scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
         }
 
         .modal-header {
@@ -325,7 +344,7 @@
         .success-icon-wrap {
             width: 70px;
             height: 70px;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -438,7 +457,8 @@
             gap: 12px;
         }
 
-        .btn-close, .btn-redirect {
+        .btn-close,
+        .btn-redirect {
             flex: 1;
             padding: 12px;
             border: none;
@@ -466,7 +486,7 @@
         .btn-redirect {
             background: #2F6B5E;
             color: white;
-            box-shadow: 0 4px 12px rgba(47,107,94,0.2);
+            box-shadow: 0 4px 12px rgba(47, 107, 94, 0.2);
         }
 
         .btn-redirect:hover {
@@ -485,8 +505,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .floating-help-btn {
@@ -520,7 +545,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 99999;
             justify-content: center;
             align-items: center;
@@ -535,7 +560,7 @@
             padding: 35px 30px;
             position: relative;
             animation: slideIn 0.3s ease;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -589,7 +614,7 @@
 
         .roadmap-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(47,107,94,0.1);
+            box-shadow: 0 8px 20px rgba(47, 107, 94, 0.1);
             border-color: #2F6B5E;
         }
 
@@ -641,21 +666,63 @@
         }
 
         @media (max-width: 900px) {
-            .detail-grid { grid-template-columns: 1fr; gap: 30px; }
-            .banner-container { flex-direction: column; text-align: center; }
-            .banner-title-group { align-items: center; }
-            .banner-badges { justify-content: center; }
-            .banner-price-box { text-align: center; }
-            .roadmap-row { grid-template-columns: repeat(2, 1fr); }
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .banner-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .banner-title-group {
+                align-items: center;
+            }
+
+            .banner-badges {
+                justify-content: center;
+            }
+
+            .banner-price-box {
+                text-align: center;
+            }
+
+            .roadmap-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
-            .container-navbar { justify-content: center !important; gap: 20px; }
-            .nav-links { justify-content: center; padding: 15px; }
-            .hero-section { height: 180px; }
-            .video-thumbnail { width: 100%; }
-            .floating-help-btn { bottom: 20px; right: 20px; width: 42px; height: 42px; font-size: 18px; }
-            .roadmap-row { grid-template-columns: 1fr; }
+            .container-navbar {
+                justify-content: center !important;
+                gap: 20px;
+            }
+
+            .nav-links {
+                justify-content: center;
+                padding: 15px;
+            }
+
+            .hero-section {
+                height: 180px;
+            }
+
+            .video-thumbnail {
+                width: 100%;
+            }
+
+            .floating-help-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+
+            .roadmap-row {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -663,7 +730,8 @@
 <body>
 
     <div class="navbar">
-        <div class="container-navbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div class="container-navbar"
+            style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
                 <span class="logo-text">CanyoKuy</span>
@@ -797,7 +865,8 @@
             </div>
             <div class="modal-footer">
                 <button class="btn-close" onclick="closeModal()">Batal</button>
-                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan <i class="fas fa-arrow-right"></i></button>
+                <button class="btn-redirect" onclick="redirectToBooking()">Lanjutkan <i
+                        class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </div>
@@ -808,16 +877,66 @@
             <h2><i class="fas fa-route"></i> Alur Pemesanan CanyoKuy</h2>
             <div class="roadmap-container">
                 <div class="roadmap-row">
-                    <div class="roadmap-item"><div class="icon-wrapper"><span class="step-number">1</span><i class="fas fa-compass"></i></div><div class="step-content"><h4>Pilih Paket Wisata</h4><p>Tentukan pilihan paket wisata yang Anda inginkan.</p></div></div>
-                    <div class="roadmap-item"><div class="icon-wrapper"><span class="step-number">2</span><i class="fas fa-hiking"></i></div><div class="step-content"><h4>Pelajari Informasi</h4><p>Baca info detail paket, lalu klik <b>Pesan Sekarang</b>.</p></div></div>
-                    <div class="roadmap-item"><div class="icon-wrapper"><span class="step-number">3</span><i class="fas fa-file-signature"></i></div><div class="step-content"><h4>Isi Form Booking</h4><p>Lengkapi formulir secara teliti.</p></div></div>
-                    <div class="roadmap-item"><div class="icon-wrapper"><span class="step-number">4</span><i class="fas fa-receipt"></i></div><div class="step-content"><h4>Upload Bukti Transfer</h4><p>Upload bukti transfer ke rekening resmi.</p></div></div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper"><span class="step-number">1</span><i class="fas fa-compass"></i></div>
+                        <div class="step-content">
+                            <h4>Pilih Paket Wisata</h4>
+                            <p>Tentukan pilihan paket wisata yang Anda inginkan.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper"><span class="step-number">2</span><i class="fas fa-hiking"></i></div>
+                        <div class="step-content">
+                            <h4>Pelajari Informasi</h4>
+                            <p>Baca info detail paket, lalu klik <b>Pesan Sekarang</b>.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper"><span class="step-number">3</span><i
+                                class="fas fa-file-signature"></i></div>
+                        <div class="step-content">
+                            <h4>Isi Form Booking</h4>
+                            <p>Lengkapi formulir secara teliti.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper"><span class="step-number">4</span><i class="fas fa-receipt"></i></div>
+                        <div class="step-content">
+                            <h4>Upload Bukti Transfer</h4>
+                            <p>Upload bukti transfer ke rekening resmi.</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="roadmap-row">
-                    <div class="roadmap-item"><div class="icon-wrapper"><span class="step-number">5</span><i class="fas fa-qrcode"></i></div><div class="step-content"><h4>Kode Booking & WA</h4><p>Dapatkan kode unik, hubungi Admin via WA.</p></div></div>
-                    <div class="roadmap-item"><div class="icon-wrapper"><span class="step-number">6</span><i class="fas fa-user-check"></i></div><div class="step-content"><h4>Verifikasi Admin</h4><p>Admin akan memeriksa validasi form.</p></div></div>
-                    <div class="roadmap-item"><div class="icon-wrapper"><span class="step-number">7</span><i class="fas fa-tasks"></i></div><div class="step-content"><h4>Pantau Status</h4><p>Cek status pemesanan secara berkala.</p></div></div>
-                    <div class="roadmap-item"><div class="icon-wrapper"><span class="step-number">8</span><i class="fas fa-users"></i></div><div class="step-content"><h4>Grup Koordinasi</h4><p>Gabung ke grup koordinasi perjalanan! 🎉</p></div></div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper"><span class="step-number">5</span><i class="fas fa-qrcode"></i></div>
+                        <div class="step-content">
+                            <h4>Kode Booking & WA</h4>
+                            <p>Dapatkan kode unik, hubungi Admin via WA.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper"><span class="step-number">6</span><i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Verifikasi Admin</h4>
+                            <p>Admin akan memeriksa validasi form.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper"><span class="step-number">7</span><i class="fas fa-tasks"></i></div>
+                        <div class="step-content">
+                            <h4>Pantau Status</h4>
+                            <p>Cek status pemesanan secara berkala.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="icon-wrapper"><span class="step-number">8</span><i class="fas fa-users"></i></div>
+                        <div class="step-content">
+                            <h4>Grup Koordinasi</h4>
+                            <p>Gabung ke grup koordinasi perjalanan! 🎉</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -887,7 +1006,7 @@
             if (roadmapModal) roadmapModal.style.display = "none";
         }
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target === modal) closeModal();
             const roadmapModal = document.getElementById('roadmapModal');
             if (event.target === roadmapModal) closeRoadmapModal();
@@ -951,11 +1070,12 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadSchedule();
             // Refresh setiap 10 detik
             setInterval(loadSchedule, 10000);
         });
     </script>
 </body>
+
 </html>
