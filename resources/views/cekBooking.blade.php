@@ -35,8 +35,6 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
-            flex-wrap: wrap;
-            gap: 16px;
             background: transparent;
             position: absolute;
             top: 0;
@@ -46,9 +44,14 @@
         }
 
         .container-navbar {
+            width: 100%;
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
         }
 
         .logo {
@@ -78,7 +81,6 @@
             align-items: center;
             gap: 28px;
             font-weight: 600;
-            flex-wrap: wrap;
         }
 
         .nav-links a {
@@ -94,7 +96,41 @@
             color: #ffdec2;
         }
 
-        .wa-icon {
+        /* Tombol Hamburger Menu (Sembunyi di laptop) */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+            z-index: 101;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Ikon WhatsApp Melayang (Floating Button) */
+        .floating-wa {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+            transition: transform 0.2s ease;
+        }
+
+        .floating-wa .wa-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .floating-wa:hover {
+            transform: scale(1.1);
+        }
+
+        .wa-icon-nav {
             width: 40px;
             height: 40px;
             transition: 0.2s;
@@ -103,7 +139,7 @@
             object-fit: cover;
         }
 
-        .wa-icon:hover {
+        .wa-icon-nav:hover {
             transform: scale(1.05);
         }
 
@@ -376,39 +412,107 @@
             background: #2F6B5E;
         }
 
+        /* ========== RESPONSIVE UNTUK HP ========== */
         @media (max-width: 768px) {
-            .booking-title { font-size: 28px; }
-            .search-row { flex-direction: column; border-radius: 24px; }
-            .search-input, .search-btn { width: 100%; border-radius: 40px; }
-            .booking-content { padding: 150px 0 80px 0; }
-            .result-grid { grid-template-columns: 1fr; }
-            .result-item-full { grid-column: span 1; }
+            .menu-toggle {
+                display: block;
+            }
+
+            .logo-img {
+                width: 48px;
+                height: 48px;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 75px;
+                left: 24px;
+                right: 24px;
+                background: rgba(10, 46, 43, 0.95);
+                padding: 20px;
+                border-radius: 16px;
+                gap: 20px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(8px);
+                z-index: 100;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                font-size: 18px;
+                width: 100%;
+                text-align: center;
+                padding: 8px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+
+            .booking-title {
+                font-size: 28px;
+            }
+
+            .search-row {
+                flex-direction: column;
+                border-radius: 24px;
+            }
+
+            .search-input, .search-btn {
+                width: 100%;
+                border-radius: 40px;
+            }
+
+            .booking-content {
+                padding: 150px 0 80px 0;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-item-full {
+                grid-column: span 1;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- NAVBAR dengan hamburger menu -->
     <div class="navbar">
-        <div class="container-navbar"
-            style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div class="container-navbar">
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
-                <span class="logo-text">CanyoKuy</span>
             </div>
-            <div class="nav-links">
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="nav-links" id="navLinks">
                 <a href="{{ url('/') }}">Beranda</a>
                 <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
                 <a href="{{ url('/cekBooking') }}">Cek Booking</a>
                 <a href="{{ url('/#testimoni') }}">Testimoni</a>
                 <a href="{{ url('/guide') }}">Tour Guide</a>
-                <a href="https://wa.me/6283150774897" target="_blank">
-                    <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
-                </a>
+               
             </div>
         </div>
     </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6283150774897" target="_blank" class="floating-wa">
+        <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
+    </a>
 
     <div class="booking-page">
         <div class="container">
@@ -469,7 +573,6 @@
                             </div>
                         </div>
                         
-                        <!-- Tempat untuk menampilkan alasan penolakan -->
                         <div id="rejectionContainer" style="display: none;"></div>
                         
                         <button class="reset-btn" onclick="resetSearch()">
@@ -491,6 +594,35 @@
     </div>
 
     <script>
+        // Toggle menu untuk HP
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (navLinks.classList.contains('active')) {
+                        icon.className = 'fas fa-times';
+                    } else {
+                        icon.className = 'fas fa-bars';
+                    }
+                });
+
+                const links = navLinks.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        if (menuToggle.querySelector('i')) {
+                            menuToggle.querySelector('i').className = 'fas fa-bars';
+                        }
+                    });
+                });
+            }
+        });
+
+        // ========== LOGIKA CEK BOOKING (TIDAK DIUBAH) ==========
         async function checkBooking() {
             const bookingCode = document.getElementById('searchInput').value.trim().toUpperCase();
             
@@ -559,7 +691,6 @@
             document.getElementById('resultSisa').textContent = 'Rp ' + (booking.remaining_amount || 0).toLocaleString('id-ID');
             document.getElementById('resultCreated').textContent = tanggalBooking;
 
-            // TAMPILKAN ALASAN PENOLAKAN JIKA STATUS REJECTED
             const rejectionContainer = document.getElementById('rejectionContainer');
             if (booking.payment_status === 'rejected' && booking.rejection_reason) {
                 rejectionContainer.style.display = 'block';

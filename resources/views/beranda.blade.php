@@ -29,7 +29,6 @@
             padding: 0 24px;
         }
 
-        /* TARUH INI DI FILE CSS KAMU (PALING ATAS) ATAU DI DALAM TAG <style> */
         /* Efek scroll mulus dari atas ke bawah */
         html {
             scroll-behavior: smooth;
@@ -39,7 +38,6 @@
         .btn-hero-revisited {
             background: rgba(255, 255, 255, 0.15);
             color: #f0f0f0;
-            /* Teks warna hijau tua identitas CanyoKuy */
             text-decoration: none;
             padding: 12px 32px;
             font-weight: 700;
@@ -61,8 +59,6 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
-            flex-wrap: wrap;
-            gap: 16px;
             background: transparent;
             position: absolute;
             top: 0;
@@ -72,9 +68,14 @@
         }
 
         .container-navbar {
+            width: 100%;
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
         }
 
         .logo {
@@ -90,6 +91,7 @@
             object-fit: cover;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             border: 2px solid white;
+            transition: all 0.3s ease;
         }
 
         .logo-text {
@@ -104,7 +106,6 @@
             align-items: center;
             gap: 28px;
             font-weight: 600;
-            flex-wrap: wrap;
         }
 
         .nav-links a {
@@ -120,17 +121,38 @@
             color: #ffdec2;
         }
 
-        .wa-icon {
-            width: 40px;
-            height: 40px;
-            transition: 0.2s;
-            border-radius: 40px;
-            border: 2px solid white;
-            object-fit: cover;
+        /* Tombol Hamburger Menu (Sembunyi secara default di Laptop) */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+            z-index: 101;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .wa-icon:hover {
-            transform: scale(1.05);
+        /* Ikon WhatsApp Melayang (Floating Button) */
+        .floating-wa {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+            transition: transform 0.2s ease;
+        }
+
+        .wa-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .floating-wa:hover {
+            transform: scale(1.1);
         }
 
         /* ========== HERO SECTION ========== */
@@ -144,13 +166,6 @@
             margin-bottom: 80px;
             position: relative;
             min-height: 600px;
-        }
-
-        @media (max-width: 768px) {
-            .hero-section {
-                background-position: center 60%;
-                min-height: 450px;
-            }
         }
 
         .hero-section::before {
@@ -175,60 +190,96 @@
         }
 
         .hero-content h1 {
-            font-size: 56px;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 16px;
-            letter-spacing: -0.5px;
-        }
-
-        .hero-content h1 .big-title {
             font-size: 64px;
             font-weight: 800;
-            display: block;
-            background: linear-gradient(125deg, #ffffff, #ffdec2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: white;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
         .hero-content p {
-            font-size: 18px;
-            max-width: 600px;
-            margin: 24px auto 0;
-            opacity: 0.95;
+            font-size: 16px;
+            color: white;
+            max-width: 500px;
+            margin: 0 auto;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
             line-height: 1.6;
         }
 
         .hero-action {
-            margin-top: 25px;
+            margin-top: 30px;
         }
 
+        /* RESPONSIVE BREAKPOINT HP (MAKSIMAL 768px) */
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: block; /* Munculkan garis tiga di HP */
+            }
+
+            .logo-img {
+                width: 48px; /* Perkecil sedikit ukuran logo di HP agar manis */
+                height: 48px;
+            }
+
+            .logo-text {
+                font-size: 20px;
+            }
+
+            /* Ubah Nav Links Menjadi Menu Dropdown Tirai di HP */
+            .nav-links {
+                display: none; /* Sembunyikan default-nya */
+                flex-direction: column;
+                position: absolute;
+                top: 75px;
+                left: 24px;
+                right: 24px;
+                background: rgba(10, 46, 43, 0.95); /* Menyesuaikan warna hijau tua CanyoKuy */
+                padding: 20px;
+                border-radius: 16px;
+                gap: 20px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(8px);
+                z-index: 100;
+            }
+
+            /* Class pemicu saat garis tiga diklik */
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                font-size: 18px;
+                width: 100%;
+                text-align: center;
+                padding: 8px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+
+            .hero-section {
+                background-position: center 60%;
+                min-height: 450px;
+            }
+
             .hero-content {
                 padding: 130px 24px 70px 24px;
             }
 
-            .hero-content h1 .big-title {
+            .hero-content h1 {
                 font-size: 44px;
             }
 
             .hero-content p {
-                font-size: 16px;
-            }
-
-            .navbar {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .nav-links {
-                justify-content: center;
+                font-size: 15px;
             }
         }
 
-        /* ========== GET TO KNOW SECTION (Air Terjun Mandin Damar) ========== */
-        /* TAMBAHKAN ID "tentang-wisata" pada section pembungkus */
+        /* ========== GET TO KNOW SECTION ========== */
         .get-to-know-wrapper {
             position: relative;
             margin: 80px 0;
@@ -592,6 +643,7 @@
         .carousel-btn i {
             color: white;
             font-size: 20px;
+            pointer-events: none;
         }
 
         .carousel-btn.prev {
@@ -706,7 +758,6 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Link Admin di Footer - Tersembunyi tapi Tetap Bisa Diklik */
         .admin-link-footer {
             color: rgba(255, 255, 255, 0.5);
             text-decoration: none;
@@ -811,60 +862,48 @@
 
 <body>
 
-    <!-- NAVBAR -->
     <div class="navbar">
-        <div class="container-navbar"
-            style="width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div class="container-navbar">
             <div class="logo">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo-img">
-                <span class="logo-text">CanyoKuy</span>
+          
             </div>
-            <div class="nav-links">
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="nav-links" id="navLinks">
                 <a href="{{ url('/') }}">Beranda</a>
                 <a href="{{ url('/#paketWisata') }}">Paket Wisata</a>
                 <a href="{{ url('/cekBooking') }}">Cek Booking</a>
                 <a href="{{ url('/#testimoni') }}">Testimoni</a>
                 <a href="{{ url('/guide') }}">Tour Guide</a>
-                <a href="https://wa.me/6283150774897" target="_blank">
-                    <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
-                </a>
             </div>
         </div>
     </div>
 
-    <!-- HERO SECTION -->
+    <a href="https://wa.me/6283150774897" target="_blank" class="floating-wa">
+        <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" class="wa-icon">
+    </a>
+
     <div class="hero-section">
         <div class="container">
-            <!-- AREA HERO SECTION BERANDA -->
-            <div class="hero-content" style="text-align: center; color: white; position: relative; z-index: 10;">
-
-                <!-- Ikon Air Terjun & Matahari -->
+            <div class="hero-content">
                 <div class="hero-icon" style="margin-bottom: 15px;">
                     <i class="fas fa-leaf" style="font-size: 56px; color: white; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4));"></i>
                 </div>
-
-                <!-- Judul Besar -->
-                <h1
-                    style="font-size: 64px; font-weight: 800; color: white; letter-spacing: 1px; margin-bottom: 15px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);">
-                    CanyoKuy
-                </h1>
-
-                <!-- Teks Kecil Bawah -->
-                <p class="small-bottom"
-                    style="font-size: 16px; color: white; max-width: 500px; margin: 0 auto; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">
-                    Jelajahi air terjun tersembunyi dan rasakan petualangan alam yang tak terlupakan.
+                <h1>CanyoKuy</h1>
+                <p class="small-bottom">
+                    Jelajahi air terjun tersembunyi dan rasakan petualangan alam yang tak terlupakan
                 </p>
-
-                <!-- Tombol Putih Arah Bawah -->
                 <div class="hero-action" style="margin-top: 30px;">
                     <a href="#tentang-wisata" class="btn-hero-revisited">Get To Know</a>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <!-- PAKET WISATA -->
     <div class="container" id="paketWisata">
         <div class="paket-section">
             <div class="paket-header">
@@ -877,8 +916,7 @@
                     <div class="paket-info">
                         <div>
                             <div class="paket-name">Paket Round Trip</div>
-                            <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati suasana alam lebih
-                                lama</div>
+                            <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati suasana alam lebih lama</div>
                             <div class="paket-price">Rp 300.000</div>
                         </div>
                         <a href="detailRoundTrip" class="paket-btn">Lihat Detail</a>
@@ -889,8 +927,7 @@
                     <div class="paket-info">
                         <div>
                             <div class="paket-name">Paket Camp</div>
-                            <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati kegiatan alam
-                                dalam satu hari</div>
+                            <div class="paket-desc">Paket ini cocok bagi peserta yang ingin menikmati kegiatan alam dalam satu hari</div>
                             <div class="paket-price">Rp 330.000</div>
                         </div>
                         <a href="/detailCamp" class="paket-btn">Lihat Detail</a>
@@ -900,16 +937,13 @@
         </div>
     </div>
 
-    <!-- GET TO KNOW SECTION (Air Terjun Mandin Damar) -->
-    <!-- TAMBAHKAN ID "tentang-wisata" pada section pembungkus -->
     <div class="get-to-know-wrapper" id="tentang-wisata">
         <div class="get-to-know-left-bg">
             <div class="get-to-know-content">
                 <span class="get-to-know-label">GET TO KNOW</span>
                 <h2 class="get-to-know-title">Air Terjun Mandin Damar</h2>
                 <p class="get-to-know-desc">
-                    Air terjun eksotis dengan tebing alami yang cocok untuk aktivitas canyoneering. Airnya yang jernih,
-                    bebatuan yang menantang, dan pemandangan alam yang masih asri.
+                    Air terjun eksotis dengan tebing alami yang cocok untuk aktivitas canyoneering. Airnya yang jernih, bebatuan yang menantang, dan pemandangan alam yang masih asri.
                 </p>
                 <a href="https://maps.app.goo.gl/iRXUAssJTah6TtEn9" class="get-to-know-btn">Jelajah Sekarang</a>
             </div>
@@ -917,7 +951,6 @@
         <div class="get-to-know-right-img"></div>
     </div>
 
-    <!-- TOUR GUIDE SECTION -->
     <div class="tour-guide-wrapper">
         <div class="tour-guide-left-img"></div>
         <div class="tour-guide-right-bg">
@@ -925,18 +958,13 @@
                 <span class="tour-guide-label">TOUR GUIDE</span>
                 <h2 class="tour-guide-title">KPA ULIN</h2>
                 <p class="tour-guide-desc">
-                    KPA Ulin adalah Kelompok Pencinta Alam berbasis di Kabupaten Tanah Bumbu, Kalimantan Selatan,
-                    berdiri sejak 4 Mei 2016.
-                    Berfokus pada kegiatan alam bebas (gunung, gua, tebing, hutan, pantai), edukasi lingkungan,
-                    pelatihan keselamatan (caving, panjat tebing),
-                    serta aksi sosial. Aktif di kawasan Geopark Meratus, Gua Liang Bangkai, dan Air Terjun Mandin Damar.
+                    KPA Ulin adalah Kelompok Pencinta Alam berbasis di Kabupaten Tanah Bumbu, Kalimantan Selatan, berdiri sejak 4 Mei 2016. Berfokus pada kegiatan alam bebas (gunung, gua, tebing, hutan, pantai), edukasi lingkungan, pelatihan keselamatan (caving, panjat tebing), serta aksi sosial. Aktif di kawasan Geopark Meratus, Gua Liang Bangkai, dan Air Terjun Mandin Damar.
                 </p>
                 <a href="https://www.instagram.com/kpa_ulin/" class="tour-guide-btn">Kenalan Yuk</a>
             </div>
         </div>
     </div>
 
-    <!-- TESTIMONI CAROUSEL -->
     <div class="testimoni-section" id="testimoni">
         <div class="container">
             <div class="testimoni-header">
@@ -947,8 +975,7 @@
                     <i class="fas fa-chevron-left"></i>
                 </button>
                 <div class="testimoni-track" id="testimoniTrack">
-                    <!-- Akan diisi oleh JavaScript -->
-                </div>
+                    </div>
                 <button class="carousel-btn next" id="nextBtn">
                     <i class="fas fa-chevron-right"></i>
                 </button>
@@ -957,14 +984,12 @@
         </div>
     </div>
 
-    <!-- FOOTER - Link Admin Disembunyikan di Copyright -->
     <footer class="footer">
         <div class="container">
             <div class="footer-container">
                 <div class="footer-col">
                     <div class="footer-logo">CanyoKuy</div>
-                    <p class="footer-desc">Mari jelajahi air terjun sambil canyoneering. Temukan keindahan alam
-                        tersembunyi dan sensasi petualangan yang tak terlupakan.</p>
+                    <p class="footer-desc">Mari jelajahi air terjun sambil canyoneering. Temukan keindahan alam tersembunyi dan sensasi petualangan yang tak terlupakan.</p>
                 </div>
                 <div class="footer-col">
                     <h3>Menu</h3>
@@ -992,7 +1017,36 @@
     </footer>
 
     <script>
-        // ========== CAROUSEL TESTIMONI ==========
+        // === LOGIKA UNTUK STRUKTUR BUTTON TOGGLE HAMBURGER (KHUSUS HP) ===
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            if(menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    
+                    // Ganti ikon bars ke ikon 'X' (close) saat menu terbuka
+                    const icon = menuToggle.querySelector('i');
+                    if(navLinks.classList.contains('active')) {
+                        icon.className = 'fas fa-times';
+                    } else {
+                        icon.className = 'fas fa-bars';
+                    }
+                });
+
+                // Tutup menu otomatis jika user mengklik salah satu link menu
+                const links = navLinks.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        menuToggle.querySelector('i').className = 'fas fa-bars';
+                    });
+                });
+            }
+        });
+
+        // ========== CAROUSEL TESTIMONI (LOGIKA ASLI SAMA SEKALI TIDAK DIUBAH) ==========
         const track = document.getElementById('testimoniTrack');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
@@ -1002,21 +1056,18 @@
         let cardsPerView = 3;
         let testimonialsData = [];
 
-        // Fungsi untuk mengambil testimoni dari database
         async function loadTestimonialsFromDB() {
             try {
                 const response = await fetch('/api/testimonials');
                 const result = await response.json();
 
                 if (result.success && result.data.length > 0) {
-                    // SORTIR DARI YANG PALING LAMA (ID terkecil/created_at paling lama)
                     const sortedData = result.data.sort((a, b) => {
                         return (a.id || 0) - (b.id || 0);
                     });
                     testimonialsData = sortedData;
                     renderTestimonialsToCarousel();
                 } else {
-                    // Gunakan data default jika tidak ada data dari database
                     useDefaultTestimonials();
                 }
             } catch (error) {
@@ -1025,7 +1076,6 @@
             }
         }
 
-        // Gunakan testimoni default (statis) - sudah diurutkan dari yang paling lama
         function useDefaultTestimonials() {
             testimonialsData = [
                 { id: 1, name: 'Putri', city: 'Marabahan', message: 'Pengalaman canyoneering yang luar biasa! Informasi di website sangat lengkap dan proses pemesanannya mudah. Guide yang mendampingi juga profesional dan ramah. Sangat direkomendasikan untuk pemula maupun yang sudah berpengalaman.', rating: 5 },
@@ -1041,12 +1091,9 @@
             renderTestimonialsToCarousel();
         }
 
-        // Render testimoni ke carousel
         function renderTestimonialsToCarousel() {
             if (!track) return;
-
             track.innerHTML = '';
-
             testimonialsData.forEach(testimonial => {
                 const stars = '★'.repeat(testimonial.rating) + '☆'.repeat(5 - testimonial.rating);
                 const card = document.createElement('div');
@@ -1066,13 +1113,11 @@
                 track.appendChild(card);
             });
 
-            // Re-initialize carousel setelah data dimuat
             setTimeout(() => {
                 initCarousel();
             }, 100);
         }
 
-        // ========== FUNGSI CAROUSEL ==========
         function updateCardsPerView() {
             if (window.innerWidth <= 900) {
                 cardsPerView = 1;
@@ -1090,7 +1135,6 @@
 
             if (dotsContainer) {
                 dotsContainer.innerHTML = '';
-
                 for (let i = 0; i < totalSlides; i++) {
                     const dot = document.createElement('div');
                     dot.classList.add('dot');
@@ -1144,7 +1188,6 @@
             updateDots();
         }
 
-        // Event listeners untuk tombol carousel
         if (prevBtn) {
             prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
         }
@@ -1152,7 +1195,6 @@
             nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
         }
 
-        // Resize handler
         window.addEventListener('resize', () => {
             updateCardsPerView();
             setTimeout(() => {
@@ -1161,7 +1203,6 @@
             }, 100);
         });
 
-        // Load data saat halaman siap
         document.addEventListener('DOMContentLoaded', function() {
             updateCardsPerView();
             loadTestimonialsFromDB();
